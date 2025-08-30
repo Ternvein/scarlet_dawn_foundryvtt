@@ -1,0 +1,39 @@
+{
+    "id": "scarlet-dawn",
+    "title": "Scarlet Dawn",
+    "description": "A system for playing an OSR (old school revival) tabletop role-playing game",
+    "version": "0.1.1",
+    "authors": [
+        {
+            "name": "Ternvein",
+            "email": "ternvein@gmail.com"
+        }
+    ],
+    "esmodules": ["scarlet-dawn.mjs"],
+    "styles": ["styles/sd.css"],
+    "languages": [
+        {
+            "lang": "en",
+            "name": "English",
+            "path": "lang/en.json"
+        },
+        {
+            "lang": "ru",
+            "name": "Russian",
+            "path": "lang/ru.json"
+        }
+    ],
+    "initiative": "1d8",
+    "grid": {
+        "distance": "5",
+        "units": "ft"
+    },
+
+    "documentTypes": {
+        "Actor": {
+            "character": {
+                "htmlFields": ["description.biography.full", "description.biography.public"]
+            }
+        }
+    }
+}

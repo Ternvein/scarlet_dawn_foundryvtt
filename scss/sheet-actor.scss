@@ -1,0 +1,123 @@
+@use "variables";
+
+.sd.sheet.actor {
+  .charname input {
+    height: auto;
+  }
+  .summary {
+    flex: 1 0 auto;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: none;
+
+    div {
+      label {
+        margin: 0 0 2px 8px;
+        font-size: 0.7em;
+        display: block;
+      }
+      &.notify {
+        input {
+          font-weight: bold;
+          animation: 0.8s ease-in 1s infinite alternate notify;
+        }
+      }
+    }
+  }
+  .tab.attributes {
+    --font-ability-size: var(--font-h4-size);
+    --font-saving-throw-size: 1rem;
+
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    justify-content: space-evenly;
+    flex-direction: row;
+    align-items: flex-start;
+    .character-roll {
+      font-size: 10rem;
+    }
+    .attribute-group {
+      align-items: start;
+      gap: 1em;
+    }
+    .attribute-value {
+      input {
+        text-align: center;
+      }
+      padding: 0.2em;
+    }
+    .attribute-check {
+      padding: 0.2em;
+      text-align: center;
+      margin: 0;
+    }
+    .abilities {
+      display: grid;
+      grid: 1fr / 2fr 2fr 1fr 1fr;
+      align-items: baseline;
+      justify-items: center;
+      gap: 0.2rem 1ch;
+      .attribute-value {
+        font-size: var(--font-ability-size);
+        input {
+          min-width: calc(2ch + 1rem);
+        }
+      }
+      .ability-score {
+        line-height: 2.5em;
+      }
+      .ability-name {
+        padding: 0.1em;
+        margin: 0;
+        text-align: center;
+      }
+      .ability-mod {
+        text-align: center;
+        font-size: var(--font-ability-size);
+        min-width: 2ch;
+        padding: 0;
+        border: none;
+      }
+      .attribute-check {
+        font-size: var(--font-ability-size);
+      }
+    }
+    .saving-throws {
+      display: grid;
+      grid: 1fr / 2fr 1fr 1fr;
+      align-items: baseline;
+      justify-items: start;
+      gap: 0.1rem 1ch;
+      .attribute-label {
+        font-size: var(--font-saving-throw-size);
+      }
+      .attribute-value {
+        font-size: var(--font-saving-throw-size);
+        input {
+          min-width: calc(2ch + 1rem);
+        }
+      }
+      .attribute-check {
+        font-size: var(--font-saving-throw-size);
+      }
+    }
+    .splendor {
+      input {
+        text-align: center;
+      }
+    }
+    .reroll {
+      .reroll-score, input {
+        text-align: center;
+      }
+      .sep {
+        font-size: 1.5em;
+      }
+    }
+    .filler {
+      flex: 1 0 auto;
+    }
+  }
+}

@@ -1,0 +1,41 @@
+<section class="header-details flexrow">
+  {{log .}}
+  <img class="profile-img" src="{{actor.img}}" data-edit="img" data-tooltip="{{actor.name}}" alt="{{actor.name}}" title="{{actor.name}}" height="100" width="100"/>
+  <div class="summary">
+    <h1 class="charname">
+      <input
+        name="name"
+        type="text"
+        value="{{actor.name}}"
+        placeholder="{{localize 'SD.details.name'}}"
+        data-dtype="String"
+      />
+    </h1>
+    <div class="flexrow">
+      <div>
+        {{formInput fields.race value=system.race localize=true}}
+        <label>{{localize fields.race.label}}</label>
+      </div>
+      <div>
+        {{formInput fields.alignment value=system.alignment localize=true}}
+        <label>{{localize fields.alignment.label}}</label>
+      </div>
+    </div>
+    <div class="flexrow">
+      <div class="flex3">
+        {{formInput fields.cls value=system.cls localize=true}}
+        <label>{{localize fields.cls.label}}</label>
+      </div>
+      <div
+        class="{{#if (gte system.progress.xp system.progress.xp_next)}}notify{{/if}}"
+      >
+        {{formInput fields.progress.fields.level value=system.progress.level type='number'}}
+        <label>{{localize fields.progress.fields.level.label}}</label>
+      </div>
+      <div class="flex2">
+        {{formInput fields.progress.fields.xp value=system.progress.xp}}
+        <label>{{localize fields.progress.fields.xp.label}}</label>
+      </div>
+    </div>
+  </div>
+</section>

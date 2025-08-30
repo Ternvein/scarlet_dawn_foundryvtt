@@ -1,0 +1,18 @@
+<div class="sd dice-roll" data-action="expandRoll">
+    <div class="dice-result">
+        {{#if flavor.target}}
+        <div class="{{flavor.cssSuccess}}">
+        {{#if success}}
+            {{localize 'SD.roll.success'}}
+        {{else}}
+            {{localize 'SD.roll.failure'}}
+        {{/if}}
+        </div>
+        {{else}}
+        {{/if}}
+        <div class="dice-flavor">{{localize 'SD.roll.ability' char=flavor.charname ability=(localize (concat (lookup flavor.abilities flavor.ability) '.short'))}}</div>
+        <div class="dice-formula">{{formula}}</div>
+        {{{tooltip}}}
+        <h4 class="dice-total {{flavor.cssSuccess}}">{{total}}</h4>
+    </div>
+</div>

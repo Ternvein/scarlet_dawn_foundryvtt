@@ -1,0 +1,56 @@
+import { SD } from "./module/config.mjs";
+import { SDRoll } from "./module/dice/roll.mjs";
+import { RollCharacter } from "./module/dice/roll_character.mjs";
+import { SDActor } from "./module/documents/actor.mjs";
+import { CharacterData } from "./module/data/character.mjs";
+import { CharacterSheet } from "./module/sheets/character-sheet.mjs";
+import { registerHelpers as handlebarsHelpers } from "./module/helpers/handlebars.mjs";
+import { preloadTemplates } from "./module/helpers/templates.mjs";
+
+const { Actors } = foundry.documents.collections;
+const { ActorSheetV2 } = foundry.applications.sheets;
+
+Hooks.once("init", async () => {
+    CONFIG.SD = SD;
+    CONFIG.debug = {
+        ...CONFIG.debug,
+        combat: true,
+    };
+
+    CONFIG.Actor.documentClass = SDActor;
+
+    CONFIG.Actor.dataModels = {
+        character: CharacterData,
+    };
+
+    console.log(CONFIG.Dice);
+    CONFIG.Dice.rolls.push(SDRoll);
+    CONFIG.Dice.rolls.push(RollCharacter);
+
+    // Register sheet application classes
+    Actors.unregisterSheet("core", ActorSheetV2);
+    Actors.registerSheet(game.system.id, CharacterSheet, {
+        types: ["character"],
+        makeDefault: true,
+        label: "SD.sheet.character.name",
+    });
+
+    handlebarsHelpers();
+    await preloadTemplates();
+});
+
+/**
+ * This function runs after game data has been requested and loaded from the servers, so entities exist
+ */
+Hooks.once("setup", () => {
+    // Localize CONFIG objects once up-front
+    ["abilities"].forEach(
+        (o) => {
+            CONFIG.SD[o] = Object.entries(CONFIG.SD[o]).reduce((obj, [k, v]) => {
+                const localized = { ...obj };
+                localized[k] = game.i18n.localize(v);
+                return localized;
+            }, {});
+        }
+    );
+});

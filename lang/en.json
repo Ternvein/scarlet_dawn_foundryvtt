@@ -1,0 +1,30 @@
+{
+    "SD.Title": "Scarlet Dawn",
+    "SD.Biography.Full": "Full Biography",
+    "SD.Biography.Public": "Biography",
+    "SD.Alignment": "Alignment",
+    "SD.Race": "Race",
+
+    "SD.Category.Saves": "Saves",
+    "SD.Category.Attributes": "Attributes",
+    "SD.Category.inventory": "Inventory",
+    "SD.Category.spells": "Spells",
+    "SD.Category.notes": "Notes",
+    "SD.Category.languages": "Languages",
+    "SD.Category.description": "Description",
+    "SD.Category.equipment": "Equipment",
+
+    "SD.Attr.Str.Short": "STR",
+    "SD.Attr.Dex.Short": "DEX",
+    "SD.Attr.Con.Short": "CON",
+    "SD.Attr.Int.Short": "INT",
+    "SD.Attr.Wis.Short": "WIS",
+    "SD.Attr.Cha.Short": "CHA",
+
+    "SD.Attr.Str.Long": "Strength",
+    "SD.Attr.Dex.Long": "Dexterity",
+    "SD.Attr.Con.Long": "Constitution",
+    "SD.Attr.Int.Long": "Intelligence",
+    "SD.Attr.Wis.Long": "Wisdom",
+    "SD.Attr.Cha.Long": "Charisma"
+}

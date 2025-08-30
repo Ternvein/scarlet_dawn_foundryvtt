@@ -1,0 +1,49 @@
+@use "variables";
+
+.sd .window-content {
+  // Utils
+  .collapsed {
+    display: none;
+  }
+  .margin {
+    margin: 5px;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+  }
+
+  input:not([type="checkbox"]), select {
+    background: none;
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid;
+    &:hover:not(:disabled),
+    &:focus:not(:disabled) {
+      box-shadow: none;
+    }
+  }
+
+  select {
+    appearance: none;
+    option {
+      background: var(--input-background-color);
+    }
+  }
+
+  a:hover {
+    text-shadow: none;
+  }
+
+  .resizable {
+    overflow: auto;
+  }
+}

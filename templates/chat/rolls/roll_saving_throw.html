@@ -1,0 +1,15 @@
+<div class="sd dice-roll" data-action="expandRoll">
+    <div class="dice-result">
+        <div class="dice-message">{{localize 'SD.roll.saving_throw' char=flavor.charname ability=(localize (concat (lookup flavor.saving_throws flavor.saving_throw) '.label'))}}</div>
+        <div class="{{flavor.cssSuccess}}">
+        {{#if success}}
+            {{localize 'SD.roll.success'}}
+        {{else}}
+            {{localize 'SD.roll.failure'}}
+        {{/if}}
+        </div>
+        <div class="dice-formula">{{formula}}</div>
+        {{{tooltip}}}
+        <h4 class="dice-total {{flavor.cssSuccess}}">{{total}}</h4>
+    </div>
+</div>
