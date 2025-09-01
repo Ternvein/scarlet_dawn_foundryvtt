@@ -42,6 +42,12 @@
       align-items: start;
       gap: 1em;
     }
+    .attribute-grid {
+      display: grid;
+      align-items: baseline;
+      justify-items: start;
+      gap: 0.2em 1ch;
+    }
     .attribute-value {
       input {
         text-align: center;
@@ -54,11 +60,7 @@
       margin: 0;
     }
     .abilities {
-      display: grid;
       grid: 1fr / 2fr 2fr 1fr 1fr;
-      align-items: baseline;
-      justify-items: center;
-      gap: 0.2rem 1ch;
       .attribute-value {
         font-size: var(--font-ability-size);
         input {
@@ -85,11 +87,7 @@
       }
     }
     .saving-throws {
-      display: grid;
       grid: 1fr / 2fr 1fr 1fr;
-      align-items: baseline;
-      justify-items: start;
-      gap: 0.1rem 1ch;
       .attribute-label {
         font-size: var(--font-saving-throw-size);
       }
@@ -104,16 +102,33 @@
       }
     }
     .splendor {
+      grid: 1fr / 2fr 1fr;
       input {
-        text-align: center;
-      }
-    }
-    .reroll {
-      .reroll-score, input {
-        text-align: center;
+        min-width: calc(2ch + 1rem);
       }
       .sep {
         font-size: 1.5em;
+      }
+      .attribute-value {
+        flex-wrap: nowrap;
+      }
+    }
+    .armor-class {
+      .fa-shield {
+        font-size: 3rem;
+        text-align: center;
+        position: relative;
+        width: 2em;
+        height: 2em;
+        padding-top: 1rem;
+        color: var(--background);
+        &:before {
+          font-size: 2em;
+          position: absolute;
+          inset: 0;
+          z-index: -1;
+          color: var(--color-text-primary);
+        }
       }
     }
     .filler {

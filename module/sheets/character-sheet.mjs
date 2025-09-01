@@ -105,6 +105,8 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
                 return this.actor.rollAbilityCheck(target.dataset.ability);
             case "saving-throw":
                 return this.actor.rollSavingThrowCheck(target.dataset.st);
+            case "initiative":
+                return this.actor.rollInitiativeCheck();
             default:
                 break;
         }

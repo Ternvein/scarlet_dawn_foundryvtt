@@ -199,7 +199,61 @@ export const SD = {
 
     splendorToMaxRerolls(splendor) {
         return this.splendor.table.findIndex((v) => v > splendor);
-    }
+    },
+
+    initiative: {
+        ability: "dex",
+    },
+
+    ac: {
+        base: 10,
+    },
+
+    armor: {
+        no: {
+            ac: 10,
+            weight: {
+                equip: 0,
+                carry: 0,
+            },
+        },
+        light: {
+            ac: 12,
+            weight: {
+                equip: 0,
+                carry: 1,
+            },
+        },
+        medium: {
+            ac: 14,
+            weight: {
+                equip: 1,
+                carry: 2,
+            },
+        },
+        heavy: {
+            ac: 16,
+            weight: {
+                equip: 2,
+                carry: 3,
+            },
+        },
+        elite: {
+            ac: 18,
+            weight: {
+                equip: 3,
+                carry: 4,
+            },
+        },
+        shield: {
+            ac: 12,
+            bonus: 1,
+            weight: {
+                equip: 1,
+                carry: 1,
+            },
+        },
+    },
 };
 
 export default SD;

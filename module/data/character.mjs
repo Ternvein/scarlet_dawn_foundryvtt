@@ -73,5 +73,10 @@ export class CharacterData extends CreatureData {
             return obj;
         }, {});
         this.splendor.reroll_max = CONFIG.SD.splendorToMaxRerolls(this.splendor.value);
+        this.initiative = this.abilities_mod[CONFIG.SD.initiative.ability];
+        this.ac = {
+            base: CONFIG.SD.ac.base,
+            total: CONFIG.SD.ac.base,
+        };
     }
 }

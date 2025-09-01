@@ -70,4 +70,10 @@ export class SDActor extends Actor {
         }, game.i18n.format("SD.roll.saving_throw", { st: saving_throw_name, target }), (total) => (total >= target));
         return result;
     }
+
+    async rollInitiativeCheck() {
+        const flavor = game.i18n.localize("SD.roll.initiative");
+        const result = await this._makeRoll("1d8 + @initiative", { mode: "initiative" }, flavor, (total) => null);
+        return result;
+    }
 }
