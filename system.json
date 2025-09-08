@@ -5,6 +5,9 @@
     "version": "0.1.1",
     "authors": [
         {
+            "name": "Zoid ZXX"
+        },
+        {
             "name": "Ternvein",
             "email": "ternvein@gmail.com"
         }
@@ -33,6 +36,23 @@
         "Actor": {
             "character": {
                 "htmlFields": ["description.biography.full", "description.biography.public"]
+            }
+        },
+        "Item": {
+            "weapon": {
+                "htmlFields": ["description"]
+            },
+            "armor": {
+                "htmlFields": ["description"]
+            },
+            "shield": {
+                "htmlFields": ["description"]
+            },
+            "coin": {
+                "htmlFields": ["description"]
+            },
+            "other": {
+                "htmlFields": ["description"]
             }
         }
     }

@@ -1,6 +1,9 @@
 @use "variables";
 
 .sd.sheet.actor {
+  .header-details {
+    gap: 0 1ch;
+  }
   .charname input {
     height: auto;
   }
@@ -26,6 +29,7 @@
     }
   }
   .tab.attributes {
+    --font-main-resources-size: var(--font-h4-size);
     --font-ability-size: var(--font-h4-size);
     --font-saving-throw-size: 1rem;
 
@@ -58,6 +62,17 @@
       padding: 0.2em;
       text-align: center;
       margin: 0;
+    }
+    .main-resources {
+      display: grid;
+      align-items: baseline;
+      justify-items: center;
+      grid: 1fr / 1fr 1fr 0fr 1fr;
+      gap: 0 1ch;
+      font-size: var(--font-main-resources-size);
+      input {
+        text-align: center;
+      }
     }
     .abilities {
       grid: 1fr / 2fr 2fr 1fr 1fr;
@@ -114,6 +129,8 @@
       }
     }
     .armor-class {
+      display: grid;
+      grid: 1fr / 1fr 1fr 1fr;
       .fa-shield {
         font-size: 3rem;
         text-align: center;
@@ -130,6 +147,9 @@
           color: var(--color-text-primary);
         }
       }
+    }
+    .survival {
+      grid: 1fr / 1fr 1fr;
     }
     .filler {
       flex: 1 0 auto;

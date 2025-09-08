@@ -7,6 +7,10 @@ export class SDActor extends Actor {
         this.system.prepareDerivedData?.();
     }
 
+    get is_new() {
+        return this.system.is_new;
+    }
+
     async _makeRoll(formula, data, flavor, is_success) {
         const roll_data = { ...this.getRollData(), roll: data };
         const result = await new SDRoll(formula, roll_data, { flavor: roll_data }).roll();
@@ -18,30 +22,46 @@ export class SDActor extends Actor {
         console.log(result);
         result.toMessage({
             flavor,
-            speaker: { actor: this },
+            speaker: ChatMessage.getSpeaker({ actor: this }),
         });
         return result;
     }
 
-    async rollCharacter() {
+    async _rollAbilities() {
         let rolls = Object.entries(CONFIG.SD.abilities).reduce((obj, [k, v]) => (obj[k] = new RollCharacter("3d6", this.getRollData(), { flavor: `SD.ability.${k}.long` }), obj), {});
         for (const [k, v] of Object.entries(rolls)) {
             rolls[k] = await v.roll();
         }
         const abilities = Object.entries(rolls).reduce((obj, [k, v]) => (obj[k] = v.total, obj), {});
+        return { rolls, abilities };
+    }
+
+    // TODO: Use
+    async _rollMaxHp() {
+        const formula = CONFIG.SD.classes[this.class];
+    }
+
+    async rollCharacter() {
+        const abilities = await this._rollAbilities();
+        const max_hp = await new RollCharacter(CONFIG.SD.classes[this.system.cls].hd, this.getRollData(), { flavor: "SD.roll.character_hp" }).roll();
+
         let data = {
             system: this,
-            speaker: { actor: this },
+            speaker: ChatMessage.getSpeaker({ actor: this }),
             title: "SD.roll.character",
             flavor: game.i18n.localize("SD.roll.character"),
             rolls: [],
         };
+        const rolls = { ...abilities.rolls, max_hp };
         for (const [k, v] of Object.entries(rolls)) {
             const rolls = data.rolls;
             data = await v.toMessage(data, { create: false });
             data.rolls = rolls.concat(data.rolls);
         }
-        this.update({ system: { abilities } });
+        this.update({ system: {
+            abilities: abilities.abilities,
+            hp: { current: max_hp.total, max: max_hp.total },
+        }});
         ChatMessage.create(data);
         return rolls;
     }

@@ -13,7 +13,7 @@ export const SD = {
         return `${this.systemPath}/templates`;
     },
 
-    roll_dc: {
+    dc: {
         easy: 9,
         medium: 11,
         hard: 13,
@@ -65,19 +65,45 @@ export const SD = {
     },
 
     classes: {
-        fighter: {},
-        cleric: {},
-        thief: {},
-        mage: {},
-        descendant: {},
-        devoted: {},
-        assassin: {},
-        gray_cleric: {},
-        druid: {},
-        gray_mage: {},
-        illusionist: {},
-        paladin: {},
-        ranger: {},
+        fighter: {
+            hd: "1d6+2",
+        },
+        cleric: {
+            hd: "1d6",
+        },
+        thief: {
+            hd: "1d6",
+        },
+        mage: {
+            hd: "1d6",
+        },
+        descendant: {
+            hd: "1d6",
+        },
+        devoted: {
+            hd: "1d6+1",
+        },
+        assassin: {
+            hd: "1d6",
+        },
+        gray_cleric: {
+            hd: "1d6",
+        },
+        druid: {
+            hd: "1d6",
+        },
+        gray_mage: {
+            hd: "1d4",
+        },
+        illusionist: {
+            hd: "1d4",
+        },
+        paladin: {
+            hd: "1d6+2",
+        },
+        ranger: {
+            hd: "2d6+4",
+        },
     },
 
     progress: {
@@ -207,6 +233,15 @@ export const SD = {
 
     ac: {
         base: 10,
+    },
+
+    survival: {
+        thirst: {
+            max: 3,
+        },
+        hunger: {
+            max: 7,
+        },
     },
 
     armor: {

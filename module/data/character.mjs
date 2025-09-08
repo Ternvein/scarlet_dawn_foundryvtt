@@ -39,6 +39,18 @@ export class CharacterData extends CreatureData {
         };
     }
 
+    static _survivalSchema() {
+        const numberConfig = { required: true, min: 0, step: 1, initial: 0 };
+        return {
+            thirst:  new SchemaField({
+                current: new NumberField({ ...numberConfig, label: "SD.survival.thirst.current" }),
+            }, { label: "SD.survival.thirst.name" }),
+            hunger: new SchemaField({
+                current: new NumberField({ ...numberConfig, label: "SD.survival.hunger.current" }),
+            }, { label: "SD.survival.hunger.name" }),
+        };
+    }
+
     static defineSchema() {
         return {
             ...super.defineSchema(),
@@ -48,11 +60,12 @@ export class CharacterData extends CreatureData {
             cls: new StringField({ required: true, label: "SD.class.name", choices: CharacterData._classChoices(), initial: Object.keys(CONFIG.SD.classes)[0] }),
             progress: new SchemaField(CharacterData._progressSchema()),
             splendor: new SchemaField(CharacterData._splendorSchema(), { label: "SD.splendor.name" }),
+            survival: new SchemaField(CharacterData._survivalSchema(), { label: "SD.survival.name" }),
         };
     }
 
     get _isNew() {
-        return Object.entries(this.abilities).reduce((sum, [k, v]) => sum + v, 0) === 0;
+        return this.hp.max === 0 || Object.entries(this.abilities).reduce((sum, [k, v]) => sum + v, 0) === 0;
     }
 
     prepareDerivedData() {
@@ -78,5 +91,7 @@ export class CharacterData extends CreatureData {
             base: CONFIG.SD.ac.base,
             total: CONFIG.SD.ac.base,
         };
+        this.survival.thirst.max = CONFIG.SD.survival.thirst.max;
+        this.survival.hunger.max = CONFIG.SD.survival.hunger.max;
     }
 }
