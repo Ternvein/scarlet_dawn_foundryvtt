@@ -101,6 +101,8 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
         switch (target.dataset.type) {
             case "character":
                 return this.actor.rollCharacter();
+            case "hp":
+                return this.actor.rollMaxHp();
             case "ability":
                 return this.actor.rollAbilityCheck(target.dataset.ability);
             case "saving-throw":

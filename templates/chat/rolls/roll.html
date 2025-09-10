@@ -1,16 +1,20 @@
 <div class="sd dice-roll" data-action="expandRoll">
     <div class="dice-result">
-        {{#if flavor.roll.target}}
-        <div class="dice-{{flavor.roll.cssSuccess}}">
-        {{#if flavor.roll.success}}
+        {{#if target}}
+        <div class="dice-{{css_success}}">
+        {{#if is_success}}
             {{localize 'SD.roll.success'}}
         {{else}}
             {{localize 'SD.roll.failure'}}
         {{/if}}
         </div>
         {{/if}}
+        {{#if flavor}}
+        <div class="dice-formula">{{localize flavor formula=formula}}</div>
+        {{else}}
         <div class="dice-formula">{{formula}}</div>
+        {{/if}}
         {{{tooltip}}}
-        <div class="dice-total {{flavor.roll.cssSuccess}}">{{total}}</div>
+        <div class="dice-total {{css_success}}">{{total}}</div>
     </div>
 </div>

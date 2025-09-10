@@ -4,29 +4,43 @@
         <a class="character-roll fas fa-dice-d6" data-action="roll" data-type="character"></a>
         {{else}}
         <div class="main-resources">
-            <label class="fas fa-heart"></label>
-            {{formInput fields.hp.fields.current value=system.hp.current localize=true type='number'}}
-            <span class="sep">/</span>
-            {{formInput fields.hp.fields.max value=system.hp.max localize=true}}
-            <label class="fas fa-wand-magic-sparkles"></label>
-            {{formInput fields.mana.fields.current value=system.mana.current localize=true type='number'}}
-            <span class="sep">/</span>
-            {{formInput fields.mana.fields.max value=system.mana.max localize=true}}
-            <label class="fas fa-hands-praying"></label>
-            {{formInput fields.faith.fields.current value=system.faith.current localize=true type='number'}}
-            <span class="sep">/</span>
-            {{formInput fields.faith.fields.max value=system.faith.max localize=true}}
+            <label class="fas fa-heart" data-tooltip="{{fields.hp.label}}"></label>
+            <div class="attribute-value flexrow">
+                {{formInput fields.hp.fields.current value=system.hp.current localize=true type='number' dataset=(object tooltip=fields.hp.fields.current.label)}}
+                <span class="sep flex0">/</span>
+                {{#if system.hp.max}}
+                {{formInput fields.hp.fields.max value=system.hp.max localize=true dataset=(object tooltip=fields.hp.fields.max.label)}}
+                {{else}}
+                <a class="attribute-check fas fa-dice-d8" data-action="roll" data-type="hp"></a>
+                {{/if}}
+            </div>
+            {{#if system.mana.max}}
+            <label class="fas fa-wand-magic-sparkles" data-tooltip="{{fields.mana.label}}"></label>
+            <div class="attribute-value flexrow">
+                {{formInput fields.mana.fields.current value=system.mana.current localize=true type='number' dataset=(object tooltip=fields.mana.fields.current.label)}}
+                <span class="sep flex0">/</span>
+                {{formInput fields.mana.fields.max value=system.mana.max localize=true disabled=true dataset=(object tooltip=fields.mana.fields.max.label)}}
+            </div>
+            {{/if}}
+            {{#if system.faith.max}}
+            <label class="fas fa-hands-praying" data-tooltip="{{fields.faith.label}}"></label>
+            <div class="attribute-value flexrow">
+                {{formInput fields.faith.fields.current value=system.faith.current localize=true type='number' dataset=(object tooltip=fields.faith.fields.current.label)}}
+                <span class="sep flex0">/</span>
+                {{formInput fields.faith.fields.max value=system.faith.max localize=true disabled=true dataset=(object tooltip=fields.faith.fields.max.label)}}
+            </div>
+            {{/if}}
         </div>
         <div class="abilities attribute-grid flex1">
              {{#each fields.abilities.fields}}
-                 <h4 class="ability-name box-title" title="{{localize this.label}}">
+                 <h4 class="ability-name box-title" data-tooltip="{{localize (concat 'SD.ability.' @key '.long')}}">
                      <a>{{localize this.label}}</a>
                  </h4>
                  <div class="attribute-value">
                      {{formInput this value=(lookup ../system.abilities @key)}}
                  </div>
                  <input class="ability-mod" name="system.abilities_mod.{{@key}}" type="text" value="{{numberFormat (lookup ../system.abilities_mod @key) sign=true}}" size=2 disabled />
-                 <a class="attribute-check fas fa-dice-d8" data-action="roll" data-type="ability" data-ability="{{@key}}"></a>
+                 <a class="attribute-check fas fa-dice-d8" data-action="roll" data-type="ability" data-ability="{{@key}}" data-tooltip="{{localize 'SD.roll.ability' ability=(localize (concat 'SD.ability.' @key '.long'))}}"></a>
              {{/each}}
         </div>
         {{/if}}
@@ -38,17 +52,17 @@
               <div class="attribute-value">
                   <input name="system.saving_throws.{{@key}}" type="number" value="{{lookup ../system.saving_throws @key}}" disabled />
               </div>
-              <a class="attribute-check fas fa-dice-d20" data-action="roll" data-type="saving-throw" data-st="{{@key}}"></a>
+              <a class="attribute-check fas fa-dice-d20" data-action="roll" data-type="saving-throw" data-st="{{@key}}" data-tooltip="{{localize 'SD.roll.saving_throw' st=(localize this.label) target=(lookup ../system.saving_throws @key)}}"></a>
             {{/each}}
         </div>
         <div class="splendor attribute-grid">
             <label class="attribute-label">{{localize 'SD.splendor.name'}}</label>
             <div class="attribute-value">
-                {{formInput fields.splendor.fields.value localize=true dataset=(make-object tooltip="SD.splendor.name")}}
+                {{formInput fields.splendor.fields.value localize=true dataset=(object tooltip="SD.splendor.name")}}
             </div>
             <label class="attribute-label">{{localize 'SD.reroll.name'}}</label>
             <div class="attribute-value flexrow">
-                {{formInput fields.splendor.fields.reroll_used localize=true dataset=(make-object tooltip="SD.reroll.used")}}
+                {{formInput fields.splendor.fields.reroll_used localize=true dataset=(object tooltip="SD.reroll.used")}}
                 <span class="sep flex0">/</span>
                 <input name="system.splendor.reroll_max" type="number" value="{{system.splendor.reroll_max}}" data-tooltip="{{localize 'SD.reroll.max'}}" disabled />
             </div>
@@ -80,23 +94,23 @@
             <div class="attribute-value">
                 <input name="system.initiative" type="text" value="{{numberFormat system.initiative sign=true}}" disabled />
             </div>
-            <a class="attribute-check fas fa-dice-d8" data-action="roll" data-type="initiative"></a>
+            <a class="attribute-check fas fa-dice-d8" data-action="roll" data-type="initiative" data-tooltip="{{localize 'SD.roll.initiative'}}"></a>
         </div>
         <div class="armor-class flexrow">
             <div class="filler"></div>
-            <i class="fas fa-shield">{{system.ac.total}}</i>
+            <i class="fas fa-shield" data-tooltip="{{localize 'SD.ac.full'}}">{{system.ac.total}}</i>
             <div class="filler"></div>
         </div>
         <div class="survival attribute-grid">
             <label class="attribute-label">{{localize 'SD.survival.thirst.name'}}</label>
             <div class="attribute-value flexrow">
-                {{formInput fields.survival.fields.thirst.fields.current tooltip=(localize 'SD.survival.thirst.current')}}
+                {{formInput fields.survival.fields.thirst.fields.current dataset=(object tooltip=(localize 'SD.survival.thirst.current'))}}
                 <span class="sep flex0">/</span>
                 <input name="system.survival.thirst.max" type="number" value="{{system.survival.thirst.max}}" data-tooltip="{{localize 'SD.survival.thirst.max'}}" disabled />
             </div>
             <label class="attribute-label">{{localize 'SD.survival.hunger.name'}}</label>
             <div class="attribute-value flexrow">
-                {{formInput fields.survival.fields.hunger.fields.current tooltip=(localize 'SD.survival.hunger.current')}}
+                {{formInput fields.survival.fields.hunger.fields.current dataset=(object tooltip=(localize 'SD.survival.hunger.current'))}}
                 <span class="sep flex0">/</span>
                 <input name="system.survival.hunger.max" type="number" value="{{system.survival.hunger.max}}" data-tooltip="{{localize 'SD.survival.hunger.max'}}" disabled />
             </div>

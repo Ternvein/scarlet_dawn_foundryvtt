@@ -10,11 +10,10 @@ const {
  */
 export class CreatureData extends foundry.abstract.TypeDataModel {
     static _hpSchema() {
-        const numberConfig = { required: true, min: 0, step: 1 };
-        const max = this.hp?.max ?? 0;
+        const numberConfig = { required: true, min: 0, step: 1, initial: 0 };
         return {
-            current: new NumberField({ ...numberConfig, label: "SD.hp.current", max, initial: max }),
-            max: new NumberField({ ...numberConfig, label: "SD.hp.max", initial: 0 }),
+            current: new NumberField({ ...numberConfig, label: "SD.hp.current" }),
+            max: new NumberField({ ...numberConfig, label: "SD.hp.max" }),
         };
     }
 
@@ -59,6 +58,10 @@ export class CreatureData extends foundry.abstract.TypeDataModel {
             }),
             movement: new MovementField()
         };
+    }
+
+    prepareDerivedData() {
+        super.prepareDerivedData?.();
     }
 
     get land_only() {

@@ -1,5 +1,4 @@
 import { SDRoll } from "../dice/roll.mjs";
-import { RollCharacter } from "../dice/roll_character.mjs";
 
 export class SDActor extends Actor {
     prepareDerivedData() {
@@ -11,13 +10,11 @@ export class SDActor extends Actor {
         return this.system.is_new;
     }
 
-    async _makeRoll(formula, data, flavor, is_success) {
-        const roll_data = { ...this.getRollData(), roll: data };
-        const result = await new SDRoll(formula, roll_data, { flavor: roll_data }).roll();
+    async _makeRoll(formula, target, data, flavor, roll_flavor, is_success) {
+        const result = await new SDRoll(formula, this.getRollData(), { flavor: roll_flavor, target, system: data }).roll();
         const success = is_success(result.total);
         if (success !== null) {
-            result.data.roll.success = success;
-            result.data.roll.cssSuccess = success ? "success" : "failure";
+            result.options.is_success = success;
         }
         console.log(result);
         result.toMessage({
@@ -28,7 +25,7 @@ export class SDActor extends Actor {
     }
 
     async _rollAbilities() {
-        let rolls = Object.entries(CONFIG.SD.abilities).reduce((obj, [k, v]) => (obj[k] = new RollCharacter("3d6", this.getRollData(), { flavor: `SD.ability.${k}.long` }), obj), {});
+        let rolls = Object.entries(CONFIG.SD.abilities).reduce((obj, [k, v]) => (obj[k] = new SDRoll("3d6", this.getRollData(), { flavor: `SD.ability.${k}.long` }), obj), {});
         for (const [k, v] of Object.entries(rolls)) {
             rolls[k] = await v.roll();
         }
@@ -36,14 +33,23 @@ export class SDActor extends Actor {
         return { rolls, abilities };
     }
 
-    // TODO: Use
-    async _rollMaxHp() {
-        const formula = CONFIG.SD.classes[this.class];
+    async rollMaxHp() {
+        const formula = this.system._class?.hd;
+        if (!formula) {
+            return null;
+        }
+        const roll = await this._makeRoll(formula, null, null, null, "SD.roll.character_hp", (total) => null);
+        const total = roll.total;
+        this.update({
+            system: {
+                hp: { current: total, max: total },
+            }
+        });
+        return roll;
     }
 
     async rollCharacter() {
         const abilities = await this._rollAbilities();
-        const max_hp = await new RollCharacter(CONFIG.SD.classes[this.system.cls].hd, this.getRollData(), { flavor: "SD.roll.character_hp" }).roll();
 
         let data = {
             system: this,
@@ -52,16 +58,17 @@ export class SDActor extends Actor {
             flavor: game.i18n.localize("SD.roll.character"),
             rolls: [],
         };
-        const rolls = { ...abilities.rolls, max_hp };
+        const rolls = { ...abilities.rolls };
         for (const [k, v] of Object.entries(rolls)) {
             const rolls = data.rolls;
             data = await v.toMessage(data, { create: false });
             data.rolls = rolls.concat(data.rolls);
         }
-        this.update({ system: {
-            abilities: abilities.abilities,
-            hp: { current: max_hp.total, max: max_hp.total },
-        }});
+        this.update({
+            system: {
+                abilities: abilities.abilities,
+            }
+        });
         ChatMessage.create(data);
         return rolls;
     }
@@ -71,29 +78,27 @@ export class SDActor extends Actor {
         const flavor = target
             ? game.i18n.format("SD.roll.ability_dc", { ability: ability_name, target })
             : game.i18n.format("SD.roll.ability", { ability: ability_name });
-        const result = await this._makeRoll(`2d8 + @abilities_mod.${ability}`, {
+        const result = await this._makeRoll(`2d8 + @abilities_mod.${ability}`, target, {
             mode: "ability",
             ability,
-            target,
-        }, flavor, (total) => (target ? total >= target : null));
-        //const result = await new Roll(`2d8 + @abilities_mod.${ability}`, this.getRollData(), { flavor: game.i18n.format("SD.roll.ability", { char: this.name, ability: ability_name }) });
+        }, flavor, null, (total) => (target ? total >= target : null));
         return result;
     }
 
     async rollSavingThrowCheck(saving_throw) {
         const target = this.system.saving_throws[saving_throw];
         const saving_throw_name = game.i18n.localize(`SD.st.${saving_throw}`);
-        const result = await this._makeRoll("1d20", {
+        const flavor = game.i18n.format("SD.roll.saving_throw", { st: saving_throw_name, target });
+        const result = await this._makeRoll("1d20", target, {
             mode: "saving_throw",
             saving_throw,
-            target,
-        }, game.i18n.format("SD.roll.saving_throw", { st: saving_throw_name, target }), (total) => (total >= target));
+        }, flavor, null, (total) => (total >= target));
         return result;
     }
 
     async rollInitiativeCheck() {
         const flavor = game.i18n.localize("SD.roll.initiative");
-        const result = await this._makeRoll("1d8 + @initiative", { mode: "initiative" }, flavor, (total) => null);
+        const result = await this._makeRoll("1d8 + @initiative", null, { mode: "initiative" }, flavor, null, (total) => null);
         return result;
     }
 }

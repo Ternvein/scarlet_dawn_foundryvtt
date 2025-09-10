@@ -70,12 +70,18 @@ export const SD = {
         },
         cleric: {
             hd: "1d6",
+            faith: {
+                abilities: ["wis", "cha"],
+            },
         },
         thief: {
             hd: "1d6",
         },
         mage: {
             hd: "1d6",
+            mana: {
+                abilities: ["int", "cha"],
+            },
         },
         descendant: {
             hd: "1d6",

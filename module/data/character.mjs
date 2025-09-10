@@ -42,7 +42,7 @@ export class CharacterData extends CreatureData {
     static _survivalSchema() {
         const numberConfig = { required: true, min: 0, step: 1, initial: 0 };
         return {
-            thirst:  new SchemaField({
+            thirst: new SchemaField({
                 current: new NumberField({ ...numberConfig, label: "SD.survival.thirst.current" }),
             }, { label: "SD.survival.thirst.name" }),
             hunger: new SchemaField({
@@ -64,18 +64,39 @@ export class CharacterData extends CreatureData {
         };
     }
 
-    get _isNew() {
-        return this.hp.max === 0 || Object.entries(this.abilities).reduce((sum, [k, v]) => sum + v, 0) === 0;
+    get _is_new() {
+        return Object.entries(this.abilities).reduce((sum, [k, v]) => sum + v, 0) === 0;
+    }
+
+    get _class() {
+        return CONFIG.SD.classes[this.cls];
+    }
+
+    bestAbilityMod(abilities) {
+        if (!abilities) {
+            return 0;
+        }
+        return Math.max(...abilities.map((ability) => (this.abilities_mod[ability])));
+    }
+
+    _prepareMainResources() {
+        const manaAbilities = this._class.mana?.abilities;
+        this.mana.max = manaAbilities ? Math.max(1, 1 + this.progress.level + this.bestAbilityMod(manaAbilities)) : 0;
+        const faithAbilities = this._class.faith?.abilities;
+        this.faith.max = faithAbilities ? Math.max(1, 1 + this.progress.level + this.bestAbilityMod(faithAbilities)) : 0;
     }
 
     prepareDerivedData() {
-        this.is_new = this._isNew;
+        super.prepareDerivedData?.();
+
+        this.is_new = this._is_new;
         this.progress.xp_next = CONFIG.SD.progress.xpToLevelUp(this.progress.level);
         this.progress.xp = Math.max(this.progress.xp, CONFIG.SD.progress.levelToXp(this.progress.level));
         this.abilities_mod = Object.entries(this.abilities).reduce((obj, [k, v]) => {
             obj[k] = CONFIG.SD.abilityToMod(v);
             return obj;
         }, {});
+        this._prepareMainResources();
         this.saving_throws = Object.entries(CONFIG.SD.saving_throws).reduce((obj, [k, v]) => {
             const value = 15 - Math.floor(this.progress.level / 2);
             const abilities_mod = v.abilities.map((ability) => this.abilities_mod[ability]);
