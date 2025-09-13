@@ -24,13 +24,25 @@ export class SDActor extends Actor {
         return result;
     }
 
-    async _rollAbilities() {
+    async rollAbilities() {
         let rolls = Object.entries(CONFIG.SD.abilities).reduce((obj, [k, v]) => (obj[k] = new SDRoll("3d6", this.getRollData(), { flavor: `SD.ability.${k}.long` }), obj), {});
+        let data = {
+            system: this,
+            speaker: ChatMessage.getSpeaker({ actor: this }),
+            title: "SD.roll.character",
+            flavor: game.i18n.localize("SD.roll.character"),
+            rolls: [],
+        };
         for (const [k, v] of Object.entries(rolls)) {
-            rolls[k] = await v.roll();
+            await v.roll();
+            const rolls = data.rolls;
+            data = await v.toMessage(data, { create: false });
+            data.rolls = rolls.concat(data.rolls);
         }
         const abilities = Object.entries(rolls).reduce((obj, [k, v]) => (obj[k] = v.total, obj), {});
-        return { rolls, abilities };
+        this.update({ system: { abilities } });
+        ChatMessage.create(data);
+        return rolls;
     }
 
     async rollMaxHp() {
@@ -40,11 +52,7 @@ export class SDActor extends Actor {
         }
         const roll = await this._makeRoll(formula, null, null, null, "SD.roll.character_hp", (total) => null);
         const total = roll.total;
-        this.update({
-            system: {
-                hp: { current: total, max: total },
-            }
-        });
+        this.update({ system: { resources: { hp: { value: total, max: total } } } });
         return roll;
     }
 

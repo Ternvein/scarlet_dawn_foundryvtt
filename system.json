@@ -1,8 +1,12 @@
 {
     "id": "scarlet-dawn",
     "title": "Scarlet Dawn",
-    "description": "A system for playing an OSR (old school revival) tabletop role-playing game",
+    "description": "A system for playing an OSR tabletop role-playing game.",
     "version": "0.1.1",
+    "compatibility": {
+        "minimum": 13,
+        "verified": 13
+    },
     "authors": [
         {
             "name": "Zoid ZXX"
@@ -55,5 +59,7 @@
                 "htmlFields": ["description"]
             }
         }
-    }
+    },
+
+    "primaryTokenAttribute": "resources.hp"
 }

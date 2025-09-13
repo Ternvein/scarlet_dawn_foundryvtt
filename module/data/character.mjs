@@ -81,9 +81,9 @@ export class CharacterData extends CreatureData {
 
     _prepareMainResources() {
         const manaAbilities = this._class.mana?.abilities;
-        this.mana.max = manaAbilities ? Math.max(1, 1 + this.progress.level + this.bestAbilityMod(manaAbilities)) : 0;
+        this.resources.mana.max = manaAbilities ? Math.max(1, 1 + this.progress.level + this.bestAbilityMod(manaAbilities)) : 0;
         const faithAbilities = this._class.faith?.abilities;
-        this.faith.max = faithAbilities ? Math.max(1, 1 + this.progress.level + this.bestAbilityMod(faithAbilities)) : 0;
+        this.resources.faith.max = faithAbilities ? Math.max(1, 1 + this.progress.level + this.bestAbilityMod(faithAbilities)) : 0;
     }
 
     prepareDerivedData() {
