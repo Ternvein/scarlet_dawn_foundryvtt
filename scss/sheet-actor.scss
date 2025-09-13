@@ -31,13 +31,12 @@
   .tab.attributes {
     --font-main-resources-size: var(--font-h4-size);
     --font-ability-size: var(--font-h4-size);
-    --font-saving-throw-size: 1rem;
+    --font-saving-throw-size: inherit;
 
     list-style: none;
     margin: 0;
     padding: 0;
     justify-content: space-evenly;
-    flex-direction: row;
     align-items: flex-start;
     .character-roll {
       font-size: 10rem;
@@ -45,31 +44,30 @@
     }
     .attribute-group {
       align-items: stretch;
-      gap: 1em;
+      gap: 0.8rem;
     }
     .attribute-grid {
       display: grid;
       align-items: baseline;
-      justify-items: start;
-      gap: 0.2em 1ch;
+      justify-items: center;
+      gap: 0 1rch;
     }
     .attribute-value {
       input {
         text-align: center;
       }
-      padding: 0.2em;
+      padding: 0.2rem;
     }
     .attribute-check {
-      padding: 0.2em;
+      padding: 0.2rem;
       text-align: center;
       margin: 0;
+      justify-self: center;
     }
     .main-resources {
-      display: grid;
       align-items: baseline;
       justify-items: stretch;
-      grid: 1fr / 0fr 1fr;
-      gap: 0 1ch;
+      gap: 4ch;
       font-size: var(--font-main-resources-size);
       .attribute-check {
         padding: 0 0.5rem;
@@ -78,8 +76,13 @@
         text-align: center;
       }
     }
+    .attribute-columns {
+      align-items: flex-start;
+      gap: 2ch;
+    }
     .abilities {
       grid: 1fr / 2fr 2fr 1fr 1fr;
+      line-height: 2.5rem;
       .attribute-value {
         font-size: var(--font-ability-size);
         input {
@@ -103,10 +106,12 @@
       }
       .attribute-check {
         font-size: var(--font-ability-size);
+        min-width: calc(2ch + 1rem);
       }
     }
     .saving-throws {
       grid: 1fr / 2fr 1fr 1fr;
+      line-height: 2.5rem;
       .attribute-label {
         font-size: var(--font-saving-throw-size);
       }
@@ -118,10 +123,12 @@
       }
       .attribute-check {
         font-size: var(--font-saving-throw-size);
+        min-width: calc(2ch + 1rem);
       }
     }
     .splendor {
-      grid: 1fr / 2fr 1fr;
+      grid: 1fr / 1fr 1fr;
+      line-height: 2.5rem;
       input {
         min-width: calc(2ch + 1rem);
       }
@@ -135,25 +142,35 @@
     .armor-class {
       display: grid;
       grid: 1fr / 1fr 1fr 1fr;
+      padding-bottom: 0.8rem;
       .fa-shield {
-        font-size: 3rem;
+        font-size: 2.5rem;
         text-align: center;
         position: relative;
         width: 2em;
         height: 2em;
-        padding-top: 1rem;
-        color: var(--background);
+        padding-top: 0.333em;
+        filter: invert(1);
         &:before {
           font-size: 2em;
           position: absolute;
           inset: 0;
           z-index: -1;
-          color: var(--color-text-primary);
+          filter: invert(1);
         }
       }
     }
+    .initiative {
+      grid: 1fr / 2fr 1fr 1fr;
+      line-height: 2.5rem;
+      padding-bottom: 2.5rem;
+    }
     .survival {
       grid: 1fr / 1fr 1fr;
+      line-height: 2.5rem;
+      .sep {
+        font-size: 1.5em;
+      }
     }
     .filler {
       flex: 1 0 auto;

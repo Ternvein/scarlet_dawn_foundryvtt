@@ -11,7 +11,7 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
         },
         classes: ["sd", "sheet", "actor", "character"],
         position: {
-            width: 600,
+            width: 650,
         },
         tag: "form",
         window: {
