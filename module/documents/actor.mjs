@@ -56,31 +56,6 @@ export class SDActor extends Actor {
         return roll;
     }
 
-    async rollCharacter() {
-        const abilities = await this._rollAbilities();
-
-        let data = {
-            system: this,
-            speaker: ChatMessage.getSpeaker({ actor: this }),
-            title: "SD.roll.character",
-            flavor: game.i18n.localize("SD.roll.character"),
-            rolls: [],
-        };
-        const rolls = { ...abilities.rolls };
-        for (const [k, v] of Object.entries(rolls)) {
-            const rolls = data.rolls;
-            data = await v.toMessage(data, { create: false });
-            data.rolls = rolls.concat(data.rolls);
-        }
-        this.update({
-            system: {
-                abilities: abilities.abilities,
-            }
-        });
-        ChatMessage.create(data);
-        return rolls;
-    }
-
     async rollAbilityCheck(ability, target = null) {
         const ability_name = game.i18n.localize(`SD.ability.${ability}.short`);
         const flavor = target
@@ -108,5 +83,13 @@ export class SDActor extends Actor {
         const flavor = game.i18n.localize("SD.roll.initiative");
         const result = await this._makeRoll("1d8 + @initiative", null, { mode: "initiative" }, flavor, null, (total) => null);
         return result;
+    }
+
+    itemPrepare(id) {
+        this.getEmbeddedDocument("Item", id)?.update({ system: { is_prepared: true } });
+    }
+
+    itemTrash(id) {
+        this.deleteEmbeddedDocuments("Item", [id]);
     }
 }

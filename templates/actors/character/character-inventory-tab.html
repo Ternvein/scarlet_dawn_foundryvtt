@@ -1,6 +1,24 @@
-<section class="tab inventory flexrow {{tab.cssClass}}" data-group="primary" data-tab="inventory">
-    <div class="equipment inventory-grid flex1">
-        <label>{{localize 'SD.inventory.slot.weapon'}}</label>
-        {{!--{{formInput fields.inventory.fields.weapon}}--}}
+<section class="tab inventory flexcol {{tab.cssClass}}" data-group="primary" data-tab="inventory">
+  <div class="equipment flexrow">
+    <label>{{localize fields.equipment.fields.weapon.label}}</label>
+    {{formInput fields.equipment.fields.weapon}}
+  </div>
+  <div class="inventory">
+    <h4>{{localize fields.inventory.fields.prepared.label}}</h4>
+    <h4>{{localize fields.inventory.fields.packed.label}}</h4>
+    <div class="item-list">
+    {{#each system.inventory.prepared as |item|}}
+      <img src="{{item.img}}" height="25" width="25" />
+      <label>{{item.name}}</label>
+    {{/each}}
     </div>
+    <div class="item-list">
+    {{#each system.inventory.packed as |item|}}
+      <a class="fas fa-hand" data-action="item" data-type="prepare" data-item="{{item.id}}"></a>
+      <img src="{{item.img}}" height="25" width="25" />
+      <label>{{item.name}}</label>
+      <a class="fas fa-trash" data-action="item" data-type="trash" data-item="{{item.id}}"></a>
+    {{/each}}
+    </div>
+  </div>
 </section>

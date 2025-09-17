@@ -250,6 +250,33 @@ export const SD = {
         },
     },
 
+    weapon: {
+        categories: {
+            light: {
+                damage: "1d6",
+                abilities: ["str", "dex"],
+            },
+            medium: {
+                damage: "1d8",
+                abilities: ["str"],
+            },
+            heavy: {
+                damage: "1d10",
+                abilities: ["str"],
+            },
+            ranged_1h: {
+                damage: "1d6",
+                abilities: ["dex"],
+                ranged: true,
+            },
+            ranged_2h: {
+                damage: "1d8",
+                abilities: ["dex"],
+                ranged: true,
+            },
+        },
+    },
+
     armor: {
         no: {
             ac: 10,

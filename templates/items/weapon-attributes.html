@@ -1,0 +1,35 @@
+<section class="weapon-attributes">
+  <div class="flexrow">
+    <div>
+      {{formInput fields.category value=system.category localize=true}}
+      <label>{{localize fields.category.label}}</label>
+    </div>
+    <div>
+      {{#if editable}}
+      {{formInput fields.enchantment value=system.enchantment localize=true}}
+      {{else}}
+      <input name="system.enchantment" type="text" value="{{numberFormat system.enchantment sign=true}}" size="2" disabled />
+      {{/if}}
+      <label>{{localize fields.enchantment.label}}</label>
+    </div>
+    <div>
+      {{formInput fields.damage value=system.damage localize=true disabled=system.standard_damage}}
+      <label>{{localize fields.damage.label}}</label>
+    </div>
+    <div class="flex0">
+      {{formInput fields.standard_damage value=system.standard_damage localize=true dataset=(object tooltip=fields.standard_damage.label)}}
+    </div>
+  </div>
+  <div class="flexrow">
+    <div>
+      {{formInput fields.attack_bonus value=system.attack_bonus localize=true}}
+      <label>{{localize fields.attack_bonus.label}}</label>
+    </div>
+    {{#if system.is_ranged}}
+    <div>
+      {{formInput fields.range value=system.range localize=true}}
+      <label>{{localize fields.range.label}}</label>
+    </div>
+    {{/if}}
+  </div>
+</section>

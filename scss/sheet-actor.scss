@@ -176,4 +176,29 @@
       flex: 1 0 auto;
     }
   }
+
+  .tab.inventory {
+    .inventory {
+      display: grid;
+      grid: var(--font-h4-size) 1fr / 1fr 1fr;
+      gap: 2ch;
+      justify-items: stretch;
+      h4 {
+        margin: 0;
+        text-align: center;
+      }
+      .item-list {
+        display: grid;
+        grid: 1fr / auto auto 1fr auto;
+        gap: 1ch;
+        align-items: center;
+        justify-items: stretch;
+        label {
+          text-align: center;
+          border-bottom: solid 1px;
+          border-radius: 0;
+        }
+      }
+    }
+  }
 }

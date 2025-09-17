@@ -2,13 +2,16 @@ import { SD } from "./module/config.mjs";
 import { SDRoll } from "./module/dice/roll.mjs";
 import { RollCharacter } from "./module/dice/roll_character.mjs";
 import { SDActor } from "./module/documents/actor.mjs";
+import { SDItem } from "./module/documents/item.mjs";
 import { CharacterData } from "./module/data/character.mjs";
+import { WeaponData } from "./module/data/weapon.mjs";
 import { CharacterSheet } from "./module/sheets/character-sheet.mjs";
+import { WeaponSheet } from "./module/sheets/weapon-sheet.mjs";
 import { registerHelpers as handlebarsHelpers } from "./module/helpers/handlebars.mjs";
 import { preloadTemplates } from "./module/helpers/templates.mjs";
 
-const { Actors } = foundry.documents.collections;
-const { ActorSheetV2 } = foundry.applications.sheets;
+const { Actors, Items } = foundry.documents.collections;
+const { ActorSheetV2, ItemSheetV2 } = foundry.applications.sheets;
 
 Hooks.once("init", async () => {
     CONFIG.SD = SD;
@@ -18,9 +21,13 @@ Hooks.once("init", async () => {
     };
 
     CONFIG.Actor.documentClass = SDActor;
-
     CONFIG.Actor.dataModels = {
         character: CharacterData,
+    };
+
+    CONFIG.Item.documentClass = SDItem;
+    CONFIG.Item.dataModels = {
+        weapon: WeaponData,
     };
 
     console.log(CONFIG.Dice);
@@ -33,6 +40,13 @@ Hooks.once("init", async () => {
         types: ["character"],
         makeDefault: true,
         label: "SD.sheet.character.name",
+    });
+
+    Items.unregisterSheet("core", ItemSheetV2);
+    Items.registerSheet(game.system.id, WeaponSheet, {
+        types: ["weapon"],
+        makeDefault: true,
+        label: "SD.sheet.item.name",
     });
 
     handlebarsHelpers();

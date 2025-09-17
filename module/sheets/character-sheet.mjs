@@ -8,6 +8,7 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
     static DEFAULT_OPTIONS = {
         actions: {
             roll: CharacterSheet.#roll,
+            item: CharacterSheet.#item,
         },
         classes: ["sd", "sheet", "actor", "character"],
         position: {
@@ -62,10 +63,6 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
         }
     };
 
-    get title() {
-        return `${this.actor.name}: ${game.i18n.localize(this.options.window.title)}`;
-    }
-
     /** @inheritDoc */
     async _prepareContext(options) {
         console.log(this);
@@ -109,6 +106,17 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
                 return this.actor.rollSavingThrowCheck(target.dataset.st);
             case "initiative":
                 return this.actor.rollInitiativeCheck();
+            default:
+                break;
+        }
+    }
+
+    static #item(event, target) {
+        switch (target.dataset.type) {
+            case "prepare":
+                return this.actor.itemPrepare(target.dataset.item);
+            case "trash":
+                return this.actor.itemTrash(target.dataset.item);
             default:
                 break;
         }

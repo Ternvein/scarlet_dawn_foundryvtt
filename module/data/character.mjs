@@ -1,7 +1,7 @@
 import { CreatureData } from "./creature.mjs";
 
 const {
-    StringField, NumberField, SchemaField, BooleanField
+    StringField, NumberField, SchemaField, BooleanField, ArrayField, DocumentUUIDField
 } = foundry.data.fields;
 
 export class CharacterData extends CreatureData {
@@ -51,6 +51,21 @@ export class CharacterData extends CreatureData {
         };
     }
 
+    static _equipmentSchema() {
+        return {
+            weapon: new DocumentUUIDField({ label: "SD.equipment.slot.weapon" }),
+            armor: new DocumentUUIDField({ label: "SD.equipment.slot.armor" }),
+            shield: new DocumentUUIDField({ label: "SD.equipment.slot.shield" }),
+        };
+    }
+
+    static _inventorySchema() {
+        return {
+            prepared: new ArrayField(new DocumentUUIDField(), { required: true, label: "SD.inventory.prepared.name" }),
+            packed: new ArrayField(new DocumentUUIDField(), { required: true, label: "SD.inventory.packed.name" }),
+        };
+    }
+
     static defineSchema() {
         return {
             ...super.defineSchema(),
@@ -61,6 +76,8 @@ export class CharacterData extends CreatureData {
             progress: new SchemaField(CharacterData._progressSchema()),
             splendor: new SchemaField(CharacterData._splendorSchema(), { label: "SD.splendor.name" }),
             survival: new SchemaField(CharacterData._survivalSchema(), { label: "SD.survival.name" }),
+            inventory: new SchemaField(CharacterData._inventorySchema(), { label: "SD.inventory.name" }),
+            equipment: new SchemaField(CharacterData._equipmentSchema(), { label: "SD.equipment.name" }),
         };
     }
 
@@ -84,6 +101,19 @@ export class CharacterData extends CreatureData {
         this.resources.mana.max = manaAbilities ? Math.max(1, 1 + this.progress.level + this.bestAbilityMod(manaAbilities)) : 0;
         const faithAbilities = this._class.faith?.abilities;
         this.resources.faith.max = faithAbilities ? Math.max(1, 1 + this.progress.level + this.bestAbilityMod(faithAbilities)) : 0;
+
+        this.schema.fields.resources.fields.hp.fields.value.max = this.resources.hp.max ?? 0;
+        this.schema.fields.resources.fields.mana.fields.value.max = this.resources.mana.max ?? 0;
+        this.schema.fields.resources.fields.faith.fields.value.max = this.resources.faith.max ?? 0;
+    }
+
+    _prepareInventory() {
+        this.schema.fields.inventory.fields.prepared.max = Math.floor(this.abilities.str / 2);
+        this.schema.fields.inventory.fields.packed.max = this.abilities.str;
+
+        const { prepared, packed } = Object.groupBy(this.parent.items, item => item.system.is_prepared ? "prepared" : "packed");
+        this.inventory.prepared = prepared;
+        this.inventory.packed = packed;
     }
 
     prepareDerivedData() {
@@ -114,5 +144,6 @@ export class CharacterData extends CreatureData {
         };
         this.survival.thirst.max = CONFIG.SD.survival.thirst.max;
         this.survival.hunger.max = CONFIG.SD.survival.hunger.max;
+        this._prepareInventory();
     }
 }

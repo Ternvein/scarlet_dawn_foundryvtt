@@ -4,10 +4,6 @@ const {
     HTMLField, SchemaField, NumberField, StringField, FilePathField, ArrayField
 } = foundry.data.fields;
 
-/**
- * SD creature actor
- * @extends {Actor}
- */
 export class CreatureData extends foundry.abstract.TypeDataModel {
     static _hpSchema() {
         const numberConfig = { required: true, min: 0, step: 1, initial: 0 };
