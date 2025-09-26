@@ -89,7 +89,15 @@ export class SDActor extends Actor {
         this.getEmbeddedDocument("Item", id)?.update({ system: { is_prepared: true } });
     }
 
+    itemPack(id) {
+        this.getEmbeddedDocument("Item", id)?.update({ system: { is_prepared: false } });
+    }
+
     itemTrash(id) {
         this.deleteEmbeddedDocuments("Item", [id]);
+    }
+
+    itemEquip(id, slot) {
+        this.update({ system: { equipment: { [slot]: id } } });
     }
 }

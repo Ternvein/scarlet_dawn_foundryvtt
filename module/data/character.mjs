@@ -53,9 +53,9 @@ export class CharacterData extends CreatureData {
 
     static _equipmentSchema() {
         return {
-            weapon: new DocumentUUIDField({ label: "SD.equipment.slot.weapon" }),
-            armor: new DocumentUUIDField({ label: "SD.equipment.slot.armor" }),
-            shield: new DocumentUUIDField({ label: "SD.equipment.slot.shield" }),
+            weapon: new StringField({ label: "SD.equipment.slot.weapon" }),
+            armor: new StringField({ label: "SD.equipment.slot.armor" }),
+            shield: new StringField({ label: "SD.equipment.slot.shield" }),
         };
     }
 
@@ -107,13 +107,43 @@ export class CharacterData extends CreatureData {
         this.schema.fields.resources.fields.faith.fields.value.max = this.resources.faith.max ?? 0;
     }
 
+    static _itemsWithType(items, type) {
+        return items.reduce((obj, item) => (item.type === type ? (obj[item.id] = item.name) : null, obj), {});
+    }
+
+    static _currentEncumbrance(encumbrance, items_count) {
+        return Object.entries(encumbrance).find(([k, v]) => items_count <= v)?.[0];
+    }
+
     _prepareInventory() {
-        this.schema.fields.inventory.fields.prepared.max = Math.floor(this.abilities.str / 2);
-        this.schema.fields.inventory.fields.packed.max = this.abilities.str;
+        const prepared_max = Math.floor(this.abilities.str / 2);
+        const packed_max = this.abilities.str;
+        this.schema.fields.inventory.fields.prepared.max = prepared_max;
+        this.schema.fields.inventory.fields.packed.max = packed_max;
 
         const { prepared, packed } = Object.groupBy(this.parent.items, item => item.system.is_prepared ? "prepared" : "packed");
-        this.inventory.prepared = prepared;
-        this.inventory.packed = packed;
+
+        this.schema.fields.equipment.fields.weapon.choices = CharacterData._itemsWithType(prepared, "weapon");
+        this.schema.fields.equipment.fields.armor.choices = CharacterData._itemsWithType(prepared, "armor");
+        this.schema.fields.equipment.fields.shield.choices = CharacterData._itemsWithType(prepared, "shield");
+
+        this.inventory.prepared.items = prepared;
+        this.inventory.prepared.count = prepared.length;
+        this.inventory.prepared.encumbrance = {};
+        this.inventory.prepared.encumbrance.no = prepared_max;
+        this.inventory.prepared.encumbrance.light = prepared_max + CONFIG.SD.encumbrance.light.prepared;
+        this.inventory.prepared.encumbrance.heavy = this.inventory.prepared.encumbrance.light + CONFIG.SD.encumbrance.heavy.prepared;
+        this.inventory.prepared.encumbrance.current = CharacterData._currentEncumbrance(this.inventory.prepared.encumbrance, this.inventory.prepared.count);
+        this.inventory.prepared.max = this.inventory.prepared.encumbrance.heavy;
+
+        this.inventory.packed.items = packed;
+        this.inventory.packed.count = packed.length;
+        this.inventory.packed.encumbrance = {};
+        this.inventory.packed.encumbrance.no = packed_max;
+        this.inventory.packed.encumbrance.light = packed_max + CONFIG.SD.encumbrance.light.packed;
+        this.inventory.packed.encumbrance.heavy = this.inventory.packed.encumbrance.light + CONFIG.SD.encumbrance.heavy.packed;
+        this.inventory.packed.encumbrance.current = CharacterData._currentEncumbrance(this.inventory.packed.encumbrance, this.inventory.packed.count);
+        this.inventory.packed.max = this.inventory.packed.encumbrance.heavy;
     }
 
     prepareDerivedData() {

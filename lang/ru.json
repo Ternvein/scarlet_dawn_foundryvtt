@@ -262,10 +262,10 @@
         "inventory": {
             "name": "Снаряжение",
             "prepared": {
-                "name": "Подготовленное"
+                "name": "Подготовленное ({count}/{max})"
             },
             "packed": {
-                "name": "Уложенное"
+                "name": "Уложенное ({count}/{max})"
             }
         },
 

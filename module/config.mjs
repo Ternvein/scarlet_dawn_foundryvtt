@@ -250,6 +250,27 @@ export const SD = {
         },
     },
 
+    encumbrance: {
+        light: {
+            prepared: 2,
+            packed: 4,
+        },
+        heavy: {
+            prepared: 2,
+            packed: 4,
+        },
+    },
+
+    item: {
+        icons: {
+            weapon: "icons/svg/sword.svg",
+            armor: "icons/svg/statue.svg",
+            shield: "icons/svg/shield.svg",
+            coin: "icons/svg/coins.svg",
+            other: "icons/svg/item-bag.svg",
+        },
+    },
+
     weapon: {
         categories: {
             light: {

@@ -37,7 +37,7 @@
     margin: 0;
     padding: 0;
     justify-content: space-evenly;
-    align-items: flex-start;
+    align-items: stretch;
     .character-roll {
       font-size: 10rem;
       text-align: center;
@@ -178,18 +178,33 @@
   }
 
   .tab.inventory {
+    --color-encumbrance-light: yellow;
+    --color-encumbrance-heavy: red;
+    .equipment {
+      label {
+        margin: 0 0 2px 8px;
+        font-size: 0.7em;
+        display: block;
+      }
+    }
     .inventory {
       display: grid;
       grid: var(--font-h4-size) 1fr / 1fr 1fr;
-      gap: 2ch;
+      gap: 1rem 2rem;
       justify-items: stretch;
+      .enc-light {
+        color: var(--color-encumbrance-light);
+      }
+      .enc-heavy {
+        color: var(--color-encumbrance-heavy);
+      }
       h4 {
         margin: 0;
         text-align: center;
       }
       .item-list {
         display: grid;
-        grid: 1fr / auto auto 1fr auto;
+        grid: 1fr / auto 1fr auto;
         gap: 1ch;
         align-items: center;
         justify-items: stretch;

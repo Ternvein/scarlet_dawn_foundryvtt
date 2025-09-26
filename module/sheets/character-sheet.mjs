@@ -16,18 +16,15 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
         },
         tag: "form",
         window: {
-            icon: "fas fa-gear", // You can now add an icon to the header
-            title: "SD.sheet.character.title",
+            //icon: "fas fa-gear", // You can now add an icon to the header
+            //title: "SD.sheet.character.title",
             contentClasses: ["standard-form"],
         },
         form: {
             handler: CharacterSheet.#submit,
             submitOnChange: true,
             closeOnSubmit: false
-        }
-        //tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "attributes" }],
-        //scrollY: [".biography", ".inventory"],
-        //dragDrop: [{ dragSelector: ".item-list .item", dropSelector: null }]
+        },
     };
 
     static PARTS = {
@@ -115,6 +112,8 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
         switch (target.dataset.type) {
             case "prepare":
                 return this.actor.itemPrepare(target.dataset.item);
+            case "pack":
+                return this.actor.itemPack(target.dataset.item);
             case "trash":
                 return this.actor.itemTrash(target.dataset.item);
             default:
@@ -136,5 +135,41 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
         const { updateData, ...updateOptions } = options;
         const submitData = this._prepareSubmitData(event, form, formData, updateData);
         await this._processSubmitData(event, form, submitData, updateOptions);
+    }
+
+    /**
+     * @param {DragEvent} event 
+     */
+    async _onEquipmentDropItem(event) {
+        const data = TextEditor.implementation.getDragEventData(event);
+        const actor = this.actor;
+        const allowed = Hooks.call("dropActorSheetData", actor, this, data);
+        if (allowed === false) return;
+
+        if (data.type === "Item") {
+            const item = await foundry.utils.fromUuid(data.uuid);
+            if (this.actor.isOwner && this.actor.uuid === item.parent?.uuid) {
+                const target = event.currentTarget;
+                if (["weapon", "armor", "shield"].includes(target.dataset.equipmentSlot) && target.dataset.equipmentSlot === item.type) {
+                    this.actor.itemEquip(item.id, target.dataset.equipmentSlot);
+                    return item;
+                }
+            }
+        }
+        return null;
+    }
+
+    async _onRender(context, options) {
+        await super._onRender(context, options);
+        new foundry.applications.ux.DragDrop.implementation({
+            dropSelector: ".equipment .slot",
+            permissions: {
+                dragstart: () => false,
+                drop: () => this.isEditable
+            },
+            callbacks: {
+                drop: this._onEquipmentDropItem.bind(this)
+            }
+        }).bind(this.element);
     }
 }

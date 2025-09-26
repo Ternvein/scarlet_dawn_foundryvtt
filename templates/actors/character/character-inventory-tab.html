@@ -1,24 +1,46 @@
 <section class="tab inventory flexcol {{tab.cssClass}}" data-group="primary" data-tab="inventory">
   <div class="equipment flexrow">
-    <label>{{localize fields.equipment.fields.weapon.label}}</label>
-    {{formInput fields.equipment.fields.weapon}}
+    <div class="slot" data-equipment-slot="weapon">
+      {{formInput fields.equipment.fields.weapon value=system.equipment.weapon}}
+      <label>{{localize fields.equipment.fields.weapon.label}}</label>
+    </div>
+    <div class="slot" data-equipment-slot="armor">
+      {{formInput fields.equipment.fields.armor value=system.equipment.armor}}
+      <label>{{localize fields.equipment.fields.armor.label}}</label>
+    </div>
+    <div class="slot" data-equipment-slot="shield">
+      {{formInput fields.equipment.fields.shield value=system.equipment.shield}}
+      <label>{{localize fields.equipment.fields.shield.label}}</label>
+    </div>
   </div>
   <div class="inventory">
-    <h4>{{localize fields.inventory.fields.prepared.label}}</h4>
-    <h4>{{localize fields.inventory.fields.packed.label}}</h4>
-    <div class="item-list">
-    {{#each system.inventory.prepared as |item|}}
-      <img src="{{item.img}}" height="25" width="25" />
-      <label>{{item.name}}</label>
-    {{/each}}
+    <h4 class="enc-{{system.inventory.prepared.encumbrance.current}}">{{localize fields.inventory.fields.prepared.label count=system.inventory.prepared.count max=system.inventory.prepared.encumbrance.no}}</h4>
+    <h4 class="enc-{{system.inventory.packed.encumbrance.current}}">{{localize fields.inventory.fields.packed.label count=system.inventory.packed.count max=system.inventory.packed.encumbrance.no}}</h4>
+    <div class="item-column prepared flexcol">
+      <div class="item-list">
+      {{#each system.inventory.prepared.items as |item|}}
+        <a class="fas fa-sack" data-action="item" data-type="pack" data-item="{{item.id}}"></a>
+        <div class="item flexrow draggable" data-item-id="{{item.id}}">
+          <img class="flex0" src="{{item.img}}" height="25" width="25" />
+          <label>{{item.name}}</label>
+        </div>
+        <a class="fas fa-trash" data-action="item" data-type="trash" data-item="{{item.id}}"></a>
+      {{/each}}
+      </div>
+      <div class="filler"></div>
     </div>
-    <div class="item-list">
-    {{#each system.inventory.packed as |item|}}
-      <a class="fas fa-hand" data-action="item" data-type="prepare" data-item="{{item.id}}"></a>
-      <img src="{{item.img}}" height="25" width="25" />
-      <label>{{item.name}}</label>
-      <a class="fas fa-trash" data-action="item" data-type="trash" data-item="{{item.id}}"></a>
-    {{/each}}
+    <div class="item-column packed flexcol">
+      <div class="item-list">
+      {{#each system.inventory.packed.items as |item|}}
+        <a class="fas fa-hand" data-action="item" data-type="prepare" data-item="{{item.id}}"></a>
+        <div class="item flexrow draggable" data-item-id="{{item.id}}">
+          <img class="flex0" src="{{item.img}}" height="25" width="25" />
+          <label>{{item.name}}</label>
+        </div>
+        <a class="fas fa-trash" data-action="item" data-type="trash" data-item="{{item.id}}"></a>
+      {{/each}}
+      </div>
+      <div class="filler"></div>
     </div>
   </div>
 </section>
