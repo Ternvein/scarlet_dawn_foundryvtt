@@ -166,6 +166,8 @@ export class CharacterData extends CreatureData {
             obj[k] = value - ability_mod + armor_penalty;
             return obj;
         }, {});
+        this.attack_bonus = this._class.attack_bonus.base + (this._class.attack_bonus.progress ? Math.floor((this.progress.level - 1) / this._class.attack_bonus.progress) : 0);
+        this.damage_bonus = this._class.damage.bonus ? Math.ceil(this.progress.level / this._class.damage.bonus) : 0;
         this.splendor.reroll_max = CONFIG.SD.splendorToMaxRerolls(this.splendor.value);
         this.initiative = this.abilities_mod[CONFIG.SD.initiative.ability];
         this.ac = {

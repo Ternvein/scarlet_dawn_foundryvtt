@@ -88,6 +88,13 @@
             {{/if}}
         </div>
         <div class="attribute-group flexcol">
+            <div class="attack-bonus attribute-grid">
+                <label class="attribute-label">{{localize 'SD.attack_bonus.full'}}</label>
+                <div class="attribute-value flexrow">
+                    <input name="system.attack_bonus" type="text" value="{{numberFormat system.attack_bonus sign=true}}" disabled />
+                </div>
+                <a class="attribute-check fas fa-dice-d20" data-action="roll" data-type="attack" data-tooltip="{{localize 'SD.roll.attack.name'}}"></a>
+            </div>
             <div class="initiative attribute-grid">
                 <label class="attribute-label">{{localize 'SD.initiative.name'}}</label>
                 <div class="attribute-value flexrow">

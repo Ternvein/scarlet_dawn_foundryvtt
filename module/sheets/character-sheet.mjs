@@ -101,6 +101,10 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
                 return this.actor.rollAbilityCheck(target.dataset.ability);
             case "saving-throw":
                 return this.actor.rollSavingThrowCheck(target.dataset.st);
+            case "attack":
+                return this.actor.rollAttack();
+            case "weapon":
+                return this.actor.weapon?.rollWeapon();
             case "initiative":
                 return this.actor.rollInitiativeCheck();
             default:
@@ -141,7 +145,7 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
      * @param {DragEvent} event 
      */
     async _onEquipmentDropItem(event) {
-        const data = TextEditor.implementation.getDragEventData(event);
+        const data = foundry.applications.ux.TextEditor.implementation.getDragEventData(event);
         const actor = this.actor;
         const allowed = Hooks.call("dropActorSheetData", actor, this, data);
         if (allowed === false) return;

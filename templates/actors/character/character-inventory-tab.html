@@ -1,8 +1,11 @@
 <section class="tab inventory flexcol {{tab.cssClass}}" data-group="primary" data-tab="inventory">
   <div class="equipment flexrow">
-    <div class="slot" data-equipment-slot="weapon">
-      {{formInput fields.equipment.fields.weapon value=system.equipment.weapon}}
-      <label>{{localize fields.equipment.fields.weapon.label}}</label>
+    <div class="slot flexrow" data-equipment-slot="weapon">
+      <a class="roll fas fa-dice-d20 flex0" data-action="roll" data-type="weapon" data-tooltip="{{localize 'SD.roll.weapon.name'}}"></a>
+      <div>
+        {{formInput fields.equipment.fields.weapon value=system.equipment.weapon}}
+        <label>{{localize fields.equipment.fields.weapon.label}}</label>
+      </div>
     </div>
     <div class="slot" data-equipment-slot="armor">
       {{formInput fields.equipment.fields.armor value=system.equipment.armor}}

@@ -52,6 +52,11 @@
             "full": "Класс брони",
             "short": "КБ"
         },
+        
+        "attack_bonus": {
+            "full": "Бонус атаки",
+            "short": "БА"
+        },
 
         "morale": {
             "full": "Боевой дух",
@@ -156,19 +161,19 @@
 
         "class": {
             "name": "Класс",
-            "fighter": "Боец",
+            "fighter": "Воин",
             "cleric": "Жрец",
             "thief": "Вор",
             "mage": "Маг",
             "descendant": "Наследник",
             "devoted": "Посвящённый",
-            "assassin": "Убийца",
+            "assassin": "Ассасин",
             "gray_cleric": "Серый жрец",
             "druid": "Друид",
             "gray_mage": "Серый маг",
             "illusionist": "Иллюзионист",
             "paladin": "Паладин",
-            "ranger": "Следопыт"
+            "ranger": "Рейнджер"
         },
 
         "splendor": {
@@ -209,7 +214,16 @@
             "ability": "Проверка: {ability}",
             "ability_dc": "Проверка: {ability} со сложностью {target}",
             "saving_throw": "Спасбросок: {st} со сложностью {target}",
-            "initiative": "Бросок инициативы"
+            "attack": {
+                "name": "Бросок атаки"
+            },
+            "initiative": "Бросок инициативы",
+            "weapon": {
+                "name": "Атака оружием",
+                "title": "Атака оружием: {weapon}",
+                "attack": "Атака: {formula}",
+                "damage": "Повреждения: {formula}"
+            }
         },
 
         "reroll": {

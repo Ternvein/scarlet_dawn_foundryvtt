@@ -79,10 +79,20 @@ export class SDActor extends Actor {
         return result;
     }
 
+    async rollAttack() {
+        const flavor = game.i18n.localize("SD.roll.attack.name");
+        const result = await this._makeRoll("1d20 + @attack_bonus", null, { mode: "attack" }, flavor, null, (total) => null);
+        return result;
+    }
+
     async rollInitiativeCheck() {
         const flavor = game.i18n.localize("SD.roll.initiative");
         const result = await this._makeRoll("1d8 + @initiative", null, { mode: "initiative" }, flavor, null, (total) => null);
         return result;
+    }
+
+    get weapon() {
+        return this.getEmbeddedDocument("Item", this.system.equipment.weapon);
     }
 
     itemPrepare(id) {

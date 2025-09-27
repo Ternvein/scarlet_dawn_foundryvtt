@@ -67,48 +67,139 @@ export const SD = {
     classes: {
         fighter: {
             hd: "1d6+2",
+            attack_bonus: {
+                base: 1,
+                progress: 1,
+            },
+            damage: {
+                bonus: 2,
+            },
+        },
+        thief: {
+            hd: "1d6",
+            attack_bonus: {
+                base: 1,
+                progress: 2,
+            },
+            damage: {
+                bonus: 0,
+            },
         },
         cleric: {
             hd: "1d6",
             faith: {
                 abilities: ["wis", "cha"],
             },
-        },
-        thief: {
-            hd: "1d6",
+            attack_bonus: {
+                base: 1,
+                progress: 0,
+            },
+            damage: {
+                bonus: 0,
+            },
         },
         mage: {
             hd: "1d6",
             mana: {
                 abilities: ["int", "cha"],
             },
+            attack_bonus: {
+                base: 1,
+                progress: 0,
+            },
+            damage: {
+                bonus: 0,
+            },
         },
         descendant: {
             hd: "1d6",
+            attack_bonus: {
+                base: 1,
+                progress: 2,
+            },
+            damage: {
+                bonus: 0,
+            },
         },
         devoted: {
             hd: "1d6+1",
+            attack_bonus: {
+                base: 1,
+                progress: 2,
+            },
+            damage: {
+                bonus: 0,
+            },
         },
         assassin: {
             hd: "1d6",
+            attack_bonus: {
+                base: 1,
+                progress: 2,
+            },
+            damage: {
+                bonus: 0,
+            },
         },
         gray_cleric: {
             hd: "1d6",
+            attack_bonus: {
+                base: 1,
+                progress: 3,
+            },
+            damage: {
+                bonus: 0,
+            },
         },
         druid: {
             hd: "1d6",
+            attack_bonus: {
+                base: 1,
+                progress: 2,
+            },
+            damage: {
+                bonus: 0,
+            },
         },
         gray_mage: {
             hd: "1d4",
+            attack_bonus: {
+                base: 1,
+                progress: 5,
+            },
+            damage: {
+                bonus: 0,
+            },
         },
         illusionist: {
             hd: "1d4",
+            attack_bonus: {
+                base: 1,
+                progress: 5,
+            },
+            damage: {
+                bonus: 0,
+            },
         },
         paladin: {
             hd: "1d6+2",
+            attack_bonus: {
+                base: 1,
+                progress: 1,
+            },
+            damage: {
+                bonus: 2,
+            },
         },
         ranger: {
             hd: "2d6+4",
+            attack_bonus: {
+                base: 1,
+                progress: 1,
+            },
+            damage: {
+                bonus: 0,
+            },
         },
     },
 

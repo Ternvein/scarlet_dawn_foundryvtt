@@ -44,7 +44,7 @@
     }
     .attribute-group {
       align-items: stretch;
-      gap: 0.8rem;
+      gap: 0.5rem;
     }
     .attribute-grid {
       display: grid;
@@ -55,6 +55,8 @@
     .attribute-value {
       input {
         text-align: center;
+        height: calc(1em + 0.5rem);
+        line-height: calc(1em + 0.5rem);
       }
       padding: 0.2rem;
     }
@@ -160,10 +162,14 @@
         }
       }
     }
+    .attack-bonus {
+      grid: 1fr / 2fr 1fr 1fr;
+      line-height: 2.5rem;
+    }
     .initiative {
       grid: 1fr / 2fr 1fr 1fr;
       line-height: 2.5rem;
-      padding-bottom: 2.5rem;
+      //padding-bottom: 2.5rem;
     }
     .survival {
       grid: 1fr / 1fr 1fr;
@@ -185,6 +191,10 @@
         margin: 0 0 2px 8px;
         font-size: 0.7em;
         display: block;
+      }
+      .roll {
+        font-size: 2em;
+        padding-right: 0.4rem;
       }
     }
     .inventory {
@@ -212,6 +222,8 @@
           text-align: center;
           border-bottom: solid 1px;
           border-radius: 0;
+          height: calc(1em + 0.5rem);
+          line-height: calc(1em + 0.5rem);
         }
       }
     }
