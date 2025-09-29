@@ -3,21 +3,21 @@ import { ItemSheet } from "./item-sheet.mjs";
 
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 
-export class WeaponSheet extends ItemSheet {
+export class ArmorSheet extends ItemSheet {
     static DEFAULT_OPTIONS = {
         actions: {
-            roll: WeaponSheet.#roll,
+            roll: ArmorSheet.#roll,
         },
-        classes: ["weapon"],
+        classes: ["armor"],
         window: {
-            subtitle: "SD.sheet.item.weapon.name",
+            subtitle: "SD.sheet.item.armor.name",
         },
     };
 
     static PARTS = {
         ...super.PARTS,
-        weapon: {
-            template: `${SD.templatesPath}/items/weapon-attributes.html`,
+        armor: {
+            template: `${SD.templatesPath}/items/armor-attributes.html`,
         },
     };
 

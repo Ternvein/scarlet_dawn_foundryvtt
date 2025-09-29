@@ -17,8 +17,8 @@
     </div>
   </div>
   <div class="inventory">
-    <h4 class="enc-{{system.inventory.prepared.encumbrance.current}}">{{localize fields.inventory.fields.prepared.label count=system.inventory.prepared.count max=system.inventory.prepared.encumbrance.no}}</h4>
-    <h4 class="enc-{{system.inventory.packed.encumbrance.current}}">{{localize fields.inventory.fields.packed.label count=system.inventory.packed.count max=system.inventory.packed.encumbrance.no}}</h4>
+    <h4 class="enc-{{system.inventory.prepared.encumbrance.current}}">{{localize fields.inventory.fields.prepared.label weight=system.inventory.prepared.weight max=system.inventory.prepared.encumbrance.no}}</h4>
+    <h4 class="enc-{{system.inventory.packed.encumbrance.current}}">{{localize fields.inventory.fields.packed.label weight=system.inventory.packed.weight max=system.inventory.packed.encumbrance.no}}</h4>
     <div class="item-column prepared flexcol">
       <div class="item-list">
       {{#each system.inventory.prepared.items as |item|}}

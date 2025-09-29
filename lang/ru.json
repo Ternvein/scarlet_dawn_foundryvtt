@@ -5,7 +5,7 @@
         },
         "Item": {
             "weapon": "Оружие",
-            "armor": "Броня",
+            "armor": "Доспехи",
             "shield": "Щит",
             "coin": "Монета",
             "other": "Предмет"
@@ -270,23 +270,36 @@
                 },
                 "attack_bonus": "Бонус атаки",
                 "range": "Дистанция"
+            },
+            "armor": {
+                "name": "Доспехи",
+                "category": {
+                    "name": "Категория",
+                    "light": "Лёгкие",
+                    "medium": "Средние",
+                    "heavy": "Тяжёлые",
+                    "elite": "Элитные"
+                },
+                "ac": {
+                    "standard": "Стандартный КБ"
+                }
             }
         },
 
         "inventory": {
             "name": "Снаряжение",
             "prepared": {
-                "name": "Подготовленное ({count}/{max})"
+                "name": "Подготовленное ({weight}/{max})"
             },
             "packed": {
-                "name": "Уложенное ({count}/{max})"
+                "name": "Уложенное ({weight}/{max})"
             }
         },
 
         "equipment": {
             "slot": {
                 "weapon": "Оружие",
-                "armor": "Броня",
+                "armor": "Доспехи",
                 "shield": "Щит"
             }
         }

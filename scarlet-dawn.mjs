@@ -5,8 +5,10 @@ import { SDActor } from "./module/documents/actor.mjs";
 import { SDItem } from "./module/documents/item.mjs";
 import { CharacterData } from "./module/data/character.mjs";
 import { WeaponData } from "./module/data/weapon.mjs";
+import { ArmorData } from "./module/data/armor.mjs";
 import { CharacterSheet } from "./module/sheets/character-sheet.mjs";
 import { WeaponSheet } from "./module/sheets/weapon-sheet.mjs";
+import { ArmorSheet } from "./module/sheets/armor-sheet.mjs";
 import { registerHelpers as handlebarsHelpers } from "./module/helpers/handlebars.mjs";
 import { preloadTemplates } from "./module/helpers/templates.mjs";
 
@@ -26,8 +28,10 @@ Hooks.once("init", async () => {
     };
 
     CONFIG.Item.documentClass = SDItem;
+    CONFIG.Item.typeIcons = CONFIG.SD.item.icons;
     CONFIG.Item.dataModels = {
         weapon: WeaponData,
+        armor: ArmorData,
     };
 
     console.log(CONFIG.Dice);
@@ -46,7 +50,12 @@ Hooks.once("init", async () => {
     Items.registerSheet(game.system.id, WeaponSheet, {
         types: ["weapon"],
         makeDefault: true,
-        label: "SD.sheet.item.name",
+        label: "SD.sheet.item.weapon.name",
+    });
+    Items.registerSheet(game.system.id, ArmorSheet, {
+        types: ["armor"],
+        makeDefault: true,
+        label: "SD.sheet.item.armor.name",
     });
 
     handlebarsHelpers();

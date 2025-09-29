@@ -95,19 +95,48 @@ export class SDActor extends Actor {
         return this.getEmbeddedDocument("Item", this.system.equipment.weapon);
     }
 
+    get armor() {
+        return this.getEmbeddedDocument("Item", this.system.equipment.armor);
+    }
+
+    get shield() {
+        return this.getEmbeddedDocument("Item", this.system.equipment.shield);
+    }
+
     itemPrepare(id) {
         this.getEmbeddedDocument("Item", id)?.update({ system: { is_prepared: true } });
     }
 
     itemPack(id) {
+        this._itemUnequipUsed(id);
         this.getEmbeddedDocument("Item", id)?.update({ system: { is_prepared: false } });
     }
 
     itemTrash(id) {
+        this._itemUnequipUsed(id);
         this.deleteEmbeddedDocuments("Item", [id]);
     }
 
     itemEquip(id, slot) {
+        const item = this.getEmbeddedDocument("Item", id);
+        if (!item) {
+            return;
+        }
+        if (!item.system.is_prepared) {
+            return;
+        }
         this.update({ system: { equipment: { [slot]: id } } });
+    }
+
+    itemUnequip(slot) {
+        this.itemEquip("", slot);
+    }
+
+    _itemUnequipUsed(id) {
+        ["weapon", "armor", "shield"].forEach((slot) => {
+            if (this.system.equipment[slot] === id) {
+                this.itemUnequip(slot);
+            }
+        });
     }
 }

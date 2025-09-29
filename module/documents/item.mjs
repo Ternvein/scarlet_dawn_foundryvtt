@@ -1,6 +1,10 @@
 import { SDRoll } from "../dice/roll.mjs";
 
 export class SDItem extends Item {
+    static getDefaultArtwork(itemData) {
+        return { img: CONFIG.SD.item.icons[itemData.type] ?? this.DEFAULT_ICON };
+    }
+
     async _makeRoll(formula, target, data, flavor, roll_flavor, is_success) {
         const result = await new SDRoll(formula, this.getRollData(), { flavor: roll_flavor, target, system: data }).roll();
         const success = is_success(result.total);
@@ -18,6 +22,14 @@ export class SDItem extends Item {
     prepareDerivedData() {
         super.prepareDerivedData();
         this.system.prepareDerivedData?.();
+    }
+
+    get weight() {
+        return this.system.weight * (this.system.quantity ?? 1);
+    }
+
+    get price() {
+        return this.system.price * (this.system.quantity ?? 1);
     }
 
     get weaponAbilities() {

@@ -192,7 +192,7 @@ export const SD = {
             },
         },
         ranger: {
-            hd: "2d6+4",
+            hd: "1d6+4",
             attack_bonus: {
                 base: 1,
                 progress: 1,
@@ -390,13 +390,6 @@ export const SD = {
     },
 
     armor: {
-        no: {
-            ac: 10,
-            weight: {
-                equip: 0,
-                carry: 0,
-            },
-        },
         light: {
             ac: 12,
             weight: {
@@ -425,13 +418,14 @@ export const SD = {
                 carry: 4,
             },
         },
-        shield: {
-            ac: 12,
-            bonus: 1,
-            weight: {
-                equip: 1,
-                carry: 1,
-            },
+    },
+
+    shield: {
+        ac: 12,
+        bonus: 1,
+        weight: {
+            equip: 1,
+            carry: 1,
         },
     },
 };

@@ -121,28 +121,32 @@ export class CharacterData extends CreatureData {
         this.schema.fields.inventory.fields.prepared.max = prepared_max;
         this.schema.fields.inventory.fields.packed.max = packed_max;
 
-        const { prepared, packed } = Object.groupBy(this.parent.items, item => item.system.is_prepared ? "prepared" : "packed");
+        let { prepared, packed } = Object.groupBy(this.parent.items, item => item.system.is_prepared ? "prepared" : "packed");
+        prepared ??= [];
+        packed ??= [];
 
         this.schema.fields.equipment.fields.weapon.choices = CharacterData._itemsWithType(prepared, "weapon");
         this.schema.fields.equipment.fields.armor.choices = CharacterData._itemsWithType(prepared, "armor");
         this.schema.fields.equipment.fields.shield.choices = CharacterData._itemsWithType(prepared, "shield");
 
         this.inventory.prepared.items = prepared;
+        this.inventory.prepared.weight = prepared.reduce((weight, item) => (weight + item.weight), 0);
         this.inventory.prepared.count = prepared.length;
         this.inventory.prepared.encumbrance = {};
         this.inventory.prepared.encumbrance.no = prepared_max;
         this.inventory.prepared.encumbrance.light = prepared_max + CONFIG.SD.encumbrance.light.prepared;
         this.inventory.prepared.encumbrance.heavy = this.inventory.prepared.encumbrance.light + CONFIG.SD.encumbrance.heavy.prepared;
-        this.inventory.prepared.encumbrance.current = CharacterData._currentEncumbrance(this.inventory.prepared.encumbrance, this.inventory.prepared.count);
+        this.inventory.prepared.encumbrance.current = CharacterData._currentEncumbrance(this.inventory.prepared.encumbrance, this.inventory.prepared.weight);
         this.inventory.prepared.max = this.inventory.prepared.encumbrance.heavy;
 
         this.inventory.packed.items = packed;
+        this.inventory.packed.weight = packed.reduce((weight, item) => (weight + item.weight), 0);
         this.inventory.packed.count = packed.length;
         this.inventory.packed.encumbrance = {};
         this.inventory.packed.encumbrance.no = packed_max;
         this.inventory.packed.encumbrance.light = packed_max + CONFIG.SD.encumbrance.light.packed;
         this.inventory.packed.encumbrance.heavy = this.inventory.packed.encumbrance.light + CONFIG.SD.encumbrance.heavy.packed;
-        this.inventory.packed.encumbrance.current = CharacterData._currentEncumbrance(this.inventory.packed.encumbrance, this.inventory.packed.count);
+        this.inventory.packed.encumbrance.current = CharacterData._currentEncumbrance(this.inventory.packed.encumbrance, this.inventory.packed.weight);
         this.inventory.packed.max = this.inventory.packed.encumbrance.heavy;
     }
 
@@ -172,7 +176,7 @@ export class CharacterData extends CreatureData {
         this.initiative = this.abilities_mod[CONFIG.SD.initiative.ability];
         this.ac = {
             base: CONFIG.SD.ac.base,
-            total: CONFIG.SD.ac.base,
+            total: this.parent?.armor?.system.ac.total ?? CONFIG.SD.ac.base,
         };
         this.survival.thirst.max = CONFIG.SD.survival.thirst.max;
         this.survival.hunger.max = CONFIG.SD.survival.hunger.max;
