@@ -330,6 +330,8 @@ export const SD = {
 
     ac: {
         base: 10,
+        bonus_mod: "dex",
+        min: 10,
     },
 
     survival: {

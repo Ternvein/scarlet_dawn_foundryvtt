@@ -107,6 +107,16 @@ export class CharacterData extends CreatureData {
         this.schema.fields.resources.fields.faith.fields.value.max = this.resources.faith.max ?? 0;
     }
 
+    _prepareAc() {
+        const armored = this.parent?.armor?.system.ac.total ?? this.parent?.shield?.system.ac.total ?? CONFIG.SD.ac.base;
+        const shield_bonus = this.parent?.armor ? (this.parent?.shield?.system.ac.bonus ?? 0) : 0;
+        this.ac = {
+            base: CONFIG.SD.ac.base,
+            armored,
+            total: Math.max(CONFIG.SD.ac.min, armored + shield_bonus + this.abilities_mod[CONFIG.SD.ac.bonus_mod]),
+        };
+    }
+
     static _itemsWithType(items, type) {
         return items.reduce((obj, item) => (item.type === type ? (obj[item.id] = item.name) : null, obj), {});
     }
@@ -174,10 +184,7 @@ export class CharacterData extends CreatureData {
         this.damage_bonus = this._class.damage.bonus ? Math.ceil(this.progress.level / this._class.damage.bonus) : 0;
         this.splendor.reroll_max = CONFIG.SD.splendorToMaxRerolls(this.splendor.value);
         this.initiative = this.abilities_mod[CONFIG.SD.initiative.ability];
-        this.ac = {
-            base: CONFIG.SD.ac.base,
-            total: this.parent?.armor?.system.ac.total ?? CONFIG.SD.ac.base,
-        };
+        this._prepareAc();
         this.survival.thirst.max = CONFIG.SD.survival.thirst.max;
         this.survival.hunger.max = CONFIG.SD.survival.hunger.max;
         this._prepareInventory();

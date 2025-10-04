@@ -1,0 +1,19 @@
+<section class="shield-attributes">
+  <div class="flexrow">
+    <div>
+      {{#if editable}}
+      {{formInput fields.enchantment value=system.enchantment localize=true}}
+      {{else}}
+      <input name="system.enchantment" type="text" value="{{numberFormat system.enchantment sign=true}}" size="2" disabled />
+      {{/if}}
+      <label>{{localize fields.enchantment.label}}</label>
+    </div>
+    <div>
+      {{formInput fields.ac.fields.value value=system.ac.value localize=true disabled=system.ac.is_standard}}
+      <label>{{localize fields.ac.fields.value.label}}</label>
+    </div>
+    <div class="flex0">
+      {{formInput fields.ac.fields.is_standard value=system.ac.is_standard localize=true dataset=(object tooltip=fields.ac.fields.is_standard.label)}}
+    </div>
+  </div>
+</section>

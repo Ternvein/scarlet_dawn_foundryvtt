@@ -6,9 +6,11 @@ import { SDItem } from "./module/documents/item.mjs";
 import { CharacterData } from "./module/data/character.mjs";
 import { WeaponData } from "./module/data/weapon.mjs";
 import { ArmorData } from "./module/data/armor.mjs";
+import { ShieldData } from "./module/data/shield.mjs";
 import { CharacterSheet } from "./module/sheets/character-sheet.mjs";
 import { WeaponSheet } from "./module/sheets/weapon-sheet.mjs";
 import { ArmorSheet } from "./module/sheets/armor-sheet.mjs";
+import { ShieldSheet } from "./module/sheets/shield-sheet.mjs";
 import { registerHelpers as handlebarsHelpers } from "./module/helpers/handlebars.mjs";
 import { preloadTemplates } from "./module/helpers/templates.mjs";
 
@@ -32,6 +34,7 @@ Hooks.once("init", async () => {
     CONFIG.Item.dataModels = {
         weapon: WeaponData,
         armor: ArmorData,
+        shield: ShieldData,
     };
 
     console.log(CONFIG.Dice);
@@ -56,6 +59,11 @@ Hooks.once("init", async () => {
         types: ["armor"],
         makeDefault: true,
         label: "SD.sheet.item.armor.name",
+    });
+    Items.registerSheet(game.system.id, ShieldSheet, {
+        types: ["shield"],
+        makeDefault: true,
+        label: "SD.sheet.item.shield.name",
     });
 
     handlebarsHelpers();
