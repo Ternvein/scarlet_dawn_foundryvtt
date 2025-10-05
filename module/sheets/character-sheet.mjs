@@ -114,12 +114,14 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
 
     static #item(event, target) {
         switch (target.dataset.type) {
+            case "sheet":
+                return this.actor.itemSheet(target.closest("[data-item-id]").dataset.itemId);
             case "prepare":
-                return this.actor.itemPrepare(target.dataset.item);
+                return this.actor.itemPrepare(target.closest("[data-item-id]").dataset.itemId);
             case "pack":
-                return this.actor.itemPack(target.dataset.item);
+                return this.actor.itemPack(target.closest("[data-item-id]").dataset.itemId);
             case "trash":
-                return this.actor.itemTrash(target.dataset.item);
+                return this.actor.itemTrash(target.closest("[data-item-id]").dataset.itemId);
             default:
                 break;
         }

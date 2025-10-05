@@ -25,7 +25,7 @@ export class SDItem extends Item {
     }
 
     get weight() {
-        return this.system.weight * (this.system.quantity ?? 1);
+        return (this.actor?.itemIsEquipped(this.id) ? this.system.weight.equip : this.system.weight.carry) * (this.system.quantity ?? 1);
     }
 
     get price() {

@@ -13,9 +13,22 @@
     </h1>
     <div class="flexrow">
       <div>
-        {{formInput fields.weight value=system.weight localize=true}}
-        <label>{{localize fields.weight.label}}</label>
+        {{formInput fields.weight.fields.carry value=system.weight.carry localize=true disabled=system.weight.is_standard}}
+        <label>{{localize fields.weight.fields.carry.label}}</label>
       </div>
+      {{#if system.is_equippable}}
+      <div>
+        {{formInput fields.weight.fields.equip value=system.weight.equip localize=true disabled=system.weight.is_standard}}
+        <label>{{localize fields.weight.fields.equip.label}}</label>
+      </div>
+      {{/if}}
+      {{#if system.weight.has_standard}}
+      <div class="flex0">
+        {{formInput fields.weight.fields.is_standard value=system.weight.is_standard localize=true dataset=(object tooltip=fields.weight.fields.is_standard.label)}}
+      </div>
+      {{/if}}
+    </div>
+    <div class="flexrow">
       <div>
         {{formInput fields.price value=system.price localize=true}}
         <label>{{localize fields.price.label}}</label>

@@ -35,6 +35,11 @@ export class WeaponData extends ItemData {
         return CONFIG.SD.weapon.categories[this.category];
     }
 
+    prepareBaseData() {
+        super.prepareBaseData?.();
+        this.is_equippable = true;
+    }
+
     prepareDerivedData() {
         super.prepareDerivedData?.();
         this.is_ranged = this._categoryData()?.ranged ?? false;

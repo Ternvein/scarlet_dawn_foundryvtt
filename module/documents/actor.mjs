@@ -103,6 +103,10 @@ export class SDActor extends Actor {
         return this.getEmbeddedDocument("Item", this.system.equipment.shield);
     }
 
+    itemSheet(id) {
+        this.getEmbeddedDocument("Item", id)?.sheet.render(true);
+    }
+
     itemPrepare(id) {
         this.getEmbeddedDocument("Item", id)?.update({ system: { is_prepared: true } });
     }
@@ -138,5 +142,11 @@ export class SDActor extends Actor {
                 this.itemUnequip(slot);
             }
         });
+    }
+
+    itemIsEquipped(id) {
+        return ["weapon", "armor", "shield"].reduce((equip, slot) => {
+            return this.system.equipment[slot] === id ? true : equip;
+        }, false);
     }
 }

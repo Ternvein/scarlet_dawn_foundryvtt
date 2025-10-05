@@ -31,9 +31,19 @@ export class ArmorData extends ItemData {
         return CONFIG.SD.armor[this.category];
     }
 
+    prepareBaseData() {
+        super.prepareBaseData?.();
+        this.is_equippable = true;
+        this.weight.has_standard = true;
+    }
+
     prepareDerivedData() {
         super.prepareDerivedData?.();
         this.is_enchanted = this.enchantment > 0;
+        if (this.weight.is_standard) {
+            this.weight.carry = this._categoryData?.weight.carry ?? 0;
+            this.weight.equip = this._categoryData?.weight.equip ?? 0;
+        }
         if (this.ac.is_standard) {
             this.ac.value = this._categoryData?.ac ?? CONFIG.SD.ac.base;
         }

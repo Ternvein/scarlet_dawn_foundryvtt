@@ -22,12 +22,12 @@
     <div class="item-column prepared flexcol">
       <div class="item-list">
       {{#each system.inventory.prepared.items as |item|}}
-        <a class="fas fa-sack" data-action="item" data-type="pack" data-item="{{item.id}}"></a>
-        <div class="item flexrow draggable" data-item-id="{{item.id}}">
+        <a class="fas fa-sack" data-item-id="{{item.id}}" data-action="item" data-type="pack"></a>
+        <div class="item flexrow draggable" data-item-id="{{item.id}}" data-action="item" data-type="sheet">
           <img class="flex0" src="{{item.img}}" height="25" width="25" />
           <label>{{item.name}}</label>
         </div>
-        <a class="fas fa-trash" data-action="item" data-type="trash" data-item="{{item.id}}"></a>
+        <a class="fas fa-trash" data-item-id="{{item.id}}" data-action="item" data-type="trash"></a>
       {{/each}}
       </div>
       <div class="filler"></div>
@@ -35,12 +35,12 @@
     <div class="item-column packed flexcol">
       <div class="item-list">
       {{#each system.inventory.packed.items as |item|}}
-        <a class="fas fa-hand" data-action="item" data-type="prepare" data-item="{{item.id}}"></a>
-        <div class="item flexrow draggable" data-item-id="{{item.id}}">
+        <a class="fas fa-hand" data-item-id="{{item.id}}" data-action="item" data-type="prepare"></a>
+        <div class="item flexrow draggable" data-item-id="{{item.id}}" data-action="item" data-type="sheet">
           <img class="flex0" src="{{item.img}}" height="25" width="25" />
           <label>{{item.name}}</label>
         </div>
-        <a class="fas fa-trash" data-action="item" data-type="trash" data-item="{{item.id}}"></a>
+        <a class="fas fa-trash" data-item-id="{{item.id}}" data-action="item" data-type="trash"></a>
       {{/each}}
       </div>
       <div class="filler"></div>

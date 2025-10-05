@@ -20,6 +20,11 @@ export class ShieldData extends ItemData {
         };
     }
 
+    prepareBaseData() {
+        super.prepareBaseData?.();
+        this.is_equippable = true;
+    }
+
     prepareDerivedData() {
         super.prepareDerivedData?.();
         this.is_enchanted = this.enchantment > 0;

@@ -3,10 +3,18 @@ const {
 } = foundry.data.fields;
 
 export class ItemData extends foundry.abstract.TypeDataModel {
+    static _weightSchema() {
+        return new SchemaField({
+            carry: new NumberField({ required: true, min: 0, step: 1, initial: 0, label: "SD.item.weight.carry" }),
+            equip: new NumberField({ required: true, min: 0, step: 1, initial: 0, label: "SD.item.weight.equip" }),
+            is_standard: new BooleanField({ required: true, initial: true, label: "SD.item.weight.standard" }),
+        }, { label: "SD.item.weight.name" });
+    }
+
     static defineSchema() {
         return {
             description: new HTMLField({ label: "SD.item.description" }),
-            weight: new NumberField({ required: true, min: 0, step: 1, initial: 0, label: "SD.item.weight" }),
+            weight: ItemData._weightSchema(),
             price: new NumberField({ required: false, min: 0, initial: 0, label: "SD.item.price" }),
             is_prepared: new BooleanField({ required: true, initial: false, label: "SD.item.prepared" }),
         };
@@ -14,5 +22,8 @@ export class ItemData extends foundry.abstract.TypeDataModel {
 
     prepareDerivedData() {
         super.prepareDerivedData?.();
+        if (!this.weight.has_standard) {
+            this.weight.is_standard = false;
+        }
     }
 }
