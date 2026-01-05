@@ -4,7 +4,7 @@ const {
     StringField, NumberField, SchemaField, BooleanField, ArrayField, DocumentUUIDField
 } = foundry.data.fields;
 
-export class CharacterData extends CreatureData {
+export class PlayerCharacterData extends CreatureData {
     static _abilitiesSchema() {
         const numberConfig = { required: true, min: 0, step: 1, initial: 0 };
         return Object.entries(CONFIG.SD.abilities)
@@ -69,15 +69,15 @@ export class CharacterData extends CreatureData {
     static defineSchema() {
         return {
             ...super.defineSchema(),
-            abilities: new SchemaField(CharacterData._abilitiesSchema(), { label: "SD.ability.name" }),
-            race: new StringField({ required: true, label: "SD.race.name", choices: CharacterData._raceChoices(), initial: Object.keys(CONFIG.SD.races)[0] }),
-            alignment: new StringField({ required: true, label: "SD.alignment.name", choices: CharacterData._alignmentChoices(), initial: CONFIG.SD.alignment.variants[0] }),
-            cls: new StringField({ required: true, label: "SD.class.name", choices: CharacterData._classChoices(), initial: Object.keys(CONFIG.SD.classes)[0] }),
-            progress: new SchemaField(CharacterData._progressSchema()),
-            splendor: new SchemaField(CharacterData._splendorSchema(), { label: "SD.splendor.name" }),
-            survival: new SchemaField(CharacterData._survivalSchema(), { label: "SD.survival.name" }),
-            inventory: new SchemaField(CharacterData._inventorySchema(), { label: "SD.inventory.name" }),
-            equipment: new SchemaField(CharacterData._equipmentSchema(), { label: "SD.equipment.name" }),
+            abilities: new SchemaField(PlayerCharacterData._abilitiesSchema(), { label: "SD.ability.name" }),
+            race: new StringField({ required: true, label: "SD.race.name", choices: PlayerCharacterData._raceChoices(), initial: Object.keys(CONFIG.SD.races)[0] }),
+            alignment: new StringField({ required: true, label: "SD.alignment.name", choices: PlayerCharacterData._alignmentChoices(), initial: CONFIG.SD.alignment.variants[0] }),
+            cls: new StringField({ required: true, label: "SD.class.name", choices: PlayerCharacterData._classChoices(), initial: Object.keys(CONFIG.SD.classes)[0] }),
+            progress: new SchemaField(PlayerCharacterData._progressSchema()),
+            splendor: new SchemaField(PlayerCharacterData._splendorSchema(), { label: "SD.splendor.name" }),
+            survival: new SchemaField(PlayerCharacterData._survivalSchema(), { label: "SD.survival.name" }),
+            inventory: new SchemaField(PlayerCharacterData._inventorySchema(), { label: "SD.inventory.name" }),
+            equipment: new SchemaField(PlayerCharacterData._equipmentSchema(), { label: "SD.equipment.name" }),
         };
     }
 
@@ -135,9 +135,9 @@ export class CharacterData extends CreatureData {
         prepared ??= [];
         packed ??= [];
 
-        this.schema.fields.equipment.fields.weapon.choices = CharacterData._itemsWithType(prepared, "weapon");
-        this.schema.fields.equipment.fields.armor.choices = CharacterData._itemsWithType(prepared, "armor");
-        this.schema.fields.equipment.fields.shield.choices = CharacterData._itemsWithType(prepared, "shield");
+        this.schema.fields.equipment.fields.weapon.choices = PlayerCharacterData._itemsWithType(prepared, "weapon");
+        this.schema.fields.equipment.fields.armor.choices = PlayerCharacterData._itemsWithType(prepared, "armor");
+        this.schema.fields.equipment.fields.shield.choices = PlayerCharacterData._itemsWithType(prepared, "shield");
 
         this.inventory.prepared.items = prepared;
         this.inventory.prepared.weight = prepared.reduce((weight, item) => (weight + item.weight), 0);
@@ -146,7 +146,7 @@ export class CharacterData extends CreatureData {
         this.inventory.prepared.encumbrance.no = prepared_max;
         this.inventory.prepared.encumbrance.light = prepared_max + CONFIG.SD.encumbrance.light.prepared;
         this.inventory.prepared.encumbrance.heavy = this.inventory.prepared.encumbrance.light + CONFIG.SD.encumbrance.heavy.prepared;
-        this.inventory.prepared.encumbrance.current = CharacterData._currentEncumbrance(this.inventory.prepared.encumbrance, this.inventory.prepared.weight);
+        this.inventory.prepared.encumbrance.current = PlayerCharacterData._currentEncumbrance(this.inventory.prepared.encumbrance, this.inventory.prepared.weight);
         this.inventory.prepared.max = this.inventory.prepared.encumbrance.heavy;
 
         this.inventory.packed.items = packed;
@@ -156,7 +156,7 @@ export class CharacterData extends CreatureData {
         this.inventory.packed.encumbrance.no = packed_max;
         this.inventory.packed.encumbrance.light = packed_max + CONFIG.SD.encumbrance.light.packed;
         this.inventory.packed.encumbrance.heavy = this.inventory.packed.encumbrance.light + CONFIG.SD.encumbrance.heavy.packed;
-        this.inventory.packed.encumbrance.current = CharacterData._currentEncumbrance(this.inventory.packed.encumbrance, this.inventory.packed.weight);
+        this.inventory.packed.encumbrance.current = PlayerCharacterData._currentEncumbrance(this.inventory.packed.encumbrance, this.inventory.packed.weight);
         this.inventory.packed.max = this.inventory.packed.encumbrance.heavy;
     }
 
@@ -171,8 +171,8 @@ export class CharacterData extends CreatureData {
             return obj;
         }, {});
         this._prepareMainResources();
-        this.saving_throws = Object.entries(CONFIG.SD.saving_throws).reduce((obj, [k, v]) => {
-            const value = 15 - Math.floor(this.progress.level / 2);
+        this.saving_throws = Object.entries(CONFIG.SD.saving_throws.types).reduce((obj, [k, v]) => {
+            const value = CONFIG.SD.saving_throws.base - Math.floor(this.progress.level / 2);
             const abilities_mod = v.abilities.map((ability) => this.abilities_mod[ability]);
             const ability_mod = abilities_mod.length ? Math.max(...abilities_mod) : 0;
             // TODO: Armor penalty

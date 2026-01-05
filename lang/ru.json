@@ -1,7 +1,8 @@
 {
     "TYPES": {
         "Actor": {
-            "character": "Персонаж"
+            "character": "Персонаж",
+            "npc": "Персонаж ведущего"
         },
         "Item": {
             "weapon": "Оружие",
@@ -14,6 +15,8 @@
     "SD": {
         "title": "Багровая заря",
 
+        "add": "Добавить",
+
         "sheet": {
             "character": {
                 "name": "Персонаж",
@@ -22,6 +25,10 @@
                     "attributes": "Характеристики",
                     "inventory": "Снаряжение"
                 }
+            },
+            "npc": {
+                "name": "Персонаж ведущего",
+                "title": "Лист персонажа ведущего"
             },
             "item": {
                 "name": "Предмет",
@@ -44,8 +51,8 @@
         },
 
         "hd": {
-            "full": "Кость здоровья",
-            "short": "КЗ"
+            "full": "Хит-дайс",
+            "short": "ХД"
         },
 
         "ac": {
@@ -62,6 +69,16 @@
         "morale": {
             "full": "Боевой дух",
             "short": "БД"
+        },
+
+        "npc": {
+            "attacks": {
+                "name": "Атаки",
+                "damage": {
+                    "name": "Урон",
+                    "error": "Неверная формула урона"
+                }
+            }
         },
 
         "skill": "Навык",
@@ -210,15 +227,27 @@
         "roll": {
             "success": "Успех!",
             "failure": "Провал!",
-            "character": "Бросок начальных характеристик",
-            "character_hp": "Хит-пойнты: {formula}",
+            "abilities": "Бросок начальных характеристик",
             "ability": "Проверка: {ability}",
             "ability_dc": "Проверка: {ability} со сложностью {target}",
             "saving_throw": "Спасбросок: {st} со сложностью {target}",
+            "hp": {
+                "max": {
+                    "name": "Бросок хит-пойнтов",
+                    "message": "Хит-пойнты: {formula}"
+                }
+            },
             "attack": {
                 "name": "Бросок атаки"
             },
             "initiative": "Бросок инициативы",
+            "npc": {
+                "attack": {
+                    "title": "Атака: {attack}",
+                    "attack": "Атака: {formula}",
+                    "damage": "Повреждения: {formula}"
+                }
+            },
             "weapon": {
                 "name": "Атака оружием",
                 "title": "Атака оружием: {weapon}",
@@ -294,6 +323,8 @@
 
         "inventory": {
             "name": "Снаряжение",
+            "prepare": "Подготовить",
+            "pack": "Уложить",
             "prepared": {
                 "name": "Подготовленное ({weight}/{max})"
             },

@@ -22,12 +22,12 @@
     <div class="item-column prepared flexcol">
       <div class="item-list">
       {{#each system.inventory.prepared.items as |item|}}
-        <a class="fas fa-sack" data-item-id="{{item.id}}" data-action="item" data-type="pack"></a>
+        <a class="fas fa-sack" data-item-id="{{item.id}}" data-action="item" data-type="pack" data-tooltip="{{localize 'SD.inventory.pack'}}"></a>
         <div class="item flexrow draggable" data-item-id="{{item.id}}" data-action="item" data-type="sheet">
           <img class="flex0" src="{{item.img}}" height="25" width="25" />
           <label>{{item.name}}</label>
         </div>
-        <a class="fas fa-trash" data-item-id="{{item.id}}" data-action="item" data-type="trash"></a>
+        <a class="fas fa-xmark-large" data-item-id="{{item.id}}" data-action="item" data-type="trash" data-tooltip="{{localize 'Delete'}}"></a>
       {{/each}}
       </div>
       <div class="filler"></div>
@@ -35,12 +35,12 @@
     <div class="item-column packed flexcol">
       <div class="item-list">
       {{#each system.inventory.packed.items as |item|}}
-        <a class="fas fa-hand" data-item-id="{{item.id}}" data-action="item" data-type="prepare"></a>
+        <a class="fas fa-hand" data-item-id="{{item.id}}" data-action="item" data-type="prepare" data-tooltip="{{localize 'SD.inventory.prepare'}}"></a>
         <div class="item flexrow draggable" data-item-id="{{item.id}}" data-action="item" data-type="sheet">
           <img class="flex0" src="{{item.img}}" height="25" width="25" />
           <label>{{item.name}}</label>
         </div>
-        <a class="fas fa-trash" data-item-id="{{item.id}}" data-action="item" data-type="trash"></a>
+        <a class="fas fa-xmark-large" data-item-id="{{item.id}}" data-action="item" data-type="trash" data-tooltip="{{localize 'Delete'}}"></a>
       {{/each}}
       </div>
       <div class="filler"></div>

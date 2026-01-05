@@ -1,169 +1,101 @@
 <section class="tab attributes flexcol {{tab.cssClass}}" data-group="primary" data-tab="attributes">
-    <div class="main-resources flexrow">
-        <div class="flexrow">
-            <label class="fas fa-heart flex0" data-tooltip="{{fields.resources.fields.hp.label}}"></label>
-            <div class="attribute-value flexrow">
-                {{formInput 
-                    fields.resources.fields.hp.fields.value 
-                    value=system.resources.hp.value 
-                    localize=true 
-                    type='number' 
-                    dataset=(object tooltip=fields.resources.fields.hp.fields.value.label)
-                }}
-                <span class="sep flex0">/</span>
-                {{#if system.resources.hp.max}}
-                {{formInput 
-                    fields.resources.fields.hp.fields.max 
-                    value=system.resources.hp.max 
-                    localize=true 
-                    dataset=(object tooltip=fields.resources.fields.hp.fields.max.label)
-                }}
-                {{else}}
-                <a class="attribute-check fas fa-dice-d8" data-action="roll" data-type="hp"></a>
-                {{/if}}
-            </div>
-        </div>
-        {{#if system.resources.mana.max}}
-        <div class="flexrow">
-            <label class="fas fa-wand-magic-sparkles flex0" data-tooltip="{{fields.resources.fields.mana.label}}"></label>
-            <div class="attribute-value flexrow">
-                {{formInput 
-                    fields.resources.fields.mana.fields.value 
-                    value=system.resources.mana.value 
-                    localize=true 
-                    type='number' 
-                    dataset=(object tooltip=fields.resources.fields.mana.fields.value.label)
-                }}
-                <span class="sep flex0">/</span>
-                {{formInput 
-                    fields.resources.fields.mana.fields.max 
-                    value=system.resources.mana.max 
-                    localize=true 
-                    disabled=true 
-                    dataset=(object tooltip=fields.resources.fields.mana.fields.max.label)
-                }}
-            </div>
-        </div>
-        {{/if}}
-        {{#if system.resources.faith.max}}
-        <div class="flexrow">
-            <label class="fas fa-hands-praying flex0" data-tooltip="{{fields.resources.fields.faith.label}}"></label>
-            <div class="attribute-value flexrow">
-                {{formInput 
-                    fields.resources.fields.faith.fields.value 
-                    value=system.resources.faith.value 
-                    localize=true 
-                    type='number' 
-                    dataset=(object tooltip=fields.resources.fields.faith.fields.value.label)
-                }}
-                <span class="sep flex0">/</span>
-                {{formInput 
-                    fields.resources.fields.faith.fields.max 
-                    value=system.resources.faith.max 
-                    localize=true 
-                    disabled=true 
-                    dataset=(object tooltip=fields.resources.fields.faith.fields.max.label)
-                }}
-            </div>
-        </div>
-        {{/if}}
+  {{#if actor.is_new}}
+  <a class="roll-abilities fas fa-dice-d6" data-action="roll" data-type="abilities" data-tooltip="{{localize 'SD.roll.abilities'}}"></a>
+  {{else}}
+  {{> "sd.main-resources" }}
+  <div class="attribute-columns flexrow">
+    <div class="attribute-group flexcol">
+      <div class="abilities attribute-grid">
+         {{#each fields.abilities.fields}}
+         <h4 class="ability-name box-title" data-tooltip="{{localize (concat 'SD.ability.' @key '.long')}}">
+           <a>{{localize this.label}}</a>
+         </h4>
+         <div class="attribute-value">
+           {{formInput this value=(lookup ../system.abilities @key)}}
+         </div>
+         <input class="ability-mod" name="system.abilities_mod.{{@key}}" type="text" value="{{numberFormat (lookup ../system.abilities_mod @key) sign=true}}" size=2 disabled />
+         <a class="attribute-check fas fa-dice-d8" data-action="roll" data-type="ability" data-ability="{{@key}}" data-tooltip="{{localize 'SD.roll.ability' ability=(localize (concat 'SD.ability.' @key '.long'))}}"></a>
+         {{/each}}
+      </div>
     </div>
-    <div class="attribute-columns flexrow">
-        <div class="attribute-group flexcol">
-            {{#if actor.is_new}}
-            <a class="character-roll fas fa-dice-d6" data-action="roll" data-type="abilities"></a>
-            {{else}}
-            <div class="abilities attribute-grid">
-                 {{#each fields.abilities.fields}}
-                 <h4 class="ability-name box-title" data-tooltip="{{localize (concat 'SD.ability.' @key '.long')}}">
-                     <a>{{localize this.label}}</a>
-                 </h4>
-                 <div class="attribute-value">
-                     {{formInput this value=(lookup ../system.abilities @key)}}
-                 </div>
-                 <input class="ability-mod" name="system.abilities_mod.{{@key}}" type="text" value="{{numberFormat (lookup ../system.abilities_mod @key) sign=true}}" size=2 disabled />
-                 <a class="attribute-check fas fa-dice-d8" data-action="roll" data-type="ability" data-ability="{{@key}}" data-tooltip="{{localize 'SD.roll.ability' ability=(localize (concat 'SD.ability.' @key '.long'))}}"></a>
-                 {{/each}}
-            </div>
-            {{/if}}
+    <div class="attribute-group flexcol">
+      <div class="attack-bonus attribute-grid">
+        <label class="attribute-label">{{localize 'SD.attack_bonus.full'}}</label>
+        <div class="attribute-value flexrow">
+          <input name="system.attack_bonus" type="text" value="{{numberFormat system.attack_bonus sign=true}}" disabled />
         </div>
-        <div class="attribute-group flexcol">
-            <div class="attack-bonus attribute-grid">
-                <label class="attribute-label">{{localize 'SD.attack_bonus.full'}}</label>
-                <div class="attribute-value flexrow">
-                    <input name="system.attack_bonus" type="text" value="{{numberFormat system.attack_bonus sign=true}}" disabled />
-                </div>
-                <a class="attribute-check fas fa-dice-d20" data-action="roll" data-type="attack" data-tooltip="{{localize 'SD.roll.attack.name'}}"></a>
-            </div>
-            <div class="initiative attribute-grid">
-                <label class="attribute-label">{{localize 'SD.initiative.name'}}</label>
-                <div class="attribute-value flexrow">
-                    <input name="system.initiative" type="text" value="{{numberFormat system.initiative sign=true}}" disabled />
-                </div>
-                <a class="attribute-check fas fa-dice-d8" data-action="roll" data-type="initiative" data-tooltip="{{localize 'SD.roll.initiative'}}"></a>
-            </div>
-            <div class="saving-throws attribute-grid">
-                {{#each config.saving_throws}}
-                <label class="attribute-label">{{localize this.label}}</label>
-                <div class="attribute-value">
-                    <input name="system.saving_throws.{{@key}}" type="number" value="{{lookup ../system.saving_throws @key}}" disabled />
-                </div>
-                <a class="attribute-check fas fa-dice-d20" data-action="roll" data-type="saving-throw" data-st="{{@key}}" data-tooltip="{{localize 'SD.roll.saving_throw' st=(localize this.label) target=(lookup ../system.saving_throws @key)}}"></a>
-                {{/each}}
-            </div>
+        <a class="attribute-check fas fa-dice-d20" data-action="roll" data-type="attack" data-tooltip="{{localize 'SD.roll.attack.name'}}"></a>
+      </div>
+      <div class="initiative attribute-grid">
+        <label class="attribute-label">{{localize 'SD.initiative.name'}}</label>
+        <div class="attribute-value flexrow">
+          <input name="system.initiative" type="text" value="{{numberFormat system.initiative sign=true}}" disabled />
         </div>
-        {{!--
-        <div class="attributes">
-            {{#if fields.movement.land_only}}
-            <div class="attribute movement flexrow" data-score="{{@key}}">
-                <h4 class="movement-name box-title" title="{{ localize 'SD.movement.name' }}">
-                    <a>{{ localize "SD.movement.name" }}</a>
-                </h4>
-                <div class="movement-value">
-                    <input name="system.movement.land.value" type="text" value="{{system.movement.land.value}}" placeholder="{{fields.movement.fields.land.default}}" data-dtype="Number" />
-                </div>
-            </div>
-            {{else}}
-            <div class="movement-group flexcol">
-            {{#each fields.movement.fields}}
-                {{formGroup (lookup ../fields.movement.fields @key) localize=true}}
-            {{/each}}
-            </div>
-            {{/if}}
+        <a class="attribute-check fas fa-dice-d8" data-action="roll" data-type="initiative" data-tooltip="{{localize 'SD.roll.initiative'}}"></a>
+      </div>
+      <div class="saving-throws attribute-grid">
+        {{#each config.saving_throws.types}}
+        <label class="attribute-label">{{localize this.label}}</label>
+        <div class="attribute-value">
+          <input name="system.saving_throws.{{@key}}" type="number" value="{{lookup ../system.saving_throws @key}}" disabled />
         </div>
-        --}}
-        <div class="flexcol">
-            <div class="armor-class flexrow">
-                <div class="filler"></div>
-                <i class="fas fa-shield" data-tooltip="{{localize 'SD.ac.full'}}">{{system.ac.total}}</i>
-                <div class="filler"></div>
-            </div>
-            <div class="splendor attribute-grid">
-                <label class="attribute-label">{{localize 'SD.splendor.name'}}</label>
-                <div class="attribute-value">
-                    {{formInput fields.splendor.fields.value localize=true dataset=(object tooltip="SD.splendor.name")}}
-                </div>
-                <label class="attribute-label">{{localize 'SD.reroll.name'}}</label>
-                <div class="attribute-value flexrow">
-                    {{formInput fields.splendor.fields.reroll_used localize=true dataset=(object tooltip="SD.reroll.used")}}
-                    <span class="sep flex0">/</span>
-                    <input name="system.splendor.reroll_max" type="number" value="{{system.splendor.reroll_max}}" data-tooltip="{{localize 'SD.reroll.max'}}" disabled />
-                </div>
-            </div>
-            <div class="survival attribute-grid">
-                <label class="attribute-label">{{localize 'SD.survival.thirst.name'}}</label>
-                <div class="attribute-value flexrow">
-                    {{formInput fields.survival.fields.thirst.fields.current dataset=(object tooltip=(localize 'SD.survival.thirst.current'))}}
-                    <span class="sep flex0">/</span>
-                    <input name="system.survival.thirst.max" type="number" value="{{system.survival.thirst.max}}" data-tooltip="{{localize 'SD.survival.thirst.max'}}" disabled />
-                </div>
-                <label class="attribute-label">{{localize 'SD.survival.hunger.name'}}</label>
-                <div class="attribute-value flexrow">
-                    {{formInput fields.survival.fields.hunger.fields.current dataset=(object tooltip=(localize 'SD.survival.hunger.current'))}}
-                    <span class="sep flex0">/</span>
-                    <input name="system.survival.hunger.max" type="number" value="{{system.survival.hunger.max}}" data-tooltip="{{localize 'SD.survival.hunger.max'}}" disabled />
-                </div>
-            </div>
-        </div>
+        <a class="attribute-check fas fa-dice-d20" data-action="roll" data-type="saving-throw" data-st="{{@key}}" data-tooltip="{{localize 'SD.roll.saving_throw' st=(localize this.label) target=(lookup ../system.saving_throws @key)}}"></a>
+        {{/each}}
+      </div>
     </div>
+    {{!--
+    <div class="attributes">
+      {{#if fields.movement.land_only}}
+      <div class="attribute movement flexrow" data-score="{{@key}}">
+        <h4 class="movement-name box-title" title="{{ localize 'SD.movement.name' }}">
+          <a>{{ localize "SD.movement.name" }}</a>
+        </h4>
+        <div class="movement-value">
+          <input name="system.movement.land.value" type="text" value="{{system.movement.land.value}}" placeholder="{{fields.movement.fields.land.default}}" data-dtype="Number" />
+        </div>
+      </div>
+      {{else}}
+      <div class="movement-group flexcol">
+      {{#each fields.movement.fields}}
+        {{formGroup (lookup ../fields.movement.fields @key) localize=true}}
+      {{/each}}
+      </div>
+      {{/if}}
+    </div>
+    --}}
+    <div class="flexcol">
+      <div class="armor-class flexrow">
+        <div class="filler"></div>
+        <i class="fas fa-shield" data-tooltip="{{localize 'SD.ac.full'}}">{{system.ac.total}}</i>
+        <div class="filler"></div>
+      </div>
+      <div class="splendor attribute-grid">
+        <label class="attribute-label">{{localize 'SD.splendor.name'}}</label>
+        <div class="attribute-value">
+          {{formInput fields.splendor.fields.value localize=true dataset=(object tooltip="SD.splendor.name")}}
+        </div>
+        <label class="attribute-label">{{localize 'SD.reroll.name'}}</label>
+        <div class="attribute-value flexrow">
+          {{formInput fields.splendor.fields.reroll_used localize=true dataset=(object tooltip="SD.reroll.used")}}
+          <span class="sep flex0">/</span>
+          <input name="system.splendor.reroll_max" type="number" value="{{system.splendor.reroll_max}}" data-tooltip="{{localize 'SD.reroll.max'}}" disabled />
+        </div>
+      </div>
+      <div class="survival attribute-grid">
+        <label class="attribute-label">{{localize 'SD.survival.thirst.name'}}</label>
+        <div class="attribute-value flexrow">
+          {{formInput fields.survival.fields.thirst.fields.current dataset=(object tooltip=(localize 'SD.survival.thirst.current'))}}
+          <span class="sep flex0">/</span>
+          <input name="system.survival.thirst.max" type="number" value="{{system.survival.thirst.max}}" data-tooltip="{{localize 'SD.survival.thirst.max'}}" disabled />
+        </div>
+        <label class="attribute-label">{{localize 'SD.survival.hunger.name'}}</label>
+        <div class="attribute-value flexrow">
+          {{formInput fields.survival.fields.hunger.fields.current dataset=(object tooltip=(localize 'SD.survival.hunger.current'))}}
+          <span class="sep flex0">/</span>
+          <input name="system.survival.hunger.max" type="number" value="{{system.survival.hunger.max}}" data-tooltip="{{localize 'SD.survival.hunger.max'}}" disabled />
+        </div>
+      </div>
+    </div>
+  </div>
+  {{/if}}
 </section>

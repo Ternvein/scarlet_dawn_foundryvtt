@@ -1,0 +1,27 @@
+<section class="npc-attributes flexcol">
+  {{> "sd.main-resources" }}
+  <div class="attacks flexcol">
+    <div class="table-header flexrow">
+      <h4>{{localize fields.attacks.label}}</h4>
+      <a class="flex0 fas fa-plus-large" data-action="attack" data-type="add" data-tooltip="{{localize 'SD.add'}}"></a>
+    </div>
+    <div class="attacks-list">
+    {{#each system.attacks as |attack|}}
+      <a class="roll fas fa-dice-d20 flex0" data-attack-idx="{{@index}}" data-action="roll" data-type="attack" data-tooltip="{{localize 'SD.roll.attack.name'}}"></a>
+      <div>
+        {{formInput ../fields.attacks.element.fields.name name=(concat 'system.attacks.' @index '.name') value=attack.name localize=true}}
+        <label>{{localize ../fields.attacks.element.fields.name.label}}</label>
+      </div>
+      <div>
+        {{formInput ../fields.attacks.element.fields.attack name=(concat 'system.attacks.' @index '.attack') value=attack.attack localize=true dataset=(object tooltip=(localize ../fields.attacks.element.fields.attack.options.tooltip))}}
+        <label data-tooltip="{{localize ../fields.attacks.element.fields.attack.options.tooltip}}">{{localize ../fields.attacks.element.fields.attack.label}}</label>
+      </div>
+      <div>
+        {{formInput ../fields.attacks.element.fields.damage name=(concat 'system.attacks.' @index '.damage') value=attack.damage localize=true}}
+        <label>{{localize ../fields.attacks.element.fields.damage.label}}</label>
+      </div>
+      <a class="fas fa-xmark-large flex0" data-attack-idx="{{@index}}" data-action="attack" data-type="trash" data-tooltip="{{localize 'Delete'}}"></a>
+    {{/each}}
+    </div>
+  </div>
+</section>

@@ -1,13 +1,14 @@
 import { SD } from "./module/config.mjs";
 import { SDRoll } from "./module/dice/roll.mjs";
-import { RollCharacter } from "./module/dice/roll_character.mjs";
 import { SDActor } from "./module/documents/actor.mjs";
 import { SDItem } from "./module/documents/item.mjs";
-import { CharacterData } from "./module/data/character.mjs";
+import { PlayerCharacterData } from "./module/data/pc.mjs";
+import { NonPlayerCharacterData } from "./module/data/npc.mjs";
 import { WeaponData } from "./module/data/weapon.mjs";
 import { ArmorData } from "./module/data/armor.mjs";
 import { ShieldData } from "./module/data/shield.mjs";
 import { CharacterSheet } from "./module/sheets/character-sheet.mjs";
+import { NPCSheet } from "./module/sheets/npc-sheet.mjs";
 import { WeaponSheet } from "./module/sheets/weapon-sheet.mjs";
 import { ArmorSheet } from "./module/sheets/armor-sheet.mjs";
 import { ShieldSheet } from "./module/sheets/shield-sheet.mjs";
@@ -26,7 +27,8 @@ Hooks.once("init", async () => {
 
     CONFIG.Actor.documentClass = SDActor;
     CONFIG.Actor.dataModels = {
-        character: CharacterData,
+        character: PlayerCharacterData,
+        npc: NonPlayerCharacterData,
     };
 
     CONFIG.Item.documentClass = SDItem;
@@ -39,7 +41,6 @@ Hooks.once("init", async () => {
 
     console.log(CONFIG.Dice);
     CONFIG.Dice.rolls.push(SDRoll);
-    CONFIG.Dice.rolls.push(RollCharacter);
 
     // Register sheet application classes
     Actors.unregisterSheet("core", ActorSheetV2);
@@ -47,6 +48,11 @@ Hooks.once("init", async () => {
         types: ["character"],
         makeDefault: true,
         label: "SD.sheet.character.name",
+    });
+    Actors.registerSheet(game.system.id, NPCSheet, {
+        types: ["npc"],
+        makeDefault: true,
+        label: "SD.sheet.npc.name",
     });
 
     Items.unregisterSheet("core", ItemSheetV2);

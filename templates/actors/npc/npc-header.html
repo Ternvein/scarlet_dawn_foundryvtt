@@ -1,0 +1,35 @@
+<section class="header-details flexrow">
+  {{log .}}
+  <img class="profile-img" src="{{actor.img}}" data-action="editImage" data-edit="img" data-tooltip="{{actor.name}}" alt="{{actor.name}}" height="150" width="150"/>
+  <div class="summary">
+    <div class="flexrow">
+    <h1 class="charname">
+      {{formInput actor.schema.fields.name value=actor.name placeholder=(localize 'SD.details.name') localize=true}}
+    </h1>
+    </div>
+    <div class="flexrow">
+      <div class="flex2">
+        {{formInput fields.hd value=system.hd localize=true}}
+        <label data-tooltip="{{localize fields.hd.options.tooltip}}">{{localize fields.hd.label}}</label>
+      </div>
+      <div>
+        {{formInput fields.ac value=system.ac localize=true}}
+        <label data-tooltip="{{localize fields.ac.options.tooltip}}">{{localize fields.ac.label}}</label>
+      </div>
+      <div>
+        {{formInput fields.st value=system.st localize=true}}
+        <label data-tooltip="{{localize fields.st.options.tooltip}}">{{localize fields.st.label}}</label>
+      </div>
+    </div>
+    <div class="flexrow">
+      <div>
+        {{formInput fields.skill value=system.skill localize=true}}
+        <label>{{localize fields.skill.label}}</label>
+      </div>
+      <div>
+        {{formInput fields.morale value=system.morale type='number' localize=true}}
+        <label data-tooltip="{{localize fields.morale.options.tooltip}}">{{localize fields.morale.label}}</label>
+      </div>
+    </div>
+  </div>
+</section>

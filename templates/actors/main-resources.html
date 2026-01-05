@@ -1,0 +1,69 @@
+<div class="main-resources flexrow">
+    <div class="flexrow">
+        <label class="fas fa-heart flex0" data-tooltip="{{fields.resources.fields.hp.label}}"></label>
+        <div class="attribute-value flexrow">
+            {{formInput 
+                fields.resources.fields.hp.fields.value 
+                value=system.resources.hp.value 
+                localize=true 
+                type='number' 
+                dataset=(object tooltip=fields.resources.fields.hp.fields.value.label)
+            }}
+            <span class="sep flex0">/</span>
+            {{#if system.resources.hp.max}}
+            {{formInput 
+                fields.resources.fields.hp.fields.max 
+                value=system.resources.hp.max 
+                localize=true 
+                dataset=(object tooltip=fields.resources.fields.hp.fields.max.label)
+            }}
+            {{else}}
+            <a class="attribute-check fas fa-dice-d8" data-action="roll" data-type="hp" data-tooltip="{{localize 'SD.roll.hp.max.name'}}"></a>
+            {{/if}}
+        </div>
+    </div>
+    {{#if system.resources.mana.max}}
+    <div class="flexrow">
+        <label class="fas fa-wand-magic-sparkles flex0" data-tooltip="{{fields.resources.fields.mana.label}}"></label>
+        <div class="attribute-value flexrow">
+            {{formInput 
+                fields.resources.fields.mana.fields.value 
+                value=system.resources.mana.value 
+                localize=true 
+                type='number' 
+                dataset=(object tooltip=fields.resources.fields.mana.fields.value.label)
+            }}
+            <span class="sep flex0">/</span>
+            {{formInput 
+                fields.resources.fields.mana.fields.max 
+                value=system.resources.mana.max 
+                localize=true 
+                disabled=true 
+                dataset=(object tooltip=fields.resources.fields.mana.fields.max.label)
+            }}
+        </div>
+    </div>
+    {{/if}}
+    {{#if system.resources.faith.max}}
+    <div class="flexrow">
+        <label class="fas fa-hands-praying flex0" data-tooltip="{{fields.resources.fields.faith.label}}"></label>
+        <div class="attribute-value flexrow">
+            {{formInput 
+                fields.resources.fields.faith.fields.value 
+                value=system.resources.faith.value 
+                localize=true 
+                type='number' 
+                dataset=(object tooltip=fields.resources.fields.faith.fields.value.label)
+            }}
+            <span class="sep flex0">/</span>
+            {{formInput 
+                fields.resources.fields.faith.fields.max 
+                value=system.resources.faith.max 
+                localize=true 
+                disabled=true 
+                dataset=(object tooltip=fields.resources.fields.faith.fields.max.label)
+            }}
+        </div>
+    </div>
+    {{/if}}
+</div>
