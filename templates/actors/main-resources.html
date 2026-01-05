@@ -5,6 +5,7 @@
             {{formInput 
                 fields.resources.fields.hp.fields.value 
                 value=system.resources.hp.value 
+                max=system.resources.hp.max
                 localize=true 
                 type='number' 
                 dataset=(object tooltip=fields.resources.fields.hp.fields.value.label)
@@ -29,6 +30,7 @@
             {{formInput 
                 fields.resources.fields.mana.fields.value 
                 value=system.resources.mana.value 
+                max=system.resources.mana.max
                 localize=true 
                 type='number' 
                 dataset=(object tooltip=fields.resources.fields.mana.fields.value.label)
@@ -51,6 +53,7 @@
             {{formInput 
                 fields.resources.fields.faith.fields.value 
                 value=system.resources.faith.value 
+                max=system.resources.faith.max
                 localize=true 
                 type='number' 
                 dataset=(object tooltip=fields.resources.fields.faith.fields.value.label)

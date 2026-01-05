@@ -29,14 +29,7 @@ export class NonPlayerCharacterData extends CreatureData {
         };
     }
 
-    _prepareMainResources() {
-        //this.schema.fields.resources.fields.hp.fields.value.max = this.resources.hp.max ?? 0;
-        this.schema.fields.resources.fields.mana.fields.value.max = this.resources.mana.max ?? 0;
-        this.schema.fields.resources.fields.faith.fields.value.max = this.resources.faith.max ?? 0;
-    }
-
     prepareDerivedData() {
         super.prepareDerivedData?.();
-        this._prepareMainResources();
     }
 }

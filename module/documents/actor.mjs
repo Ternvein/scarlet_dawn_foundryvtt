@@ -53,7 +53,6 @@ export class SDActor extends Actor {
         const roll = await this._makeRoll(formula, null, null, null, "SD.roll.hp.max", (total) => null);
         const total = roll.total;
 
-        this.system.schema.fields.resources.fields.hp.fields.value.max = total;
         this.update({ system: { resources: { hp: { value: total, max: total } } } });
         return roll;
     }

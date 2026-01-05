@@ -33,14 +33,68 @@
         </div>
         <a class="attribute-check fas fa-dice-d8" data-action="roll" data-type="initiative" data-tooltip="{{localize 'SD.roll.initiative'}}"></a>
       </div>
-      <div class="saving-throws attribute-grid">
-        {{#each config.saving_throws.types}}
-        <label class="attribute-label">{{localize this.label}}</label>
+      <div class="splendor attribute-grid">
+        <label class="attribute-label">{{localize fields.splendor.label}}</label>
         <div class="attribute-value">
-          <input name="system.saving_throws.{{@key}}" type="number" value="{{lookup ../system.saving_throws @key}}" disabled />
+          {{formInput fields.splendor.fields.value
+            value=system.splendor.value
+            localize=true
+            dataset=(object tooltip=fields.splendor.fields.value.label)
+          }}
         </div>
-        <a class="attribute-check fas fa-dice-d20" data-action="roll" data-type="saving-throw" data-st="{{@key}}" data-tooltip="{{localize 'SD.roll.saving_throw' st=(localize this.label) target=(lookup ../system.saving_throws @key)}}"></a>
-        {{/each}}
+        <label class="attribute-label">{{localize 'SD.reroll.name'}}</label>
+        <div class="attribute-value flexrow">
+          {{formInput fields.splendor.fields.reroll_used
+            value=system.splendor.reroll_used
+            max=system.splendor.reroll_max
+            type='number'
+            localize=true
+            dataset=(object tooltip=fields.splendor.fields.reroll_used.label)
+          }}
+          <span class="sep flex0">/</span>
+          {{formInput fields.splendor.fields.reroll_max
+            value=system.splendor.reroll_max
+            localize=true
+            dataset=(object tooltip=fields.splendor.fields.reroll_max.label)
+            disabled=true
+          }}
+        </div>
+      </div>
+      <div class="survival attribute-grid">
+        <label class="attribute-label">{{localize fields.survival.fields.thirst.label}}</label>
+        <div class="attribute-value flexrow">
+          {{formInput fields.survival.fields.thirst.fields.current
+            value=system.survival.thirst.current
+            max=system.survival.thirst.max
+            type='number'
+            localize=true
+            dataset=(object tooltip=fields.survival.fields.thirst.fields.current.label)
+          }}
+          <span class="sep flex0">/</span>
+          {{formInput fields.survival.fields.thirst.fields.max
+            value=system.survival.thirst.max
+            localize=true
+            dataset=(object tooltip=fields.survival.fields.thirst.fields.max.label)
+            disabled=true
+          }}
+        </div>
+        <label class="attribute-label">{{localize fields.survival.fields.hunger.label}}</label>
+        <div class="attribute-value flexrow">
+          {{formInput fields.survival.fields.hunger.fields.current
+            value=system.survival.hunger.current
+            max=system.survival.hunger.max
+            type='number'
+            localize=true
+            dataset=(object tooltip=fields.survival.fields.hunger.fields.current.label)
+          }}
+          <span class="sep flex0">/</span>
+          {{formInput fields.survival.fields.hunger.fields.max
+            value=system.survival.hunger.max
+            localize=true
+            dataset=(object tooltip=fields.survival.fields.hunger.fields.max.label)
+            disabled=true
+          }}
+        </div>
       </div>
     </div>
     {{!--
@@ -69,31 +123,14 @@
         <i class="fas fa-shield" data-tooltip="{{localize 'SD.ac.full'}}">{{system.ac.total}}</i>
         <div class="filler"></div>
       </div>
-      <div class="splendor attribute-grid">
-        <label class="attribute-label">{{localize 'SD.splendor.name'}}</label>
+      <div class="saving-throws attribute-grid">
+        {{#each config.saving_throws.types}}
+        <label class="attribute-label">{{localize this.label}}</label>
         <div class="attribute-value">
-          {{formInput fields.splendor.fields.value localize=true dataset=(object tooltip="SD.splendor.name")}}
+          <input name="system.saving_throws.{{@key}}" type="number" value="{{lookup ../system.saving_throws @key}}" disabled />
         </div>
-        <label class="attribute-label">{{localize 'SD.reroll.name'}}</label>
-        <div class="attribute-value flexrow">
-          {{formInput fields.splendor.fields.reroll_used localize=true dataset=(object tooltip="SD.reroll.used")}}
-          <span class="sep flex0">/</span>
-          <input name="system.splendor.reroll_max" type="number" value="{{system.splendor.reroll_max}}" data-tooltip="{{localize 'SD.reroll.max'}}" disabled />
-        </div>
-      </div>
-      <div class="survival attribute-grid">
-        <label class="attribute-label">{{localize 'SD.survival.thirst.name'}}</label>
-        <div class="attribute-value flexrow">
-          {{formInput fields.survival.fields.thirst.fields.current dataset=(object tooltip=(localize 'SD.survival.thirst.current'))}}
-          <span class="sep flex0">/</span>
-          <input name="system.survival.thirst.max" type="number" value="{{system.survival.thirst.max}}" data-tooltip="{{localize 'SD.survival.thirst.max'}}" disabled />
-        </div>
-        <label class="attribute-label">{{localize 'SD.survival.hunger.name'}}</label>
-        <div class="attribute-value flexrow">
-          {{formInput fields.survival.fields.hunger.fields.current dataset=(object tooltip=(localize 'SD.survival.hunger.current'))}}
-          <span class="sep flex0">/</span>
-          <input name="system.survival.hunger.max" type="number" value="{{system.survival.hunger.max}}" data-tooltip="{{localize 'SD.survival.hunger.max'}}" disabled />
-        </div>
+        <a class="attribute-check fas fa-dice-d20" data-action="roll" data-type="saving-throw" data-st="{{@key}}" data-tooltip="{{localize 'SD.roll.saving_throw' st=(localize this.label) target=(lookup ../system.saving_throws @key)}}"></a>
+        {{/each}}
       </div>
     </div>
   </div>

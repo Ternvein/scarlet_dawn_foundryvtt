@@ -35,18 +35,21 @@ export class PlayerCharacterData extends CreatureData {
         const numberConfig = { required: true, min: 0, step: 1, initial: 0 };
         return {
             value: new NumberField({ ...numberConfig, label: "SD.splendor.name" }),
-            reroll_used: new NumberField({ ...numberConfig, label: "SD.reroll.used", tooltip: "SD.reroll.used" }),
+            reroll_used: new NumberField({ ...numberConfig, label: "SD.reroll.used" }),
+            reroll_max: new NumberField({ ...numberConfig, label: "SD.reroll.max" }),
         };
     }
 
     static _survivalSchema() {
-        const numberConfig = { required: true, min: 0, step: 1, initial: 0 };
+        const numberConfig = { required: true, min: 0, step: 1 };
         return {
             thirst: new SchemaField({
-                current: new NumberField({ ...numberConfig, label: "SD.survival.thirst.current" }),
+                current: new NumberField({ ...numberConfig, initial: 0, label: "SD.survival.thirst.current" }),
+                max: new NumberField({ ...numberConfig, initial: CONFIG.SD.survival.thirst.max, label: "SD.survival.thirst.max" }),
             }, { label: "SD.survival.thirst.name" }),
             hunger: new SchemaField({
-                current: new NumberField({ ...numberConfig, label: "SD.survival.hunger.current" }),
+                current: new NumberField({ ...numberConfig, initial: 0, label: "SD.survival.hunger.current" }),
+                max: new NumberField({ ...numberConfig, initial: CONFIG.SD.survival.hunger.max, label: "SD.survival.hunger.max" }),
             }, { label: "SD.survival.hunger.name" }),
         };
     }
@@ -101,10 +104,6 @@ export class PlayerCharacterData extends CreatureData {
         this.resources.mana.max = manaAbilities ? Math.max(1, 1 + this.progress.level + this.bestAbilityMod(manaAbilities)) : 0;
         const faithAbilities = this._class.faith?.abilities;
         this.resources.faith.max = faithAbilities ? Math.max(1, 1 + this.progress.level + this.bestAbilityMod(faithAbilities)) : 0;
-
-        this.schema.fields.resources.fields.hp.fields.value.max = this.resources.hp.max ?? 0;
-        this.schema.fields.resources.fields.mana.fields.value.max = this.resources.mana.max ?? 0;
-        this.schema.fields.resources.fields.faith.fields.value.max = this.resources.faith.max ?? 0;
     }
 
     _prepareAc() {
@@ -128,16 +127,16 @@ export class PlayerCharacterData extends CreatureData {
     _prepareInventory() {
         const prepared_max = Math.floor(this.abilities.str / 2);
         const packed_max = this.abilities.str;
-        this.schema.fields.inventory.fields.prepared.max = prepared_max;
-        this.schema.fields.inventory.fields.packed.max = packed_max;
 
         let { prepared, packed } = Object.groupBy(this.parent.items, item => item.system.is_prepared ? "prepared" : "packed");
         prepared ??= [];
         packed ??= [];
 
-        this.schema.fields.equipment.fields.weapon.choices = PlayerCharacterData._itemsWithType(prepared, "weapon");
-        this.schema.fields.equipment.fields.armor.choices = PlayerCharacterData._itemsWithType(prepared, "armor");
-        this.schema.fields.equipment.fields.shield.choices = PlayerCharacterData._itemsWithType(prepared, "shield");
+        this.inventory.equippable = {
+            weapon: PlayerCharacterData._itemsWithType(prepared, "weapon"),
+            armor: PlayerCharacterData._itemsWithType(prepared, "armor"),
+            shield: PlayerCharacterData._itemsWithType(prepared, "shield"),
+        };
 
         this.inventory.prepared.items = prepared;
         this.inventory.prepared.weight = prepared.reduce((weight, item) => (weight + item.weight), 0);
@@ -185,8 +184,6 @@ export class PlayerCharacterData extends CreatureData {
         this.splendor.reroll_max = CONFIG.SD.splendorToMaxRerolls(this.splendor.value);
         this.initiative = this.abilities_mod[CONFIG.SD.initiative.ability];
         this._prepareAc();
-        this.survival.thirst.max = CONFIG.SD.survival.thirst.max;
-        this.survival.hunger.max = CONFIG.SD.survival.hunger.max;
         this._prepareInventory();
     }
 }

@@ -3,16 +3,25 @@
     <div class="slot flexrow" data-equipment-slot="weapon">
       <a class="roll fas fa-dice-d20 flex0" data-action="roll" data-type="weapon" data-tooltip="{{localize 'SD.roll.weapon.name'}}"></a>
       <div>
-        {{formInput fields.equipment.fields.weapon value=system.equipment.weapon}}
+        <select name="system.equipment.weapon">
+          {{selectOptions system.inventory.equippable.weapon selected=system.equipment.weapon localize=true}}
+        </select>
+        {{!--{{formInput fields.equipment.fields.weapon value=system.equipment.weapon disabled=true}}--}}
         <label>{{localize fields.equipment.fields.weapon.label}}</label>
       </div>
     </div>
     <div class="slot" data-equipment-slot="armor">
-      {{formInput fields.equipment.fields.armor value=system.equipment.armor}}
+      <select name="system.equipment.armor">
+        {{selectOptions system.inventory.equippable.armor selected=system.equipment.armor localize=true}}
+      </select>
+      {{!--{{formInput fields.equipment.fields.armor value=system.equipment.armor disabled=true}}--}}
       <label>{{localize fields.equipment.fields.armor.label}}</label>
     </div>
     <div class="slot" data-equipment-slot="shield">
-      {{formInput fields.equipment.fields.shield value=system.equipment.shield}}
+      <select name="system.equipment.shield">
+        {{selectOptions system.inventory.equippable.shield selected=system.equipment.shield localize=true}}
+      </select>
+      {{!--{{formInput fields.equipment.fields.shield value=system.equipment.shield disabled=true}}--}}
       <label>{{localize fields.equipment.fields.shield.label}}</label>
     </div>
   </div>
