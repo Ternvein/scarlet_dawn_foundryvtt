@@ -69,6 +69,14 @@ export class PlayerCharacterData extends CreatureData {
         };
     }
 
+    static _traitsSchema() {
+        return new SchemaField({
+            points: new NumberField({ required: true, integer: true, positive: true, initial: 1, label: "SD.trait.points" }),
+            common: new ArrayField(new DocumentUUIDField(), { label: "SD.trait.types.common.list" }),
+            special: new ArrayField(new DocumentUUIDField(), { label: "SD.trait.types.special.list" }),
+        }, { label: "SD.trait.list" });
+    }
+
     static defineSchema() {
         return {
             ...super.defineSchema(),
@@ -81,11 +89,16 @@ export class PlayerCharacterData extends CreatureData {
             survival: new SchemaField(PlayerCharacterData._survivalSchema(), { label: "SD.survival.name" }),
             inventory: new SchemaField(PlayerCharacterData._inventorySchema(), { label: "SD.inventory.name" }),
             equipment: new SchemaField(PlayerCharacterData._equipmentSchema(), { label: "SD.equipment.name" }),
+            traits: PlayerCharacterData._traitsSchema(),
         };
     }
 
     get _is_new() {
         return Object.entries(this.abilities).reduce((sum, [k, v]) => sum + v, 0) === 0;
+    }
+
+    get _race() {
+        return CONFIG.SD.races[this.race];
     }
 
     get _class() {
@@ -128,7 +141,7 @@ export class PlayerCharacterData extends CreatureData {
         const prepared_max = Math.floor(this.abilities.str / 2);
         const packed_max = this.abilities.str;
 
-        let { prepared, packed } = Object.groupBy(this.parent.items, item => item.system.is_prepared ? "prepared" : "packed");
+        let { prepared, packed } = Object.groupBy(this.parent.items.filter(item => item.system.is_item), item => item.system.is_prepared ? "prepared" : "packed");
         prepared ??= [];
         packed ??= [];
 
@@ -159,6 +172,18 @@ export class PlayerCharacterData extends CreatureData {
         this.inventory.packed.max = this.inventory.packed.encumbrance.heavy;
     }
 
+    _prepareTraits() {
+        const traits = this.parent?.itemTypes["trait"];
+        let { common, special } = Object.groupBy(traits, trait => trait.system.type);
+        special?.forEach(trait => trait.traitAutoLevel());
+        this.traits.common = common;
+        this.traits.special = special;
+
+        const common_levels = common?.reduce((total, trait) => total + trait.system.level, 0) ?? 0;
+        const points = (this.progress.level * (this._class.traits.points_per_level ?? 1)) + this._race.traits.points + this._class.traits.points - common_levels;
+        this.traits.points = points;
+    }
+
     prepareDerivedData() {
         super.prepareDerivedData?.();
 
@@ -185,5 +210,6 @@ export class PlayerCharacterData extends CreatureData {
         this.initiative = this.abilities_mod[CONFIG.SD.initiative.ability];
         this._prepareAc();
         this._prepareInventory();
+        this._prepareTraits();
     }
 }

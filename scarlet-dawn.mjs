@@ -7,11 +7,13 @@ import { NonPlayerCharacterData } from "./module/data/npc.mjs";
 import { WeaponData } from "./module/data/weapon.mjs";
 import { ArmorData } from "./module/data/armor.mjs";
 import { ShieldData } from "./module/data/shield.mjs";
+import { TraitData } from "./module/data/trait.mjs";
 import { CharacterSheet } from "./module/sheets/character-sheet.mjs";
 import { NPCSheet } from "./module/sheets/npc-sheet.mjs";
 import { WeaponSheet } from "./module/sheets/weapon-sheet.mjs";
 import { ArmorSheet } from "./module/sheets/armor-sheet.mjs";
 import { ShieldSheet } from "./module/sheets/shield-sheet.mjs";
+import { TraitSheet } from "./module/sheets/trait-sheet.mjs";
 import { registerHelpers as handlebarsHelpers } from "./module/helpers/handlebars.mjs";
 import { preloadTemplates } from "./module/helpers/templates.mjs";
 
@@ -37,6 +39,7 @@ Hooks.once("init", async () => {
         weapon: WeaponData,
         armor: ArmorData,
         shield: ShieldData,
+        trait: TraitData,
     };
 
     console.log(CONFIG.Dice);
@@ -70,6 +73,11 @@ Hooks.once("init", async () => {
         types: ["shield"],
         makeDefault: true,
         label: "SD.sheet.item.shield.name",
+    });
+    Items.registerSheet(game.system.id, TraitSheet, {
+        types: ["trait"],
+        makeDefault: true,
+        label: "SD.sheet.trait.name",
     });
 
     handlebarsHelpers();

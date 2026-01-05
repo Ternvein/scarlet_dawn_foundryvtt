@@ -1,0 +1,41 @@
+<section class="header-details flexrow">
+  {{log .}}
+  <img class="profile-img" src="{{trait.img}}" data-action="editImage" data-edit="img" data-tooltip="{{trait.name}}" alt="{{trait.name}}" height="150" width="150"/>
+  <div class="summary">
+    <h1 class="trait-name">
+      {{formInput trait.schema.fields.name value=trait.name placeholder=(localize 'SD.details.item_name') localize=true}}
+    </h1>
+    <div class="flexrow">
+      <div>
+        {{formInput fields.type value=system.type localize=true}}
+        <label>{{localize fields.type.label}}</label>
+      </div>
+      <div>
+        {{formInput fields.level value=system.level localize=true disabled=system.auto_level.is_enabled}}
+        <label>{{localize fields.level.label}}</label>
+      </div>
+    </div>
+    <div class="flexrow">
+      <div class="flexrow">
+        <p>{{localize fields.auto_level.label}}</p>
+        <div>
+          {{formInput fields.auto_level.fields.base value=system.auto_level.base localize=true disabled=(not system.auto_level.is_enabled)}}
+          <label>{{localize fields.auto_level.fields.base.label}}</label>
+        </div>
+      </div>
+      <div class="flexrow">
+        <div>
+          {{formInput fields.auto_level.fields.rate.fields.level value=system.auto_level.rate.level localize=true disabled=(not system.auto_level.is_enabled)}}
+          <label>{{localize fields.auto_level.fields.rate.fields.level.label}}</label>
+        </div>
+        <div>
+          {{formInput fields.auto_level.fields.rate.fields.remainder value=system.auto_level.rate.remainder localize=true disabled=(not system.auto_level.is_enabled)}}
+          <label>{{localize fields.auto_level.fields.rate.fields.remainder.label}}</label>
+        </div>
+        <div class="flex0">
+          {{formInput fields.auto_level.fields.is_enabled value=system.auto_level.is_enabled localize=true dataset=(object tooltip=fields.auto_level.fields.is_enabled.label)}}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

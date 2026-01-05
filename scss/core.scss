@@ -1,5 +1,15 @@
 @use "variables";
 
+@mixin labeled-input {
+  div {
+    label {
+      margin: 0 0 2px 8px;
+      font-size: 0.7em;
+      display: block;
+    }
+  }
+}
+
 .sd .window-content {
   // Utils
   .collapsed {

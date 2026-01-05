@@ -150,6 +150,10 @@ export class SDActor extends Actor {
         return this.getEmbeddedDocument("Item", this.system.equipment.shield);
     }
 
+    async itemCreate(data) {
+        return await Item.implementation.create(data, { parent: this });
+    }
+
     itemSheet(id) {
         this.getEmbeddedDocument("Item", id)?.sheet.render(true);
     }

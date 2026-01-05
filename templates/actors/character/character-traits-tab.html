@@ -1,0 +1,53 @@
+<section class="tab traits flexcol {{tab.cssClass}}" data-group="primary" data-tab="traits">
+  <div class="trait-points">
+    {{formInput fields.traits.fields.points value=system.traits.points localize=true disabled=true}}
+    <label>{{localize fields.traits.fields.points.label}}</label>
+  </div>
+  <div class="trait-columns flexrow">
+    <div class="flexcol">
+      <div class="trait-header trait-common flexrow">
+        <a class="flex0 fas fa-plus-large" data-action="trait" data-type="add" data-tooltip="{{localize 'SD.add'}}" {{#if (not system.traits.points)}}disabled{{/if}}></a>
+        <h4>{{localize fields.traits.fields.common.label}}</h4>
+      </div>
+    </div>
+    <div class="flexcol">
+      <div class="trait-header trait-special flexrow">
+        <h4>{{localize fields.traits.fields.special.label}}</h4>
+      </div>
+    </div>
+  </div>
+  <div class="trait-columns flexrow">
+    <div class="flexcol">
+      <div class="trait-list trait-common">
+        {{#each system.traits.common as |trait|}}
+        <a class="flex0 fas fa-scroll" data-action="trait" data-type="sheet" data-trait-id="{{trait.id}}" data-tooltip="{{localize 'Sheet'}}"></a>
+        <div class="trait-name">
+          <p>{{trait.name}}</p>
+          <label>{{localize trait.schema.fields.name.label}}</label>
+        </div>
+        <div class="trait-level">
+          <p>{{trait.system.level}}</p>
+          <label>{{localize trait.system.schema.fields.level.label}}</label>
+        </div>
+        <a class="flex0 fas fa-xmark-large" data-action="trait" data-type="delete" data-trait-id="{{trait.id}}" data-tooltip="{{localize 'Delete'}}"></a>
+        {{/each}}
+      </div>
+    </div>
+    <div class="flexcol">
+      <div class="trait-list trait-special">
+        {{#each system.traits.special as |trait|}}
+        <a class="flex0 fas fa-scroll" data-action="trait" data-type="sheet" data-trait-id="{{trait.id}}" data-tooltip="{{localize 'Sheet'}}"></a>
+        <div class="trait-name">
+          <p>{{trait.name}}</p>
+          <label>{{localize trait.schema.fields.name.label}}</label>
+        </div>
+        <div class="trait-level">
+          <p>{{trait.system.level}}</p>
+          <label>{{localize trait.system.schema.fields.level.label}}</label>
+        </div>
+        <a class="flex0 fas fa-xmark-large" data-action="trait" data-type="delete" data-trait-id="{{trait.id}}" data-tooltip="{{localize 'Delete'}}"></a>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+</section>

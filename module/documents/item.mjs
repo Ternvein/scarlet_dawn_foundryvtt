@@ -69,4 +69,15 @@ export class SDItem extends Item {
 
         return [attackRoll, damageRoll];
     }
+
+    traitAutoLevel() {
+        if (!this.system.auto_level?.is_enabled) {
+            return;
+        }
+
+        const level = Math.floor(Math.max(0, (this.parent?.system.progress.level - this.system.auto_level.rate.remainder)) / this.system.auto_level.rate.level + this.system.auto_level.base);
+        if (level && level !== this.system.level) {
+            this.update({ system: { level } });
+        }
+    }
 }
