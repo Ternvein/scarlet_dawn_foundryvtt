@@ -40,6 +40,9 @@
         "Actor": {
             "character": {
                 "htmlFields": ["description.biography.full", "description.biography.public"]
+            },
+            "npc": {
+                "htmlFields": ["description"]
             }
         },
         "Item": {

@@ -29,8 +29,8 @@ export class SDActor extends Actor {
         let data = {
             system: this,
             speaker: ChatMessage.getSpeaker({ actor: this }),
-            title: "SD.roll.character",
-            flavor: game.i18n.localize("SD.roll.character"),
+            title: "SD.roll.abilities",
+            flavor: game.i18n.localize("SD.roll.abilities"),
             rolls: [],
         };
         for (const [k, v] of Object.entries(rolls)) {
@@ -46,12 +46,13 @@ export class SDActor extends Actor {
     }
 
     async rollMaxHp() {
-        const formula = this.system._class?.hd;
+        const formula = this.system._class?.hd ?? `${this.system.hd}d8`;
         if (!formula) {
             return null;
         }
-        const roll = await this._makeRoll(formula, null, null, null, "SD.roll.character_hp", (total) => null);
+        const roll = await this._makeRoll(formula, null, null, null, "SD.roll.hp.max", (total) => null);
         const total = roll.total;
+
         this.update({ system: { resources: { hp: { value: total, max: total } } } });
         return roll;
     }
@@ -85,10 +86,56 @@ export class SDActor extends Actor {
         return result;
     }
 
+    async rollNpcAttack(idx, target = null) {
+        const attack = this.system.attacks?.[idx];
+        if (!attack) {
+            return null;
+        }
+
+        const flavor = game.i18n.format("SD.roll.npc.attack.title", { attack: attack.name });
+        const attackFlavor = game.i18n.localize("SD.roll.npc.attack.attack");
+        const damageFlavor = game.i18n.localize("SD.roll.npc.attack.damage");
+
+        const attackRoll = await new SDRoll("1d20 + @attack.attack", { ...this.getRollData(), attack: attack }, { flavor: attackFlavor, target }).roll();
+        const damageRoll = await new SDRoll("@attack.damage", { ...this.getRollData(), attack: attack }, { flavor: damageFlavor }).roll();
+        if (target) {
+            attackRoll.options.is_success = attackRoll.total >= target;
+        }
+
+        let data = {
+            system: this,
+            speaker: ChatMessage.getSpeaker({ actor: this }),
+            title: flavor,
+            flavor,
+            rolls: [],
+        };
+        data = await attackRoll.toMessage(data, { create: false });
+        const damageData = await damageRoll.toMessage(data, { create: false });
+        data.rolls = data.rolls.concat(damageData.rolls);
+        ChatMessage.create(data);
+
+        return [attackRoll, damageRoll];
+    }
+
     async rollInitiativeCheck() {
         const flavor = game.i18n.localize("SD.roll.initiative");
         const result = await this._makeRoll("1d8 + @initiative", null, { mode: "initiative" }, flavor, null, (total) => null);
         return result;
+    }
+
+    async npcAttackTrash(idx) {
+        let attacks = this.system.attacks;
+        if (attacks !== undefined && attacks.splice(idx, 1).length != 0) {
+            this.update({ system: { attacks } });
+        }
+    }
+
+    async npcAttackAdd() {
+        const attacks = this.system.attacks;
+        if (attacks !== undefined) {
+            attacks.push(attacks.element);
+            this.update({ system: { attacks } });
+        }
     }
 
     get weapon() {

@@ -1,14 +1,18 @@
 @use "variables";
 
 .sd.sheet.actor {
+  --font-main-resources-size: var(--font-h4-size);
+  --font-attribute-size: var(--font-h4-size);
+
   .header-details {
     gap: 0 1ch;
+    flex-wrap: nowrap;
   }
   .charname input {
-    height: auto;
+    height: 1.2em;
   }
   .summary {
-    flex: 1 0 auto;
+    flex: 1 1 auto;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -28,9 +32,49 @@
       }
     }
   }
+  .main-resources {
+    align-items: baseline;
+    justify-items: stretch;
+    gap: 4ch;
+    font-size: var(--font-main-resources-size);
+    .attribute-check {
+      padding: 0 0.5rem;
+    }
+    label, input {
+      text-align: center;
+    }
+  }
+  .attribute-grid {
+    display: grid;
+    align-items: baseline;
+    justify-items: center;
+    gap: 0 1rch;
+  }
+  .attribute-value {
+    font-size: var(--font-attribute-size);
+    padding: 0.2rem;
+    min-height: 2.5rem;
+
+    input {
+      text-align: center;
+      min-width: calc(2ch + 1rem);
+    }
+
+    &.flexrow {
+      flex-wrap: nowrap;
+    }
+  }
+  .attribute-check {
+    font-size: var(--font-attribute-size);
+    padding: 0.2rem;
+    text-align: center;
+    margin: 0;
+    justify-self: center;
+  }
+  .attribute-columns {
+    gap: 2ch;
+  }
   .tab.attributes {
-    --font-main-resources-size: var(--font-h4-size);
-    --font-ability-size: var(--font-h4-size);
     --font-saving-throw-size: inherit;
 
     list-style: none;
@@ -38,62 +82,12 @@
     padding: 0;
     justify-content: space-evenly;
     align-items: stretch;
-    .character-roll {
+    .roll-abilities {
       font-size: 10rem;
       text-align: center;
     }
-    .attribute-group {
-      align-items: stretch;
-      gap: 0.5rem;
-    }
-    .attribute-grid {
-      display: grid;
-      align-items: baseline;
-      justify-items: center;
-      gap: 0 1rch;
-    }
-    .attribute-value {
-      input {
-        text-align: center;
-        height: calc(1em + 0.5rem);
-        line-height: calc(1em + 0.5rem);
-      }
-      padding: 0.2rem;
-    }
-    .attribute-check {
-      padding: 0.2rem;
-      text-align: center;
-      margin: 0;
-      justify-self: center;
-    }
-    .main-resources {
-      align-items: baseline;
-      justify-items: stretch;
-      gap: 4ch;
-      font-size: var(--font-main-resources-size);
-      .attribute-check {
-        padding: 0 0.5rem;
-      }
-      label, input {
-        text-align: center;
-      }
-    }
-    .attribute-columns {
-      align-items: flex-start;
-      gap: 2ch;
-    }
     .abilities {
       grid: 1fr / 2fr 2fr 1fr 1fr;
-      line-height: 2.5rem;
-      .attribute-value {
-        font-size: var(--font-ability-size);
-        input {
-          min-width: calc(2ch + 1rem);
-        }
-      }
-      .ability-score {
-        line-height: 2.5em;
-      }
       .ability-name {
         padding: 0.1em;
         margin: 0;
@@ -101,41 +95,27 @@
       }
       .ability-mod {
         text-align: center;
-        font-size: var(--font-ability-size);
+        font-size: var(--font-attribute-size);
         min-width: 2ch;
         padding: 0;
         border: none;
       }
-      .attribute-check {
-        font-size: var(--font-ability-size);
-        min-width: calc(2ch + 1rem);
-      }
     }
     .saving-throws {
       grid: 1fr / 2fr 1fr 1fr;
-      line-height: 2.5rem;
       .attribute-label {
         font-size: var(--font-saving-throw-size);
       }
       .attribute-value {
-        font-size: var(--font-saving-throw-size);
         input {
           min-width: calc(2ch + 1rem);
         }
       }
-      .attribute-check {
-        font-size: var(--font-saving-throw-size);
-        min-width: calc(2ch + 1rem);
-      }
     }
     .splendor {
       grid: 1fr / 1fr 1fr;
-      line-height: 2.5rem;
       input {
         min-width: calc(2ch + 1rem);
-      }
-      .sep {
-        font-size: 1.5em;
       }
       .attribute-value {
         flex-wrap: nowrap;
@@ -144,7 +124,7 @@
     .armor-class {
       display: grid;
       grid: 1fr / 1fr 1fr 1fr;
-      padding-bottom: 0.8rem;
+
       .fa-shield {
         font-size: 2.5rem;
         text-align: center;
@@ -164,19 +144,12 @@
     }
     .attack-bonus {
       grid: 1fr / 2fr 1fr 1fr;
-      line-height: 2.5rem;
     }
     .initiative {
       grid: 1fr / 2fr 1fr 1fr;
-      line-height: 2.5rem;
-      //padding-bottom: 2.5rem;
     }
     .survival {
       grid: 1fr / 1fr 1fr;
-      line-height: 2.5rem;
-      .sep {
-        font-size: 1.5em;
-      }
     }
     .filler {
       flex: 1 0 auto;
@@ -223,8 +196,45 @@
           border-bottom: solid 1px;
           border-radius: 0;
           height: calc(1em + 0.5rem);
-          line-height: calc(1em + 0.5rem);
         }
+      }
+    }
+  }
+
+  .npc-attributes {
+    gap: 1rem;
+
+    .attacks {
+      align-items: center;
+    }
+
+    .table-header {
+      width: 100%;
+
+      h4 {
+        text-align: center;
+      }
+
+      a {
+        margin-bottom: 1rem;
+        font-size: var(--font-h4-size);
+      }
+    }
+
+    .attacks-list {
+      display: grid;
+      grid: 1fr / 1fr 8fr 4fr 4fr 1fr;
+      align-items: center;
+
+      & > :nth-child(5n), & > :nth-child(5n+1) {
+        justify-self: center;
+        font-size: 1.5em;
+      }
+
+      label {
+        margin: 0 0 2px 8px;
+        font-size: 0.7em;
+        display: block;
       }
     }
   }

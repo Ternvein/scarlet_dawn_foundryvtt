@@ -289,26 +289,35 @@ export const SD = {
     },
 
     saving_throws: {
-        fortitude: {
-            label: "SD.st.fortitude",
-            abilities: ["str", "con"],
-            armor_penalty: true,
+        base: 15,
+        types: {
+            fortitude: {
+                label: "SD.st.fortitude",
+                abilities: ["str", "con"],
+                armor_penalty: true,
+            },
+            reflex: {
+                label: "SD.st.reflex",
+                abilities: ["dex", "int"],
+                armor_penalty: true,
+            },
+            will: {
+                label: "SD.st.will",
+                abilities: ["wis", "cha"],
+                armor_penalty: true,
+            },
+            luck: {
+                label: "SD.st.luck",
+                abilities: [],
+                armor_penalty: false,
+            },
         },
-        reflex: {
-            label: "SD.st.reflex",
-            abilities: ["dex", "int"],
-            armor_penalty: true,
-        },
-        will: {
-            label: "SD.st.will",
-            abilities: ["wis", "cha"],
-            armor_penalty: true,
-        },
-        luck: {
-            label: "SD.st.luck",
-            abilities: [],
-            armor_penalty: false,
-        },
+    },
+
+    morale: {
+        min: 2,
+        max: 12,
+        base: 8,
     },
 
     splendor: {
