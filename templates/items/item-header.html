@@ -3,13 +3,7 @@
   <img class="profile-img" src="{{item.img}}" data-action="editImage" data-edit="img" data-tooltip="{{item.name}}" alt="{{item.name}}" height="150" width="150"/>
   <div class="summary">
     <h1 class="item-name">
-      <input
-        name="name"
-        type="text"
-        value="{{item.name}}"
-        placeholder="{{localize 'SD.details.item_name'}}"
-        data-dtype="String"
-      />
+      {{formInput item.schema.fields.name value=item.name placeholder=(localize 'SD.details.item_name') localize=true}}
     </h1>
     <div class="flexrow">
       <div>

@@ -3,20 +3,20 @@ import SD from "../config.mjs";
 const { ItemSheetV2 } = foundry.applications.sheets;
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 
-export class ItemSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
+export class TraitSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
     static DEFAULT_OPTIONS = {
-        classes: ["sd", "sheet", "item"],
+        classes: ["sd", "sheet", "trait"],
         position: {
             width: 650,
         },
         tag: "form",
         window: {
-            icon: "fas fa-gear", // You can now add an icon to the header
-            title: "SD.sheet.item.title",
+            icon: "fas fa-award",
+            title: "SD.sheet.trait.title",
             contentClasses: ["standard-form"],
         },
         form: {
-            handler: ItemSheet.#submit,
+            handler: TraitSheet.#submit,
             submitOnChange: true,
             closeOnSubmit: false
         }
@@ -24,7 +24,10 @@ export class ItemSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
 
     static PARTS = {
         header: {
-            template: `${SD.templatesPath}/items/item-header.html`,
+            template: `${SD.templatesPath}/traits/trait-header.html`,
+        },
+        armor: {
+            template: `${SD.templatesPath}/traits/trait-attributes.html`,
         },
     };
 
@@ -32,7 +35,7 @@ export class ItemSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
         console.log(this);
         const context = {
             ...await super._prepareContext(options),
-            item: this.item,
+            trait: this.item,
             fields: this.item.system.schema.fields,
             system: this.item.system,
             config: CONFIG.SD,

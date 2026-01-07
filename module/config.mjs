@@ -45,10 +45,52 @@ export const SD = {
     },
 
     races: {
-        human: {},
-        dwarf: {},
-        halfling: {},
-        elf: {}
+        human: {
+            traits: {
+                points: 2,
+                special: [],
+            }
+        },
+        dwarf: {
+            traits: {
+                points: 1,
+                special: [
+                    {
+                        name: "SD.trait.types.special.race.dwarf",
+                    },
+                ],
+            }
+        },
+        halfling: {
+            traits: {
+                points: 1,
+                special: [
+                    {
+                        name: "SD.trait.types.special.race.halfling",
+                    },
+                ],
+            }
+        },
+        elf: {
+            traits: {
+                points: 1,
+                special: [
+                    {
+                        name: "SD.trait.types.special.race.elf",
+                    },
+                ],
+            }
+        },
+        gnome: {
+            traits: {
+                points: 1,
+                special: [
+                    {
+                        name: "SD.trait.types.special.race.gnome",
+                    },
+                ],
+            }
+        },
     },
 
     alignment: {
@@ -74,6 +116,10 @@ export const SD = {
             damage: {
                 bonus: 2,
             },
+            traits: {
+                points: 1,
+                special: [],
+            },
         },
         thief: {
             hd: "1d6",
@@ -83,6 +129,16 @@ export const SD = {
             },
             damage: {
                 bonus: 0,
+            },
+            traits: {
+                points: 0,
+                points_per_level: 2,
+                special: [
+                    {
+                        name: "SD.trait.types.special.class.thief",
+                        level: 2,
+                    },
+                ],
             },
         },
         cleric: {
@@ -97,6 +153,15 @@ export const SD = {
             damage: {
                 bonus: 0,
             },
+            traits: {
+                points: 0,
+                special: [
+                    {
+                        name: "SD.trait.types.special.class.cleric",
+                        level: 1,
+                    },
+                ],
+            },
         },
         mage: {
             hd: "1d6",
@@ -110,6 +175,15 @@ export const SD = {
             damage: {
                 bonus: 0,
             },
+            traits: {
+                points: 0,
+                special: [
+                    {
+                        name: "SD.trait.types.special.class.mage",
+                        level: 1,
+                    },
+                ],
+            },
         },
         descendant: {
             hd: "1d6",
@@ -119,6 +193,10 @@ export const SD = {
             },
             damage: {
                 bonus: 0,
+            },
+            traits: {
+                points: 1,
+                special: [],
             },
         },
         devoted: {
@@ -130,6 +208,10 @@ export const SD = {
             damage: {
                 bonus: 0,
             },
+            traits: {
+                points: 1,
+                special: [],
+            },
         },
         assassin: {
             hd: "1d6",
@@ -139,6 +221,16 @@ export const SD = {
             },
             damage: {
                 bonus: 0,
+            },
+            traits: {
+                points: 1,
+                points_per_level: 2,
+                special: [
+                    {
+                        name: "SD.trait.types.special.class.assassin",
+                        level: 1,
+                    },
+                ],
             },
         },
         gray_cleric: {
@@ -150,6 +242,15 @@ export const SD = {
             damage: {
                 bonus: 0,
             },
+            traits: {
+                points: 0,
+                special: [
+                    {
+                        name: "SD.trait.types.special.class.cleric",
+                        level: 1,
+                    },
+                ],
+            },
         },
         druid: {
             hd: "1d6",
@@ -159,6 +260,15 @@ export const SD = {
             },
             damage: {
                 bonus: 0,
+            },
+            traits: {
+                points: 0,
+                special: [
+                    {
+                        name: "SD.trait.types.special.class.druid",
+                        level: 1,
+                    },
+                ],
             },
         },
         gray_mage: {
@@ -170,6 +280,15 @@ export const SD = {
             damage: {
                 bonus: 0,
             },
+            traits: {
+                points: 0,
+                special: [
+                    {
+                        name: "SD.trait.types.special.class.gray_mage",
+                        level: 1,
+                    },
+                ],
+            },
         },
         illusionist: {
             hd: "1d4",
@@ -179,6 +298,15 @@ export const SD = {
             },
             damage: {
                 bonus: 0,
+            },
+            traits: {
+                points: 0,
+                special: [
+                    {
+                        name: "SD.trait.types.special.class.illusionist",
+                        level: 1,
+                    },
+                ],
             },
         },
         paladin: {
@@ -190,6 +318,10 @@ export const SD = {
             damage: {
                 bonus: 2,
             },
+            traits: {
+                points: 1,
+                special: [],
+            },
         },
         ranger: {
             hd: "1d6+4",
@@ -199,6 +331,15 @@ export const SD = {
             },
             damage: {
                 bonus: 0,
+            },
+            traits: {
+                points: 1,
+                special: [
+                    {
+                        name: "SD.trait.types.special.class.ranger",
+                        level: 2,
+                    },
+                ],
             },
         },
     },
@@ -314,6 +455,20 @@ export const SD = {
         },
     },
 
+    trait: {
+        default: "common",
+        types: {
+            common: {
+                label: "SD.trait.types.common",
+                level_max: 5,
+            },
+            special: {
+                label: "SD.trait.types.special",
+                level_max: 5,
+            },
+        },
+    },
+
     morale: {
         min: 2,
         max: 12,
@@ -370,6 +525,8 @@ export const SD = {
             shield: "icons/svg/shield.svg",
             coin: "icons/svg/coins.svg",
             other: "icons/svg/item-bag.svg",
+
+            trait: "icons/svg/aura.svg",
         },
     },
 

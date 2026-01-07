@@ -22,6 +22,7 @@ export class ItemData extends foundry.abstract.TypeDataModel {
 
     prepareDerivedData() {
         super.prepareDerivedData?.();
+        this.is_item = true;
         if (!this.weight.has_standard) {
             this.weight.is_standard = false;
         }

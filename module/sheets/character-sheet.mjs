@@ -9,6 +9,7 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
         actions: {
             roll: CharacterSheet.#roll,
             item: CharacterSheet.#item,
+            trait: CharacterSheet.#trait,
         },
         classes: ["sd", "sheet", "actor", "character"],
         position: {
@@ -38,6 +39,10 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
             template: `${SD.templatesPath}/actors/character/character-attributes-tab.html`,
             scrollable: [''],
         },
+        traits: {
+            template: `${SD.templatesPath}/actors/character/character-traits-tab.html`,
+            scrollable: [''],
+        },
         inventory: {
             template: `${SD.templatesPath}/actors/character/character-inventory-tab.html`,
             scrollable: [''],
@@ -53,7 +58,8 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
         primary: {
             tabs: [
                 { id: "attributes", icon: "fas fa-user", /*cssClass: "attributes-tab flexrow"*/ },
-                { id: "inventory", icon: "fas fa-table-list", /*cssClass: "attributes-tab flexrow"*/ },
+                { id: "traits", icon: "fas fa-award", /*cssClass: "attributes-tab flexrow"*/ },
+                { id: "inventory", icon: "fas fa-sack", /*cssClass: "attributes-tab flexrow"*/ },
             ],
             labelPrefix: "SD.sheet.character.tab",
             initial: "attributes",
@@ -82,6 +88,7 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
     async _preparePartContext(partId, context) {
         switch (partId) {
             case 'attributes':
+            case 'traits':
             case 'inventory':
                 context.tab = context.tabs[partId];
                 break;
@@ -122,6 +129,20 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
                 return this.actor.itemPack(target.closest("[data-item-id]").dataset.itemId);
             case "trash":
                 return this.actor.itemTrash(target.closest("[data-item-id]").dataset.itemId);
+            default:
+                break;
+        }
+    }
+
+    static #trait(event, target) {
+        switch (target.dataset.type) {
+            case "add":
+                const data = { name: game.i18n.localize("SD.trait.name"), type: "trait" };
+                return this.actor.itemCreate(data);
+            case "delete":
+                return this.actor.itemTrash(target.dataset.traitId);
+            case "sheet":
+                return this.actor.itemSheet(target.dataset.traitId);
             default:
                 break;
         }

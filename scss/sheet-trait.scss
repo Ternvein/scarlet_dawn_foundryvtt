@@ -1,0 +1,36 @@
+.sd.sheet.trait {
+  .header-details {
+    gap: 0 1ch;
+    flex-wrap: nowrap;
+  }
+  .trait-name input {
+    height: 1.2em;
+  }
+  .summary, .trait-attributes {
+    flex: 1 1 auto;
+    margin: 0;
+    padding: 0;
+    border-top: none;
+
+    label {
+      margin: 0 0 2px 8px;
+      font-size: 0.7em;
+      display: block;
+    }
+    input[type="checkbox"] {
+      height: var(--input-height);
+    }
+    &.notify {
+      input {
+        font-weight: bold;
+        animation: 0.8s ease-in 1s infinite alternate notify;
+      }
+    }
+  }
+
+  .trait-attributes {
+    h4 {
+      text-align: center;
+    }
+  }
+}

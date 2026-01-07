@@ -60,6 +60,10 @@
             },
             "other": {
                 "htmlFields": ["description"]
+            },
+
+            "trait": {
+                "htmlFields": ["description"]
             }
         }
     },

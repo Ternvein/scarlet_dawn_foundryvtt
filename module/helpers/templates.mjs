@@ -9,6 +9,7 @@ export async function preloadTemplates() {
         `${SD.templatesPath}/actors/character/character-header.html`,
         `${SD.templatesPath}/actors/character/character-attributes-tab.html`,
         `${SD.templatesPath}/actors/character/character-inventory-tab.html`,
+        `${SD.templatesPath}/actors/character/character-traits-tab.html`,
         `${SD.templatesPath}/actors/character/character-notes-tab.html`,
 
         `${SD.templatesPath}/actors/npc/npc-header.html`,
