@@ -199,8 +199,7 @@ export class PlayerCharacterData extends CreatureData {
             const value = CONFIG.SD.saving_throws.base - Math.floor(this.progress.level / 2);
             const abilities_mod = v.abilities.map((ability) => this.abilities_mod[ability]);
             const ability_mod = abilities_mod.length ? Math.max(...abilities_mod) : 0;
-            // TODO: Armor penalty
-            const armor_penalty = 0;
+            const armor_penalty = this.parent?.armor?.system.penalties.types[k] ? CONFIG.SD.armor.st_penalty : 0;
             obj[k] = value - ability_mod + armor_penalty;
             return obj;
         }, {});

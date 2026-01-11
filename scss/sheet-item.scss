@@ -5,8 +5,8 @@
   .item-name input {
     height: auto;
   }
-  .summary, .weapon-attributes, .armor-attributes, .shield-attributes {
-    flex: 1 0 auto;
+  .summary, .weapon-attributes, .underlined-input, .shield-attributes {
+    flex: 1 1 auto;
     margin: 0;
     padding: 0;
     border-top: none;
@@ -24,6 +24,12 @@
         font-weight: bold;
         animation: 0.8s ease-in 1s infinite alternate notify;
       }
+    }
+  }
+
+  .armor-attributes {
+    .penalties > .flexrow {
+      gap: 1ch;
     }
   }
 }

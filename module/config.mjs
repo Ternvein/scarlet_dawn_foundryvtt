@@ -558,34 +558,41 @@ export const SD = {
     },
 
     armor: {
-        light: {
-            ac: 12,
-            weight: {
-                equip: 0,
-                carry: 1,
+        st_penalty: 3,
+        types: {
+            light: {
+                ac: 12,
+                weight: {
+                    equip: 0,
+                    carry: 1,
+                },
+                st_penalty: 0,
             },
-        },
-        medium: {
-            ac: 14,
-            weight: {
-                equip: 1,
-                carry: 2,
+            medium: {
+                ac: 14,
+                weight: {
+                    equip: 1,
+                    carry: 2,
+                },
+                st_penalty: 1,
             },
-        },
-        heavy: {
-            ac: 16,
-            weight: {
-                equip: 2,
-                carry: 3,
+            heavy: {
+                ac: 16,
+                weight: {
+                    equip: 2,
+                    carry: 3,
+                },
+                st_penalty: 2,
             },
-        },
-        elite: {
-            ac: 18,
-            weight: {
-                equip: 3,
-                carry: 4,
+            elite: {
+                ac: 18,
+                weight: {
+                    equip: 3,
+                    carry: 4,
+                },
+                st_penalty: 3,
             },
-        },
+        }
     },
 
     shield: {
