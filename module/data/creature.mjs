@@ -39,25 +39,10 @@ export class CreatureData extends foundry.abstract.TypeDataModel {
         };
     }
 
-    /**
-     * Fields for creatures.
-     *
-     * @type {object}
-     * @property {object} description                   Creature's description.
-     * @property {object} description.biography         Creature's biography data.
-     * @property {string} description.biography.full    Full HTML biography information.
-     * @property {string} description.biography.public  Biography that will be displayed to players with observer privileges.
-     * @property {string} race                          Creature's race.
-     */
     static defineSchema() {
         return {
             resources: new SchemaField(CreatureData._mainResourcesSchema(), { label: "SD.resource.name" }),
-            description: new SchemaField({
-                biography: new SchemaField({
-                    full: new HTMLField({ label: "SD.biography.full" }),
-                    public: new HTMLField({ label: "SD.biography.public" })
-                }, { label: "SD.biography.public" })
-            }),
+            description: new HTMLField({ label: "SD.details.description" }),
             movement: new MovementField()
         };
     }

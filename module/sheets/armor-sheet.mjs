@@ -19,6 +19,7 @@ export class ArmorSheet extends ItemSheet {
         armor: {
             template: `${SD.templatesPath}/items/armor-attributes.html`,
         },
+        ...super.FOOTER,
     };
 
     static #roll(event, target) { }

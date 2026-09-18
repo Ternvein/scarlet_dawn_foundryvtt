@@ -18,7 +18,7 @@ export class TraitData extends foundry.abstract.TypeDataModel {
     static defineSchema() {
         const types = Object.entries(CONFIG.SD.trait.types).reduce((obj, [k, v]) => (obj[k] = game.i18n.localize(`${v.label}.name`), obj), {});
         return {
-            description: new HTMLField({ label: "SD.trait.description" }),
+            description: new HTMLField({ label: "SD.details.description" }),
             type: new StringField({ required: true, choices: types, initial: CONFIG.SD.trait.default, label: "SD.trait.type" }),
             level: new NumberField({ required: true, integer: true, positive: true, initial: 1, label: "SD.trait.level" }),
             auto_level: TraitData._autoLevelSchema(),

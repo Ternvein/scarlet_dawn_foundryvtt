@@ -247,7 +247,57 @@
     }
   }
 
-  .npc-attributes {
+  .tab.spells {
+    @include core.labeled-input;
+
+    .spell-columns {
+      gap: 0 2ch;
+    }
+
+    .spell-header {
+      align-items: baseline;
+
+      h4 {
+        text-align: center;
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+    }
+
+    .spell-list {
+      display: grid;
+      grid: 1fr / auto 4fr auto;
+      align-items: center;
+
+      p {
+        border: none;
+        border-radius: 0;
+        border-bottom: 1px solid;
+        margin: 0;
+        height: calc(1em + 0.5rem);
+      }
+
+      a {
+        font-size: 1.5em;
+      }
+
+      & > :nth-child(3n) {
+        margin-left: 0.5ch;
+      }
+
+      & > :nth-child(3n+1) {
+        margin-right: 0.5ch;
+      }
+    }
+  }
+
+  .tab.description {
+    h4 {
+      text-align: center;
+    }
+  }
+
+  .tab.npc-attributes {
     gap: 1rem;
 
     .attacks {

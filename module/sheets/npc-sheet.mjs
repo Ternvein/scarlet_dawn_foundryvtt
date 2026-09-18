@@ -1,9 +1,7 @@
 import SD from "../config.mjs";
+import SDActorSheet from "./base-actor-sheet.mjs";
 
-const { ActorSheetV2 } = foundry.applications.sheets;
-const { HandlebarsApplicationMixin } = foundry.applications.api;
-
-export class NPCSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
+export class NPCSheet extends SDActorSheet {
     /** @override */
     static DEFAULT_OPTIONS = {
         actions: {
@@ -31,21 +29,46 @@ export class NPCSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
         header: {
             template: `${SD.templatesPath}/actors/npc/npc-header.html`,
         },
-        attributes: {
-            template: `${SD.templatesPath}/actors/npc/npc-attributes.html`,
+        tabs: {
+            template: 'templates/generic/tab-navigation.hbs',
         },
+        attributes: {
+            template: `${SD.templatesPath}/actors/npc/npc-attributes-tab.html`,
+        },
+        description: {
+            template: `${SD.templatesPath}/actors/npc/npc-description-tab.html`,
+        },
+    };
+
+    static TABS = {
+        primary: {
+            tabs: [
+                { id: "attributes", icon: "fas fa-user", },
+                { id: "description", icon: "fas fa-scroll", },
+            ],
+            labelPrefix: "SD.sheet.npc.tab",
+            initial: "attributes",
+        }
     };
 
     /** @inheritDoc */
     async _prepareContext(options) {
-        console.log(this);
         const context = {
             ...await super._prepareContext(options),
             actor: this.actor,
-            fields: this.actor.system.schema.fields,
-            system: this.actor.system,
-            config: CONFIG.SD,
         };
+        return context;
+    }
+
+    async _preparePartContext(partId, context) {
+        switch (partId) {
+            case 'attributes':
+            case 'description':
+                context.tab = context.tabs[partId];
+                break;
+            default:
+                break;
+        }
         return context;
     }
 
@@ -82,7 +105,6 @@ export class NPCSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
      * @returns {Promise<void>}
      */
     static async #submit(event, form, formData, options = {}) {
-        console.log(formData);
         if (!this.isEditable) return;
         const { updateData, ...updateOptions } = options;
         const submitData = this._prepareSubmitData(event, form, formData, updateData);

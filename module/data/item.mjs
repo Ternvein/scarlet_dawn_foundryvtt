@@ -13,7 +13,7 @@ export class ItemData extends foundry.abstract.TypeDataModel {
 
     static defineSchema() {
         return {
-            description: new HTMLField({ label: "SD.item.description" }),
+            description: new HTMLField({ label: "SD.details.description" }),
             weight: ItemData._weightSchema(),
             price: new NumberField({ required: false, min: 0, initial: 0, label: "SD.item.price" }),
             is_prepared: new BooleanField({ required: true, initial: false, label: "SD.item.prepared" }),

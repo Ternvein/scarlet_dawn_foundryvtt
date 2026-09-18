@@ -13,6 +13,21 @@ export const SD = {
         return `${this.systemPath}/templates`;
     },
 
+    duration: {
+        units: (() => {
+            const main_action = 3;
+            const round = 6;
+            const minute = round * 10;
+            const turn = minute * 10;
+            const hour = turn * 6;
+            const day = hour * 24;
+            return {
+                main_action, round, minute, turn, hour, day
+            };
+        })(),
+        adjustable_threshold: 6,
+    },
+
     dc: {
         easy: 9,
         medium: 11,
@@ -379,7 +394,7 @@ export const SD = {
         },
         max_level: 50,
 
-        *gen(type) {
+        * gen(type) {
             let progress;
             switch (type) {
                 case "treasure":
@@ -524,9 +539,10 @@ export const SD = {
             armor: "icons/svg/statue.svg",
             shield: "icons/svg/shield.svg",
             coin: "icons/svg/coins.svg",
-            other: "icons/svg/item-bag.svg",
-
             trait: "icons/svg/aura.svg",
+            spell_original: "icons/svg/daze.svg",
+            spell_gray: "icons/svg/daze.svg",
+            other: "icons/svg/item-bag.svg",
         },
     },
 
@@ -601,6 +617,19 @@ export const SD = {
         weight: {
             equip: 1,
             carry: 1,
+        },
+    },
+
+    spell: {
+        original: {
+            level: {
+                minor: 1,
+                major: 2,
+                great: 3,
+                legendary: 4,
+            },
+        },
+        gray: {
         },
     },
 };

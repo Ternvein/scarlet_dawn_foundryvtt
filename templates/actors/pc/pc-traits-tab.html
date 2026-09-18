@@ -6,7 +6,9 @@
   <div class="trait-columns flexrow">
     <div class="flexcol">
       <div class="trait-header trait-common flexrow">
+        {{#if editable}}
         <a class="flex0 fas fa-plus-large" data-action="trait" data-type="add" data-tooltip="{{localize 'SD.add'}}" {{#if (not system.traits.points)}}disabled{{/if}}></a>
+        {{/if}}
         <h4>{{localize fields.traits.fields.common.label}}</h4>
       </div>
     </div>
@@ -29,7 +31,11 @@
           <p>{{trait.system.level}}</p>
           <label>{{localize trait.system.schema.fields.level.label}}</label>
         </div>
+        {{#if ../editable}}
         <a class="flex0 fas fa-xmark-large" data-action="trait" data-type="delete" data-trait-id="{{trait.id}}" data-tooltip="{{localize 'Delete'}}"></a>
+        {{else}}
+        <span></span>
+        {{/if}}
         {{/each}}
       </div>
     </div>
@@ -45,7 +51,11 @@
           <p>{{trait.system.level}}</p>
           <label>{{localize trait.system.schema.fields.level.label}}</label>
         </div>
+        {{#if ../editable}}
         <a class="flex0 fas fa-xmark-large" data-action="trait" data-type="delete" data-trait-id="{{trait.id}}" data-tooltip="{{localize 'Delete'}}"></a>
+        {{else}}
+        <span></span>
+        {{/if}}
         {{/each}}
       </div>
     </div>

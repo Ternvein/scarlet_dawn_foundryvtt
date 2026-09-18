@@ -1,20 +1,20 @@
 import SD from "../config.mjs";
 import SDItemSheet from "./base-item-sheet.mjs";
 
-export class ItemSheet extends SDItemSheet {
+export class SpellGraySheet extends SDItemSheet {
     static DEFAULT_OPTIONS = {
-        classes: ["sd", "sheet", "item"],
+        classes: ["sd", "sheet", "spell", "gray"],
         position: {
             width: 650,
         },
         tag: "form",
         window: {
-            icon: "fas fa-gear", // You can now add an icon to the header
-            title: "SD.sheet.item.title",
+            icon: "fas fa-award",
+            title: "SD.sheet.spell.gray.title",
             contentClasses: ["standard-form"],
         },
         form: {
-            handler: ItemSheet.#submit,
+            handler: SpellGraySheet.#submit,
             submitOnChange: true,
             closeOnSubmit: false
         }
@@ -22,20 +22,17 @@ export class ItemSheet extends SDItemSheet {
 
     static PARTS = {
         header: {
-            template: `${SD.templatesPath}/items/item-header.html`,
+            template: `${SD.templatesPath}/spells/spell-gray-header.html`,
         },
-    };
-
-    static FOOTER = {
-        footer: {
-            template: `${SD.templatesPath}/items/item-description.html`
+        armor: {
+            template: `${SD.templatesPath}/spells/spell-attributes.html`,
         },
     };
 
     async _prepareContext(options) {
         const context = {
             ...await super._prepareContext(options),
-            item: this.item,
+            spell: this.item,
         };
         return context;
     }

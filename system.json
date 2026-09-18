@@ -39,7 +39,7 @@
     "documentTypes": {
         "Actor": {
             "character": {
-                "htmlFields": ["description.biography.full", "description.biography.public"]
+                "htmlFields": ["description"]
             },
             "npc": {
                 "htmlFields": ["description"]
@@ -58,11 +58,16 @@
             "coin": {
                 "htmlFields": ["description"]
             },
-            "other": {
+            "trait": {
                 "htmlFields": ["description"]
             },
-
-            "trait": {
+            "spell_original": {
+                "htmlFields": ["description"]
+            },
+            "spell_gray": {
+                "htmlFields": ["description"]
+            },
+            "other": {
                 "htmlFields": ["description"]
             }
         }

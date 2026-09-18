@@ -1,28 +1,25 @@
 import SD from "../config.mjs";
+import SDActorSheet from "./base-actor-sheet.mjs";
 
-const { ActorSheetV2 } = foundry.applications.sheets;
-const { HandlebarsApplicationMixin } = foundry.applications.api;
-
-export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
+export class PCSheet extends SDActorSheet {
     /** @override */
     static DEFAULT_OPTIONS = {
         actions: {
-            roll: CharacterSheet.#roll,
-            item: CharacterSheet.#item,
-            trait: CharacterSheet.#trait,
+            roll: PCSheet.#roll,
+            item: PCSheet.#item,
+            trait: PCSheet.#trait,
+            spell: PCSheet.#spell,
         },
-        classes: ["sd", "sheet", "actor", "character"],
+        classes: ["sd", "sheet", "actor", "pc"],
         position: {
             width: 650,
         },
         tag: "form",
         window: {
-            //icon: "fas fa-gear", // You can now add an icon to the header
-            //title: "SD.sheet.character.title",
             contentClasses: ["standard-form"],
         },
         form: {
-            handler: CharacterSheet.#submit,
+            handler: PCSheet.#submit,
             submitOnChange: true,
             closeOnSubmit: false
         },
@@ -30,21 +27,29 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
 
     static PARTS = {
         header: {
-            template: `${SD.templatesPath}/actors/character/character-header.html`,
+            template: `${SD.templatesPath}/actors/pc/pc-header.html`,
         },
         tabs: {
             template: 'templates/generic/tab-navigation.hbs',
         },
         attributes: {
-            template: `${SD.templatesPath}/actors/character/character-attributes-tab.html`,
+            template: `${SD.templatesPath}/actors/pc/pc-attributes-tab.html`,
             scrollable: [''],
         },
         traits: {
-            template: `${SD.templatesPath}/actors/character/character-traits-tab.html`,
+            template: `${SD.templatesPath}/actors/pc/pc-traits-tab.html`,
             scrollable: [''],
         },
         inventory: {
-            template: `${SD.templatesPath}/actors/character/character-inventory-tab.html`,
+            template: `${SD.templatesPath}/actors/pc/pc-inventory-tab.html`,
+            scrollable: [''],
+        },
+        spells: {
+            template: `${SD.templatesPath}/actors/pc/pc-spells-tab.html`,
+            scrollable: [''],
+        },
+        description: {
+            template: `${SD.templatesPath}/actors/pc/pc-description-tab.html`,
             scrollable: [''],
         },
         /*
@@ -60,21 +65,19 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
                 { id: "attributes", icon: "fas fa-user", /*cssClass: "attributes-tab flexrow"*/ },
                 { id: "traits", icon: "fas fa-award", /*cssClass: "attributes-tab flexrow"*/ },
                 { id: "inventory", icon: "fas fa-sack", /*cssClass: "attributes-tab flexrow"*/ },
+                { id: "spells", icon: "fas fa-book-blank", /*cssClass: "attributes-tab flexrow"*/ },
+                { id: "description", icon: "fas fa-scroll", /*cssClass: "attributes-tab flexrow"*/ },
             ],
-            labelPrefix: "SD.sheet.character.tab",
+            labelPrefix: "SD.sheet.pc.tab",
             initial: "attributes",
         }
     };
 
     /** @inheritDoc */
     async _prepareContext(options) {
-        console.log(this);
         const context = {
             ...await super._prepareContext(options),
             actor: this.actor,
-            fields: this.actor.system.schema.fields,
-            system: this.actor.system,
-            config: CONFIG.SD,
             tabs: this._prepareTabs("primary"),
             /*
             buttons: [
@@ -90,6 +93,8 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
             case 'attributes':
             case 'traits':
             case 'inventory':
+            case 'spells':
+            case 'description':
                 context.tab = context.tabs[partId];
                 break;
             default:
@@ -148,16 +153,26 @@ export class CharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
         }
     }
 
+    static #spell(event, target) {
+        switch (target.dataset.type) {
+            case "delete":
+                return this.actor.itemTrash(target.dataset.spellId);
+            case "sheet":
+                return this.actor.itemSheet(target.dataset.spellId);
+            default:
+                break;
+        }
+    }
+
     /**
      * Process form submission for the sheet
-     * @this {CharacterSheet}                      The handler is called with the application as its bound scope
+     * @this {PCSheet}                      The handler is called with the application as its bound scope
      * @param {SubmitEvent} event                   The originating form submission event
      * @param {HTMLFormElement} form                The form element that was submitted
      * @param {FormDataExtended} formData           Processed data for the submitted form
      * @returns {Promise<void>}
      */
     static async #submit(event, form, formData, options = {}) {
-        console.log(formData);
         if (!this.isEditable) return;
         const { updateData, ...updateOptions } = options;
         const submitData = this._prepareSubmitData(event, form, formData, updateData);

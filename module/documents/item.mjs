@@ -11,7 +11,6 @@ export class SDItem extends Item {
         if (success !== null) {
             result.options.is_success = success;
         }
-        console.log(result);
         result.toMessage({
             flavor,
             speaker: ChatMessage.getSpeaker({ actor: this.actor }),

@@ -77,6 +77,13 @@ export class PlayerCharacterData extends CreatureData {
         }, { label: "SD.trait.list" });
     }
 
+    static _spellsSchema() {
+        return new SchemaField({
+            original: new ArrayField(new DocumentUUIDField(), { label: "SD.spell.types.original.list" }),
+            gray: new ArrayField(new DocumentUUIDField(), { label: "SD.spell.types.gray.list" }),
+        }, { label: "SD.spell.list" });
+    }
+
     static defineSchema() {
         return {
             ...super.defineSchema(),
@@ -90,6 +97,7 @@ export class PlayerCharacterData extends CreatureData {
             inventory: new SchemaField(PlayerCharacterData._inventorySchema(), { label: "SD.inventory.name" }),
             equipment: new SchemaField(PlayerCharacterData._equipmentSchema(), { label: "SD.equipment.name" }),
             traits: PlayerCharacterData._traitsSchema(),
+            spells: PlayerCharacterData._spellsSchema(),
         };
     }
 
@@ -184,6 +192,13 @@ export class PlayerCharacterData extends CreatureData {
         this.traits.points = points;
     }
 
+    _prepareSpells() {
+        const spellsOriginal = this.parent?.itemTypes["spell_original"];
+        const spellsGray = this.parent?.itemTypes["spell_gray"];
+        this.spells.original = spellsOriginal;
+        this.spells.gray = spellsGray;
+    }
+
     prepareDerivedData() {
         super.prepareDerivedData?.();
 
@@ -210,5 +225,6 @@ export class PlayerCharacterData extends CreatureData {
         this._prepareAc();
         this._prepareInventory();
         this._prepareTraits();
+        this._prepareSpells();
     }
 }

@@ -1,0 +1,48 @@
+<section class="tab spells flexcol {{tab.cssClass}}" data-group="primary" data-tab="spells">
+  <div class="spell-columns flexrow">
+    <div class="flexcol">
+      <div class="spell-header spell-original flexrow">
+        <h4>{{localize fields.spells.fields.original.label}}</h4>
+      </div>
+    </div>
+    <div class="flexcol">
+      <div class="spell-header spell-special flexrow">
+        <h4>{{localize fields.spells.fields.gray.label}}</h4>
+      </div>
+    </div>
+  </div>
+  <div class="spell-columns flexrow">
+    <div class="flexcol">
+      <div class="spell-list spell-original">
+        {{#each system.spells.original as |spell|}}
+        <a class="flex0 fas fa-scroll" data-action="spell" data-type="sheet" data-spell-id="{{spell.id}}" data-tooltip="{{localize 'Sheet'}}"></a>
+        <div class="spell-name">
+          <p>{{spell.name}}</p>
+          <label>{{localize spell.schema.fields.name.label}}</label>
+        </div>
+        {{#if ../editable}}
+        <a class="flex0 fas fa-xmark-large" data-action="spell" data-type="delete" data-spell-id="{{spell.id}}" data-tooltip="{{localize 'Delete'}}"></a>
+        {{else}}
+        <span></span>
+        {{/if}}
+        {{/each}}
+      </div>
+    </div>
+    <div class="flexcol">
+      <div class="spell-list spell-gray">
+        {{#each system.spells.gray as |spell|}}
+        <a class="flex0 fas fa-scroll" data-action="spell" data-type="sheet" data-spell-id="{{spell.id}}" data-tooltip="{{localize 'Sheet'}}"></a>
+        <div class="spell-name">
+          <p>{{spell.name}}</p>
+          <label>{{localize spell.schema.fields.name.label}}</label>
+        </div>
+        {{#if ../editable}}
+        <a class="flex0 fas fa-xmark-large" data-action="spell" data-type="delete" data-spell-id="{{spell.id}}" data-tooltip="{{localize 'Delete'}}"></a>
+        {{else}}
+        <span></span>
+        {{/if}}
+        {{/each}}
+      </div>
+    </div>
+  </div>
+</section>

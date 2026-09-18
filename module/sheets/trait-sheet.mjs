@@ -1,9 +1,7 @@
 import SD from "../config.mjs";
+import SDItemSheet from "./base-item-sheet.mjs";
 
-const { ItemSheetV2 } = foundry.applications.sheets;
-const { HandlebarsApplicationMixin } = foundry.applications.api;
-
-export class TraitSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
+export class TraitSheet extends SDItemSheet {
     static DEFAULT_OPTIONS = {
         classes: ["sd", "sheet", "trait"],
         position: {
@@ -32,19 +30,14 @@ export class TraitSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
     };
 
     async _prepareContext(options) {
-        console.log(this);
         const context = {
             ...await super._prepareContext(options),
             trait: this.item,
-            fields: this.item.system.schema.fields,
-            system: this.item.system,
-            config: CONFIG.SD,
         };
         return context;
     }
 
     static async #submit(event, form, formData, options = {}) {
-        console.log(formData);
         if (!this.isEditable) return;
         const { updateData, ...updateOptions } = options;
         const submitData = this._prepareSubmitData(event, form, formData, updateData);

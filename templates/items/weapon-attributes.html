@@ -16,9 +16,11 @@
       {{formInput fields.damage value=system.damage localize=true disabled=system.standard_damage}}
       <label>{{localize fields.damage.label}}</label>
     </div>
+    {{#if editable}}
     <div class="flex0">
       {{formInput fields.standard_damage value=system.standard_damage localize=true dataset=(object tooltip=fields.standard_damage.label)}}
     </div>
+    {{/if}}
   </div>
   <div class="flexrow">
     <div>

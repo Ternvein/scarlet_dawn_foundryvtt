@@ -16,7 +16,6 @@ export class SDActor extends Actor {
         if (success !== null) {
             result.options.is_success = success;
         }
-        console.log(result);
         result.toMessage({
             flavor,
             speaker: ChatMessage.getSpeaker({ actor: this }),

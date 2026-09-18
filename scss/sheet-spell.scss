@@ -1,11 +1,12 @@
-.sd.sheet.item {
+.sd.sheet.spell {
   .header-details {
     gap: 0 1ch;
+    flex-wrap: nowrap;
   }
-  .item-name input {
-    height: auto;
+  .spell-name input {
+    height: 1.2em;
   }
-  .summary, .weapon-attributes, .underlined-input, .shield-attributes {
+  .summary, .spell-attributes {
     flex: 1 1 auto;
     margin: 0;
     padding: 0;
@@ -25,15 +26,13 @@
         animation: 0.8s ease-in 1s infinite alternate notify;
       }
     }
-  }
 
-  .armor-attributes {
-    .penalties > .flexrow {
-      gap: 1ch;
+    .casting-time {
+      flex: 0.5;
     }
   }
 
-  .item-description {
+  .spell-attributes {
     h4 {
       text-align: center;
     }

@@ -1,0 +1,12 @@
+<section class="spell-attributes">
+  <div class="flexcol">
+    <h4>{{localize fields.description.label}}</h4>
+    <div>
+      {{#if editable}}
+      {{formInput fields.description value=system.description toggled=true enriched=enrichedDescription}}
+      {{else}}
+      {{{enrichedDescription}}}
+      {{/if}}
+    </div>
+  </div>
+</section>

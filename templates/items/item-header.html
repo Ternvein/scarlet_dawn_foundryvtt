@@ -1,5 +1,4 @@
 <section class="header-details flexrow">
-  {{log .}}
   <img class="profile-img" src="{{item.img}}" data-action="editImage" data-edit="img" data-tooltip="{{item.name}}" alt="{{item.name}}" height="150" width="150"/>
   <div class="summary">
     <h1 class="item-name">
@@ -16,7 +15,7 @@
         <label>{{localize fields.weight.fields.equip.label}}</label>
       </div>
       {{/if}}
-      {{#if system.weight.has_standard}}
+      {{#if (and editable system.weight.has_standard)}}
       <div class="flex0">
         {{formInput fields.weight.fields.is_standard value=system.weight.is_standard localize=true dataset=(object tooltip=fields.weight.fields.is_standard.label)}}
       </div>

@@ -1,0 +1,47 @@
+<section class="header-details flexrow">
+  {{log .}}
+  <img class="profile-img" src="{{spell.img}}" data-action="editImage" data-edit="img" data-tooltip="{{spell.name}}" alt="{{spell.name}}" height="150" width="150"/>
+  <div class="summary">
+    <h1 class="spell-name">
+      {{formInput spell.schema.fields.name value=spell.name placeholder=(localize 'SD.details.item_name') localize=true}}
+    </h1>
+    <div class="flexrow">
+      <div>
+        {{formInput fields.level value=system.level localize=true}}
+        <label>{{localize fields.level.label}}</label>
+      </div>
+      <div>
+        {{formInput fields.distance value=system.distance localize=true}}
+        <label>{{localize fields.distance.label}}</label>
+      </div>
+    </div>
+    <div class="flexrow">
+      <div class="flexrow">
+        {{#if system.casting_time.is_adjustable}}
+        <div class="casting-time">
+          {{formInput fields.casting_time.fields.value value=system.casting_time.value localize=true}}
+          <label>&nbsp;</label>
+        </div>
+        {{/if}}
+        <div>
+          {{formInput fields.casting_time.fields.unit value=system.casting_time.unit localize=true}}
+          <label>{{localize fields.casting_time.label}}</label>
+        </div>
+      </div>
+      <div>
+        {{formInput fields.duration value=system.duration localize=true}}
+        <label>{{localize fields.duration.label}}</label>
+      </div>
+    </div>
+    <div class="flexrow">
+      <div>
+        {{formInput fields.target value=system.target localize=true}}
+        <label>{{localize fields.target.label}}</label>
+      </div>
+      <div>
+        {{formInput fields.saving_throw value=system.saving_throw localize=true}}
+        <label>{{localize fields.saving_throw.label}}</label>
+      </div>
+    </div>
+  </div>
+</section>

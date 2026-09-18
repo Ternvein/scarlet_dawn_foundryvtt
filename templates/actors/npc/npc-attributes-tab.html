@@ -1,9 +1,11 @@
-<section class="npc-attributes flexcol">
+<section class="tab npc-attributes flexcol {{tab.cssClass}}" data-group="primary" data-tab="attributes">
   {{> "sd.main-resources" }}
   <div class="attacks flexcol">
     <div class="table-header flexrow">
       <h4>{{localize fields.attacks.label}}</h4>
+      {{#if editable}}
       <a class="flex0 fas fa-plus-large" data-action="attack" data-type="add" data-tooltip="{{localize 'SD.add'}}"></a>
+      {{/if}}
     </div>
     <div class="attacks-list">
     {{#each system.attacks as |attack|}}
@@ -20,7 +22,11 @@
         {{formInput ../fields.attacks.element.fields.damage name=(concat 'system.attacks.' @index '.damage') value=attack.damage localize=true}}
         <label>{{localize ../fields.attacks.element.fields.damage.label}}</label>
       </div>
+      {{#if ../editable}}
       <a class="fas fa-xmark-large flex0" data-attack-idx="{{@index}}" data-action="attack" data-type="trash" data-tooltip="{{localize 'Delete'}}"></a>
+      {{else}}
+      <span></span>
+      {{/if}}
     {{/each}}
     </div>
   </div>

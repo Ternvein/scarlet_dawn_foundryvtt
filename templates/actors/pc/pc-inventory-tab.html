@@ -36,7 +36,11 @@
           <img class="flex0" src="{{item.img}}" height="25" width="25" />
           <label>{{item.name}}</label>
         </div>
+        {{#if ../editable}}
         <a class="fas fa-xmark-large" data-item-id="{{item.id}}" data-action="item" data-type="trash" data-tooltip="{{localize 'Delete'}}"></a>
+        {{else}}
+        <span></span>
+        {{/if}}
       {{/each}}
       </div>
       <div class="filler"></div>
@@ -49,7 +53,11 @@
           <img class="flex0" src="{{item.img}}" height="25" width="25" />
           <label>{{item.name}}</label>
         </div>
+        {{#if ../editable}}
         <a class="fas fa-xmark-large" data-item-id="{{item.id}}" data-action="item" data-type="trash" data-tooltip="{{localize 'Delete'}}"></a>
+        {{else}}
+        <span></span>
+        {{/if}}
       {{/each}}
       </div>
       <div class="filler"></div>

@@ -19,6 +19,7 @@ export class ShieldSheet extends ItemSheet {
         shield: {
             template: `${SD.templatesPath}/items/shield-attributes.html`,
         },
+        ...super.FOOTER,
     };
 
     static #roll(event, target) { }

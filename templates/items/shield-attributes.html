@@ -12,8 +12,10 @@
       {{formInput fields.ac.fields.value value=system.ac.value localize=true disabled=system.ac.is_standard}}
       <label>{{localize fields.ac.fields.value.label}}</label>
     </div>
+    {{#if editable}}
     <div class="flex0">
       {{formInput fields.ac.fields.is_standard value=system.ac.is_standard localize=true dataset=(object tooltip=fields.ac.fields.is_standard.label)}}
     </div>
+    {{/if}}
   </div>
 </section>

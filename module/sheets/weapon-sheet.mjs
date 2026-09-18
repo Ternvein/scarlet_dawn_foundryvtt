@@ -19,6 +19,7 @@ export class WeaponSheet extends ItemSheet {
         weapon: {
             template: `${SD.templatesPath}/items/weapon-attributes.html`,
         },
+        ...super.FOOTER,
     };
 
     static #roll(event, target) { }

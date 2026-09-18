@@ -8,14 +8,21 @@ import { WeaponData } from "./module/data/weapon.mjs";
 import { ArmorData } from "./module/data/armor.mjs";
 import { ShieldData } from "./module/data/shield.mjs";
 import { TraitData } from "./module/data/trait.mjs";
-import { CharacterSheet } from "./module/sheets/character-sheet.mjs";
+import { SpellOriginalData } from "./module/data/spell_original.mjs";
+import { SpellGrayData } from "./module/data/spell_gray.mjs";
+import { PCSheet } from "./module/sheets/pc-sheet.mjs";
 import { NPCSheet } from "./module/sheets/npc-sheet.mjs";
 import { WeaponSheet } from "./module/sheets/weapon-sheet.mjs";
 import { ArmorSheet } from "./module/sheets/armor-sheet.mjs";
 import { ShieldSheet } from "./module/sheets/shield-sheet.mjs";
 import { TraitSheet } from "./module/sheets/trait-sheet.mjs";
+import { SpellOriginalSheet } from "./module/sheets/spell-original-sheet.mjs";
+import { SpellGraySheet } from "./module/sheets/spell-gray-sheet.mjs";
 import { registerHelpers as handlebarsHelpers } from "./module/helpers/handlebars.mjs";
 import { preloadTemplates } from "./module/helpers/templates.mjs";
+
+import SDActorSheet from "./module/sheets/base-actor-sheet.mjs";
+import SDItemSheet from "./module/sheets/base-item-sheet.mjs";
 
 const { Actors, Items } = foundry.documents.collections;
 const { ActorSheetV2, ItemSheetV2 } = foundry.applications.sheets;
@@ -40,14 +47,15 @@ Hooks.once("init", async () => {
         armor: ArmorData,
         shield: ShieldData,
         trait: TraitData,
+        spell_original: SpellOriginalData,
+        spell_gray: SpellGrayData,
     };
 
-    console.log(CONFIG.Dice);
     CONFIG.Dice.rolls.push(SDRoll);
 
     // Register sheet application classes
     Actors.unregisterSheet("core", ActorSheetV2);
-    Actors.registerSheet(game.system.id, CharacterSheet, {
+    Actors.registerSheet(game.system.id, PCSheet, {
         types: ["character"],
         makeDefault: true,
         label: "SD.sheet.character.name",
@@ -79,6 +87,16 @@ Hooks.once("init", async () => {
         makeDefault: true,
         label: "SD.sheet.trait.name",
     });
+    Items.registerSheet(game.system.id, SpellOriginalSheet, {
+        types: ["spell_original"],
+        makeDefault: true,
+        label: "SD.sheet.spell.original.name",
+    });
+    Items.registerSheet(game.system.id, SpellGraySheet, {
+        types: ["spell_gray"],
+        makeDefault: true,
+        label: "SD.sheet.spell.gray.name",
+    });
 
     handlebarsHelpers();
     await preloadTemplates();
@@ -98,4 +116,28 @@ Hooks.once("setup", () => {
             }, {});
         }
     );
+});
+
+Hooks.on('getHeaderControlsApplicationV2', (app, controls) => {
+  if (!(app instanceof SDActorSheet) && !(app instanceof SDItemSheet)) {
+      return;
+  }
+
+  controls.push({
+    label: 'Переключить редактирование',
+    icon: 'fas fa-lock',
+    onClick: () => {
+        const doc = app.document;
+        if (!doc) {
+            return;
+        }
+
+        const currentState = doc.getFlag('scarlet-dawn', 'isEditLocked') ?? false;
+        const newState = !currentState;
+        
+        doc.setFlag('scarlet-dawn', 'isEditLocked', newState);
+
+        app.render(false);
+    }
+  });
 });

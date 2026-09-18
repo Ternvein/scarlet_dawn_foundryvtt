@@ -1,0 +1,31 @@
+<section class="header-details flexrow">
+  {{log .}}
+  <img class="profile-img" src="{{spell.img}}" data-action="editImage" data-edit="img" data-tooltip="{{spell.name}}" alt="{{spell.name}}" height="150" width="150"/>
+  <div class="summary">
+    <h1 class="spell-name">
+      {{formInput spell.schema.fields.name value=spell.name placeholder=(localize 'SD.details.item_name') localize=true}}
+    </h1>
+    <div class="flexrow">
+      <div>
+        {{formInput fields.level value=system.level localize=true}}
+        <label>{{localize fields.level.label}}</label>
+      </div>
+      <div>
+        {{formInput fields.points value=system.points localize=true}}
+        <label>{{localize fields.points.label}}</label>
+      </div>
+    </div>
+    <div class="flexrow">
+      {{#if system.casting_time.is_adjustable}}
+      <div>
+        {{formInput fields.casting_time.fields.value value=system.casting_time.value localize=true}}
+        <label>&nbsp;</label>
+      </div>
+      {{/if}}
+      <div>
+        {{formInput fields.casting_time.fields.unit value=system.casting_time.unit localize=true}}
+        <label>{{localize fields.casting_time.label}}</label>
+      </div>
+    </div>
+  </div>
+</section>
