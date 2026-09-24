@@ -1,8 +1,6 @@
 import SD from "../config.mjs";
 import { ItemSheet } from "./item-sheet.mjs";
 
-const { HandlebarsApplicationMixin } = foundry.applications.api;
-
 export class ShieldSheet extends ItemSheet {
     static DEFAULT_OPTIONS = {
         actions: {

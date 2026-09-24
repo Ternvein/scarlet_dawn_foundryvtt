@@ -4,6 +4,7 @@ import { SDActor } from "./module/documents/actor.mjs";
 import { SDItem } from "./module/documents/item.mjs";
 import { PlayerCharacterData } from "./module/data/pc.mjs";
 import { NonPlayerCharacterData } from "./module/data/npc.mjs";
+import { ItemData } from "./module/data/item.mjs";
 import { WeaponData } from "./module/data/weapon.mjs";
 import { ArmorData } from "./module/data/armor.mjs";
 import { ShieldData } from "./module/data/shield.mjs";
@@ -18,6 +19,7 @@ import { ShieldSheet } from "./module/sheets/shield-sheet.mjs";
 import { TraitSheet } from "./module/sheets/trait-sheet.mjs";
 import { SpellOriginalSheet } from "./module/sheets/spell-original-sheet.mjs";
 import { SpellGraySheet } from "./module/sheets/spell-gray-sheet.mjs";
+import { OtherItemSheet } from "./module/sheets/other-item-sheet.mjs";
 import { registerHelpers as handlebarsHelpers } from "./module/helpers/handlebars.mjs";
 import { preloadTemplates } from "./module/helpers/templates.mjs";
 
@@ -49,6 +51,7 @@ Hooks.once("init", async () => {
         trait: TraitData,
         spell_original: SpellOriginalData,
         spell_gray: SpellGrayData,
+        other: ItemData,
     };
 
     CONFIG.Dice.rolls.push(SDRoll);
@@ -96,6 +99,11 @@ Hooks.once("init", async () => {
         types: ["spell_gray"],
         makeDefault: true,
         label: "SD.sheet.spell.gray.name",
+    });
+    Items.registerSheet(game.system.id, OtherItemSheet, {
+        types: ["other"],
+        makeDefault: true,
+        label: "SD.sheet.item.name",
     });
 
     handlebarsHelpers();
