@@ -497,10 +497,20 @@ export const SD = {
             11,
             16,
         ],
+        price_table: [
+            100,
+            401,
+            1601,
+            6401,
+        ],
     },
 
     splendorToMaxRerolls(splendor) {
         return this.splendor.table.findIndex((v) => v > splendor);
+    },
+
+    priceToSplendor(price) {
+        return this.splendor.price_table.filter((v) => v <= price).length;
     },
 
     initiative: {

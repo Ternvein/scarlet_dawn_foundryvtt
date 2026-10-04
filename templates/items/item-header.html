@@ -26,6 +26,15 @@
         {{formInput fields.price value=system.price localize=true}}
         <label>{{localize fields.price.label}}</label>
       </div>
+      <div>
+        {{formInput fields.splendor.fields.value value=system.splendor.value localize=true disabled=system.splendor.is_standard}}
+        <label>{{localize fields.splendor.fields.value.label}}</label>
+      </div>
+      {{#if editable}}
+      <div class="flex0">
+        {{formInput fields.splendor.fields.is_standard value=system.splendor.is_standard localize=true dataset=(object tooltip=fields.splendor.fields.is_standard.label)}}
+      </div>
+      {{/if}}
     </div>
   </div>
 </section>
