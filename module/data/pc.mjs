@@ -37,6 +37,7 @@ export class PlayerCharacterData extends CreatureData {
             value: new NumberField({ ...numberConfig, label: "SD.splendor.name" }),
             reroll_used: new NumberField({ ...numberConfig, label: "SD.reroll.used" }),
             reroll_max: new NumberField({ ...numberConfig, label: "SD.reroll.max" }),
+            is_auto: new BooleanField({ required: true, initial: false, label: "SD.splendor.auto" }),
         };
     }
 
@@ -199,6 +200,14 @@ export class PlayerCharacterData extends CreatureData {
         this.spells.gray = spellsGray;
     }
 
+    _prepareSplendor() {
+        if (this.splendor.is_auto) {
+            this.splendor.value = this.parent.items
+                .filter(item => item.system.is_item && item.system.is_prepared)
+                .reduce((sum, item) => sum + item.system.splendor.value, 0);
+        }
+    }
+
     prepareDerivedData() {
         super.prepareDerivedData?.();
 
@@ -220,6 +229,7 @@ export class PlayerCharacterData extends CreatureData {
         }, {});
         this.attack_bonus = this._class.attack_bonus.base + (this._class.attack_bonus.progress ? Math.floor((this.progress.level - 1) / this._class.attack_bonus.progress) : 0);
         this.damage_bonus = this._class.damage.bonus ? Math.ceil(this.progress.level / this._class.damage.bonus) : 0;
+        this._prepareSplendor();
         this.splendor.reroll_max = CONFIG.SD.splendorToMaxRerolls(this.splendor.value);
         this.initiative = this.abilities_mod[CONFIG.SD.initiative.ability];
         this._prepareAc();

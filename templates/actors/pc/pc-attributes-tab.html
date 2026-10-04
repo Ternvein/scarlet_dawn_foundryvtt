@@ -35,12 +35,22 @@
       </div>
       <div class="splendor attribute-grid">
         <label class="attribute-label">{{localize fields.splendor.label}}</label>
-        <div class="attribute-value">
+        <div class="attribute-value flexrow">
           {{formInput fields.splendor.fields.value
             value=system.splendor.value
             localize=true
+            disabled=system.splendor.is_auto
             dataset=(object tooltip=fields.splendor.fields.value.label)
           }}
+          {{#if editable}}
+          <div class="flex0">
+            {{formInput fields.splendor.fields.is_auto
+              value=system.splendor.is_auto
+              localize=true
+              dataset=(object tooltip=fields.splendor.fields.is_auto.label)
+            }}
+          </div>
+          {{/if}}
         </div>
         <label class="attribute-label">{{localize 'SD.reroll.name'}}</label>
         <div class="attribute-value flexrow">
